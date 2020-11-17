@@ -1,0 +1,42 @@
+[
+    {
+        "vehicle": {
+          "length": 5.0,
+          "width": 2.0,
+          "maxPosAcc": 2.0,
+          "maxNegAcc": 4.5,
+          "usualPosAcc": 2.0,
+          "usualNegAcc": 4.5,
+          "minGap": 2.5,
+          "maxSpeed": 5,
+          "headwayTime": 1.5
+        },
+        "route": [
+          "gneE65",
+          "gneE57"
+        ],
+        "interval": 8.0,
+        "startTime": 0,
+        "endTime": -1
+      },
+      {
+        "vehicle": {
+          "length": 5.0,
+          "width": 2.0,
+          "maxPosAcc": 2.0,
+          "maxNegAcc": 4.5,
+          "usualPosAcc": 2.0,
+          "usualNegAcc": 4.5,
+          "minGap": 2.5,
+          "maxSpeed": 5,
+          "headwayTime": 1.5
+        },
+        "route": [
+          "gneE59",
+          "gneE66"
+        ],
+        "interval": 8.0,
+        "startTime": 0,
+        "endTime": -1
+      }
+]

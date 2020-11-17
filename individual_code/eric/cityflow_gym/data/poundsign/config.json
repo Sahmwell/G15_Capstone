@@ -1,0 +1,12 @@
+{
+	"interval": 0.8,
+	"seed": 0,
+	"dir": "/home/eric/Documents/cityflow-test/cityflow_gym/data/poundsign/",
+	"roadnetFile": "roadnet.json", 
+	"flowFile": "flow.json", 
+	"rlTrafficLight": true,
+	"laneChange": true,
+	"saveReplay": true,
+	"roadnetLogFile": "../out/replay_roadnet.json", 
+	"replayLogFile": "../out/replay.txt"
+}
