@@ -1,7 +1,7 @@
 {
 	"interval": 0.8,
 	"seed": 0,
-	"dir": "/home/eric/Documents/cityflow-test/cityflow_gym/data/poundsign/",
+	"dir": "/home/eric/Github/G15_Capstone/individual_code/eric/cityflow_gym/data/poundsign/",
 	"roadnetFile": "roadnet.json", 
 	"flowFile": "flow.json", 
 	"rlTrafficLight": true,

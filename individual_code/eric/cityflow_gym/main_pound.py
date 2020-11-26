@@ -11,12 +11,16 @@ from stable_baselines import PPO2
 
 from env.CityEnv import CityEnv
 
+import time
+
 steps_per_episode = 1000
-num_episodes = 500
+num_episodes = 20
 env = DummyVecEnv([lambda: CityEnv('poundsign', steps_per_episode)])
 
 model = PPO2(MlpPolicy, env, verbose=1)
+start = time.time()
 model.learn(total_timesteps=steps_per_episode*num_episodes)
+print(f'LEARNING TIME: {time.time() - start}')
 model.save('ppo2_pound')
 print('done learning')
 

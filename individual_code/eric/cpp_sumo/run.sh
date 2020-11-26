@@ -1,0 +1,1 @@
+$SUMO_HOME/bin/sumo -c data/PoundSign.sumocfg -t --remote-port 1337 > sumo.log & (sleep 1s && ./runner)

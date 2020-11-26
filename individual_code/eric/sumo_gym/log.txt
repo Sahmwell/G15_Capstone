@@ -1,0 +1,20 @@
+Loading net-file from 'PoundSign/PoundSign.net.xml' ... done (2ms).
+Warning: Missing yellow phase in tlLogic 'gneJ14', program '0' for tl-index 11 when switching to phase 0
+Loading done.
+Simulation ended at time: 0.00
+Performance: 
+ Duration: 405.66s
+ Real time factor: 0
+ UPS: 0.000000
+Vehicles: 
+ Inserted: 0 (Loaded: 3)
+ Running: 0
+ Waiting: 0
+Statistics (avg):
+ RouteLength: 0.00
+ Speed: 0.00
+ Duration: 0.00
+ WaitingTime: 0.00
+ TimeLoss: 0.00
+ DepartDelay: 0.00
+

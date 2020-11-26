@@ -1,0 +1,2 @@
+[MASTER]
+init-hook='import sys; sys.path.append("/home/eric/program_files/sumo/tools")'
