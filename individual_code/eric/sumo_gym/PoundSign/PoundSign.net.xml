@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on Thu 26 Nov 2020 12:34:58 AM by Eclipse SUMO netedit Version v1_7_0+0643-0277064105
+<!-- generated on Fri 27 Nov 2020 07:53:06 PM by Eclipse SUMO netedit Version 1.7.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
@@ -324,6 +324,7 @@
         <phase duration="42" state="srrGGgsrrGGg"/>
         <phase duration="3"  state="srryyysrryyy"/>
         <phase duration="10" state="srrrrrsrrrrG"/>
+        <phase duration="3"  state="srrrrrsrrrry"/>
     </tlLogic>
     <tlLogic id="gneJ17" type="static" programID="0" offset="0">
         <phase duration="42" state="GGgsrrGGgsrr"/>

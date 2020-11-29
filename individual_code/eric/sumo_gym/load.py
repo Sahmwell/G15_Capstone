@@ -14,7 +14,7 @@ from env.SumoEnv import SumoEnv
 
 steps_per_episode = 1000
 num_episodes = 100
-env = DummyVecEnv([lambda: SumoEnv(steps_per_episode, True)])
+env = DummyVecEnv([lambda: SumoEnv(steps_per_episode, True, 0)])
 
 model = PPO2.load("ppo2_pound")
 obs = env.reset()

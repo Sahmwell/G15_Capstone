@@ -13,21 +13,70 @@ if 'SUMO_HOME' in os.environ:
 else:
     sys.exit("please declare environment variable 'SUMO_HOME'")
 from sumolib import checkBinary 
-import traci 
 
-# HARDCODE
-controlled_lights = [{'name':'gneJ14', 'curr_phase':0, 'num_phases': 5}]
+import traci as traci0
+del sys.modules['traci']
+import traci as traci1
+del sys.modules['traci']
+import traci as traci2
+del sys.modules['traci']
+import traci as traci3
+del sys.modules['traci']
+import traci as traci4
+del sys.modules['traci']
+import traci as traci5
+del sys.modules['traci']
+import traci as traci6
+del sys.modules['traci']
+import traci as traci7
+del sys.modules['traci']
+import traci as traci8
+del sys.modules['traci']
+import traci as traci9
+del sys.modules['traci']
+import traci as traci10
+del sys.modules['traci']
+import traci as traci11
+
+
+controlled_lights = [{'name':'gneJ14', 'curr_phase':0, 'num_phases': 6}]
 uncontrolled_lights = [{'name':'nw', 'curr_phase':0, 'num_phases': 4}, {'name':'se', 'curr_phase':0, 'num_phases': 4}, {'name':'sw', 'curr_phase':0, 'num_phases': 4}]
 important_roads = ['gneE16', 'gneE59', 'gneE13']
 load_options = ["-c", "PoundSign/PoundSign.sumocfg", "--tripinfo-output", "tripinfo.xml", '--log', 'log.txt' , "-t"]
 
-class SumoEnv(gym.Env):
-    def __init__(self, steps_per_episode, render):
-        super(SumoEnv, self).__init__()
+
+class SumoEnv_Parallel(gym.Env):
+    def __init__(self, steps_per_episode, render, rank):
+        super(SumoEnv_Parallel, self).__init__()
         # self.scenario_name = scenario_name
         self.steps_per_episode = steps_per_episode
         self.is_done = False
         self.current_step = 0
+
+        if rank == 0:
+            self.sumo = traci0
+        elif rank == 1:
+            self.sumo = traci1
+        elif rank == 2:
+            self.sumo = traci2
+        elif rank == 3:
+            self.sumo = traci3
+        elif rank == 4:
+            self.sumo = traci4
+        elif rank == 5:
+            self.sumo = traci5
+        elif rank == 6:
+            self.sumo = traci6
+        elif rank == 7:
+            self.sumo = traci7
+        elif rank == 8:
+            self.sumo = traci8
+        elif rank == 9:
+            self.sumo = traci9
+        elif rank == 10:
+            self.sumo = traci10    
+        elif rank == 11:
+            self.sumo = traci11
 
         self.reward_range = (-float('inf'), float('inf')) # HARDCODE
         self.action_space = spaces.Discrete(5) # HARDCODE
@@ -38,10 +87,10 @@ class SumoEnv(gym.Env):
         self.guiBinary = checkBinary('sumo-gui')
         # self.current_binary = self.noguiBinary
         self.current_binary = self.guiBinary if render else self.noguiBinary
-        traci.start([self.current_binary] + load_options)
+        self.sumo.start([self.current_binary] + load_options)
     
     def reset(self):
-        traci.load(load_options)
+        self.sumo.load(load_options)
         self.current_step = 0
         self.is_done = False
 
@@ -61,7 +110,7 @@ class SumoEnv(gym.Env):
 
         self._take_action(action)
 
-        traci.simulationStep()
+        self.sumo.simulationStep()
         self.current_step += 1
 
         obs = self._next_observation()
@@ -96,22 +145,18 @@ class SumoEnv(gym.Env):
     def _get_road_waiting_vehicle_count(self):
         wait_counts = {'gneE16':0, 'gneE59':0, 'gneE13':0}
         road_counts = {'gneE16':0, 'gneE59':0, 'gneE13':0}
-        vehicles = traci.vehicle.getIDList()
+        vehicles = self.sumo.vehicle.getIDList()
         for v in vehicles:
-            road = traci.vehicle.getRoadID(v)
+            road = self.sumo.vehicle.getRoadID(v)
             if road in wait_counts.keys():
-                if traci.vehicle.getWaitingTime(v) > 0:
+                if self.sumo.vehicle.getWaitingTime(v) > 0:
                     wait_counts[road] += 1
                 road_counts[road] += 1
         return wait_counts , road_counts
 
-    def _on_training_end(self):
-        super(self)
-        traci.close()
-
     def _set_tl_phase(self, intersection_id, phase_id):
-        traci.trafficlight.setPhase(intersection_id, phase_id)
+        self.sumo.trafficlight.setPhase(intersection_id, phase_id)
 
     def render(self, mode='human', close=False):
-        # self.save_replay = not self.save_replay
+        # Not actually using this function
         self.current_binary = self.guiBinary
