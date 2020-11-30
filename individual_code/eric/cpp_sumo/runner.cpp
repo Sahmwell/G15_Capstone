@@ -1,19 +1,15 @@
 #include <iostream>
 #include <time.h>
 #include <fstream>
+#include <vector>
+#include <unistd.h>
 #include <utils/traci/TraCIAPI.h>
 
 using namespace std;
 
-class Client : public TraCIAPI {
-public:
-    Client() {};
-    ~Client() {};
-};
-
 void generate_routefile() {
     srand( (unsigned)time( NULL ) );
-    int N = 24 * 3600;
+    int N = 20 * 1000;
     double probability = 1. / 10;
     ofstream routes;
     routes.open("data/PoundSign.rou.xml");
@@ -32,28 +28,12 @@ void generate_routefile() {
 }
 
 
-void run(Client client) {
+void run(TraCIAPI client) {
     int step = 0;
     int interval_count = 0;
     vector<string> last_vehicles;
     while (client.simulation.getMinExpectedNumber() > 0) {
         client.simulationStep();
-        vector<string> vehicles = client.inductionloop.getLastStepVehicleIDs("nw_s");
-        for (int i = 0; i < vehicles.size(); i++) {
-            bool was_last = false;
-            for (int j =0; j < last_vehicles.size() && !was_last; j++) {
-                was_last = vehicles.at(i).compare(last_vehicles.at(j)) == 0;
-            }
-            if (!was_last)
-                interval_count++;
-
-        }
-        last_vehicles = vehicles;
-
-        if ((step % (15*60)) == 0) {
-            cout << interval_count << endl;
-            interval_count = 0;
-        }
         step += 1;
     }
     client.close();
@@ -62,9 +42,17 @@ void run(Client client) {
 
 int main(int argc, char* argv[]) {
     generate_routefile();
-    Client client;
+    TraCIAPI client;
+
+    // Wait to make sure that the SUMO session is open since the library has no way to repeatedly attempt to connect
+    sleep(2);
+
     client.connect("localhost", 1337);
-    run(client); 
+    std::pair<int, std::string> versions = client.getVersion();
+    cout << versions.first << endl;
+    cout << versions.second << endl;
+
+    run(client);
     cout << "end of execution" << endl;
     // Use exit instead of return... for some reason when I do return 0 I get an error about something being free'd twice
     exit(EXIT_SUCCESS); 
