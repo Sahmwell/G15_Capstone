@@ -1,0 +1,2 @@
+$SUMO_HOME/bin/sumo-gui -c PoundSign/PoundSign.sumocfg -t --remote-port 1337 > sumo.log & (sleep 1s && python3.7 main.py)
+#$SUMO_HOME/bin/sumo-gui -c PoundSign/PoundSign.sumocfg -t --remote-port 1337 > sumo.log & ./runner
