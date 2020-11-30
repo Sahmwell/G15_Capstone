@@ -1,13 +1,9 @@
-#!/usr/bin/python3
-
 from __future__ import absolute_import
 from __future__ import print_function
 
 import os
 import sys
 import optparse
-
-
 
 # we need to import python modules from the $SUMO_HOME/tools directory
 if 'SUMO_HOME' in os.environ:
@@ -16,20 +12,20 @@ if 'SUMO_HOME' in os.environ:
 else:
     sys.exit("please declare environment variable 'SUMO_HOME'")
 
-from sumolib import checkBinary 
-import traci 
-
+from sumolib import checkBinary
+import traci
 
 # Number of simulation timesteps
-N = 24 * 3600 
+N = 24 * 3600
+
 
 def main():
-    # options = get_options()
+    options = get_options()
 
-    # if options.nogui:
-    sumoBinary = checkBinary('sumo')
-    # else:
-    #     sumoBinary = checkBinary('sumo-gui')
+    if options.nogui:
+        sumoBinary = checkBinary('sumo')
+    else:
+        sumoBinary = checkBinary('sumo-gui')
 
     # # first, generate the route file for this simulation
     # generate_routefile(N)
@@ -37,11 +33,11 @@ def main():
     # this is the normal way of using traci. sumo is started as a
     # subprocess and then the python script connects and runs
     traci.start([sumoBinary, "-c", "PoundSign/PoundSign.sumocfg",
-                             "--tripinfo-output", "tripinfo.xml", "-t"])
+                 "--tripinfo-output", "tripinfo.xml", "-t"])
     run()
 
-def generate_routefile(N):
 
+def generate_routefile(N):
     with open("PoundSign/PoundSign.rou.xml", "w") as routes:
         print("""<routes>
         <vType id="default" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.67" guiShape="passenger"/>
@@ -56,6 +52,7 @@ def generate_routefile(N):
                 vehicle_id += 1
         print("</routes>", file=routes)
 
+
 def run():
     """execute the TraCI control loop"""
     step = 0
@@ -64,13 +61,14 @@ def run():
         if step % 500 == 0:
             print(get_lane_waiting_vehicle_count())
             traci.load(["-c", "PoundSign/PoundSign.sumocfg",
-                             "--tripinfo-output", "tripinfo.xml", "-t"])
+                        "--tripinfo-output", "tripinfo.xml", "-t"])
         step += 1
     traci.close()
     sys.stdout.flush()
 
+
 def get_lane_waiting_vehicle_count():
-    counts = {'gneE16':0, 'gneE59':0, 'gneE13':0}
+    counts = {'gneE16': 0, 'gneE59': 0, 'gneE13': 0}
     vehicles = traci.vehicle.getIDList()
     for v in vehicles:
         road = traci.vehicle.getRoadID(v)
@@ -78,8 +76,10 @@ def get_lane_waiting_vehicle_count():
             counts[road] += 1
     return counts
 
+
 def set_tl_phase(intersection_id, phase_id):
     traci.trafficlight.setPhase(intersection_id, phase_id)
+
 
 def get_options():
     optParser = optparse.OptionParser()

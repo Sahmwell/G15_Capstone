@@ -12,7 +12,7 @@ if 'SUMO_HOME' in os.environ:
     sys.path.append(tools)
 else:
     sys.exit("please declare environment variable 'SUMO_HOME'")
-from sumolib import checkBinary 
+from sumolib import checkBinary
 
 import traci as traci0
 del sys.modules['traci']
@@ -38,16 +38,17 @@ import traci as traci10
 del sys.modules['traci']
 import traci as traci11
 
-
-controlled_lights = [{'name':'gneJ14', 'curr_phase':0, 'num_phases': 6}]
-uncontrolled_lights = [{'name':'nw', 'curr_phase':0, 'num_phases': 4}, {'name':'se', 'curr_phase':0, 'num_phases': 4}, {'name':'sw', 'curr_phase':0, 'num_phases': 4}]
+controlled_lights = [{'name': 'gneJ14', 'curr_phase': 0, 'num_phases': 6}]
+uncontrolled_lights = [{'name': 'nw', 'curr_phase': 0, 'num_phases': 4},
+                       {'name': 'se', 'curr_phase': 0, 'num_phases': 4},
+                       {'name': 'sw', 'curr_phase': 0, 'num_phases': 4}]
 important_roads = ['gneE16', 'gneE59', 'gneE13']
-load_options = ["-c", "PoundSign/PoundSign.sumocfg", "--tripinfo-output", "tripinfo.xml", '--log', 'log.txt' , "-t"]
+load_options = ["-c", "PoundSign/PoundSign.sumocfg", "--tripinfo-output", "PoundSign/tripinfo.xml", "-t"]
 
 
-class SumoEnv_Parallel(gym.Env):
+class SumoEnvParallel(gym.Env):
     def __init__(self, steps_per_episode, render, rank):
-        super(SumoEnv_Parallel, self).__init__()
+        super(SumoEnvParallel, self).__init__()
         # self.scenario_name = scenario_name
         self.steps_per_episode = steps_per_episode
         self.is_done = False
@@ -74,13 +75,15 @@ class SumoEnv_Parallel(gym.Env):
         elif rank == 9:
             self.sumo = traci9
         elif rank == 10:
-            self.sumo = traci10    
+            self.sumo = traci10
         elif rank == 11:
             self.sumo = traci11
+        else:
+            raise Exception('Invalid Rank, cannot import traci module.')
 
-        self.reward_range = (-float('inf'), float('inf')) # HARDCODE
-        self.action_space = spaces.Discrete(5) # HARDCODE
-        self.observation_space = spaces.Box(low=0, high=float('inf'), shape=np.array([6]), dtype=np.float32) # HARDCODE
+        self.reward_range = (-float('inf'), float('inf'))  # HARDCODE
+        self.action_space = spaces.Discrete(5)  # HARDCODE
+        self.observation_space = spaces.Box(low=0, high=float('inf'), shape=np.array([6]), dtype=np.float32)  # HARDCODE
 
         # Start connection with sumo
         self.noguiBinary = checkBinary('sumo')
@@ -88,7 +91,7 @@ class SumoEnv_Parallel(gym.Env):
         # self.current_binary = self.noguiBinary
         self.current_binary = self.guiBinary if render else self.noguiBinary
         self.sumo.start([self.current_binary] + load_options)
-    
+
     def reset(self):
         self.sumo.load(load_options)
         self.current_step = 0
@@ -105,7 +108,7 @@ class SumoEnv_Parallel(gym.Env):
             obs.append(wait_counts[lane])
 
         return np.array(obs)
-    
+
     def step(self, action):
 
         self._take_action(action)
@@ -128,7 +131,7 @@ class SumoEnv_Parallel(gym.Env):
         return obs, reward, self.is_done, {}
 
     def _get_reward(self):
-        road_waiting_vehicles_dict , _ = self._get_road_waiting_vehicle_count()
+        road_waiting_vehicles_dict, _ = self._get_road_waiting_vehicle_count()
         reward = 0.0
 
         for (road_id, num_vehicles) in road_waiting_vehicles_dict.items():
@@ -143,8 +146,8 @@ class SumoEnv_Parallel(gym.Env):
             self._set_tl_phase(controlled_lights[0]['name'], action)
 
     def _get_road_waiting_vehicle_count(self):
-        wait_counts = {'gneE16':0, 'gneE59':0, 'gneE13':0}
-        road_counts = {'gneE16':0, 'gneE59':0, 'gneE13':0}
+        wait_counts = {'gneE16': 0, 'gneE59': 0, 'gneE13': 0}
+        road_counts = {'gneE16': 0, 'gneE59': 0, 'gneE13': 0}
         vehicles = self.sumo.vehicle.getIDList()
         for v in vehicles:
             road = self.sumo.vehicle.getRoadID(v)
@@ -152,7 +155,7 @@ class SumoEnv_Parallel(gym.Env):
                 if self.sumo.vehicle.getWaitingTime(v) > 0:
                     wait_counts[road] += 1
                 road_counts[road] += 1
-        return wait_counts , road_counts
+        return wait_counts, road_counts
 
     def _set_tl_phase(self, intersection_id, phase_id):
         self.sumo.trafficlight.setPhase(intersection_id, phase_id)

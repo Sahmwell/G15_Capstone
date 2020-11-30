@@ -12,14 +12,17 @@ if 'SUMO_HOME' in os.environ:
     sys.path.append(tools)
 else:
     sys.exit("please declare environment variable 'SUMO_HOME'")
-from sumolib import checkBinary 
-import traci 
+from sumolib import checkBinary
+import traci
 
-# HARDCODE
-controlled_lights = [{'name':'gneJ14', 'curr_phase':0, 'num_phases': 5}]
-uncontrolled_lights = [{'name':'nw', 'curr_phase':0, 'num_phases': 4}, {'name':'se', 'curr_phase':0, 'num_phases': 4}, {'name':'sw', 'curr_phase':0, 'num_phases': 4}]
+
+controlled_lights = [{'name': 'gneJ14', 'curr_phase': 0, 'num_phases': 6}]
+uncontrolled_lights = [{'name': 'nw', 'curr_phase': 0, 'num_phases': 4},
+                       {'name': 'se', 'curr_phase': 0, 'num_phases': 4},
+                       {'name': 'sw', 'curr_phase': 0, 'num_phases': 4}]
 important_roads = ['gneE16', 'gneE59', 'gneE13']
-load_options = ["-c", "PoundSign/PoundSign.sumocfg", "--tripinfo-output", "tripinfo.xml", '--log', 'log.txt' , "-t"]
+load_options = ["-c", "PoundSign/PoundSign.sumocfg", "--tripinfo-output", "PoundSign/tripinfo.xml", "-t"]
+
 
 class SumoEnv(gym.Env):
     def __init__(self, steps_per_episode, render):
@@ -29,9 +32,9 @@ class SumoEnv(gym.Env):
         self.is_done = False
         self.current_step = 0
 
-        self.reward_range = (-float('inf'), float('inf')) # HARDCODE
-        self.action_space = spaces.Discrete(5) # HARDCODE
-        self.observation_space = spaces.Box(low=0, high=float('inf'), shape=np.array([6]), dtype=np.float32) # HARDCODE
+        self.reward_range = (-float('inf'), float('inf'))  # HARDCODE
+        self.action_space = spaces.Discrete(5)  # HARDCODE
+        self.observation_space = spaces.Box(low=0, high=float('inf'), shape=np.array([6]), dtype=np.float32)  # HARDCODE
 
         # Start connection with sumo
         self.noguiBinary = checkBinary('sumo')
@@ -39,7 +42,7 @@ class SumoEnv(gym.Env):
         # self.current_binary = self.noguiBinary
         self.current_binary = self.guiBinary if render else self.noguiBinary
         traci.start([self.current_binary] + load_options)
-    
+
     def reset(self):
         traci.load(load_options)
         self.current_step = 0
@@ -56,7 +59,7 @@ class SumoEnv(gym.Env):
             obs.append(wait_counts[lane])
 
         return np.array(obs)
-    
+
     def step(self, action):
 
         self._take_action(action)
@@ -79,7 +82,7 @@ class SumoEnv(gym.Env):
         return obs, reward, self.is_done, {}
 
     def _get_reward(self):
-        road_waiting_vehicles_dict , _ = self._get_road_waiting_vehicle_count()
+        road_waiting_vehicles_dict, _ = self._get_road_waiting_vehicle_count()
         reward = 0.0
 
         for (road_id, num_vehicles) in road_waiting_vehicles_dict.items():
@@ -93,9 +96,10 @@ class SumoEnv(gym.Env):
             controlled_lights[0]['curr_phase'] = action
             self._set_tl_phase(controlled_lights[0]['name'], action)
 
-    def _get_road_waiting_vehicle_count(self):
-        wait_counts = {'gneE16':0, 'gneE59':0, 'gneE13':0}
-        road_counts = {'gneE16':0, 'gneE59':0, 'gneE13':0}
+    @staticmethod
+    def _get_road_waiting_vehicle_count():
+        wait_counts = {'gneE16': 0, 'gneE59': 0, 'gneE13': 0}
+        road_counts = {'gneE16': 0, 'gneE59': 0, 'gneE13': 0}
         vehicles = traci.vehicle.getIDList()
         for v in vehicles:
             road = traci.vehicle.getRoadID(v)
@@ -103,13 +107,14 @@ class SumoEnv(gym.Env):
                 if traci.vehicle.getWaitingTime(v) > 0:
                     wait_counts[road] += 1
                 road_counts[road] += 1
-        return wait_counts , road_counts
+        return wait_counts, road_counts
 
     def _on_training_end(self):
         super(self)
         traci.close()
 
-    def _set_tl_phase(self, intersection_id, phase_id):
+    @staticmethod
+    def _set_tl_phase(intersection_id, phase_id):
         traci.trafficlight.setPhase(intersection_id, phase_id)
 
     def render(self, mode='human', close=False):
