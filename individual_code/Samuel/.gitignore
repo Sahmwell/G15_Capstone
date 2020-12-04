@@ -133,6 +133,7 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,pycharm
 
-
+__pycache__/
+*.py[cod]
 /venv/
 /PoundSign/tripinfo.xml

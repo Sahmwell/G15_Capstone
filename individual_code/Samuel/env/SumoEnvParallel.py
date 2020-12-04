@@ -5,6 +5,7 @@ import sys
 import gym
 from gym import spaces, logger
 import numpy as np
+import json
 
 # we need to import python modules from the $SUMO_HOME/tools directory
 if 'SUMO_HOME' in os.environ:
@@ -14,83 +15,24 @@ else:
     sys.exit("please declare environment variable 'SUMO_HOME'")
 from sumolib import checkBinary
 
-import traci as traci0
-
-del sys.modules['traci']
-import traci as traci1
-
-del sys.modules['traci']
-import traci as traci2
-
-del sys.modules['traci']
-import traci as traci3
-
-del sys.modules['traci']
-import traci as traci4
-
-del sys.modules['traci']
-import traci as traci5
-
-del sys.modules['traci']
-import traci as traci6
-
-del sys.modules['traci']
-import traci as traci7
-
-del sys.modules['traci']
-import traci as traci8
-
-del sys.modules['traci']
-import traci as traci9
-
-del sys.modules['traci']
-import traci as traci10
-
-del sys.modules['traci']
-import traci as traci11
-
-controlled_lights = [{'name': 'gneJ14', 'curr_phase': 0, 'num_phases': 6}]
-uncontrolled_lights = [{'name': 'nw', 'curr_phase': 0, 'num_phases': 4},
-                       {'name': 'se', 'curr_phase': 0, 'num_phases': 4},
-                       {'name': 'sw', 'curr_phase': 0, 'num_phases': 4}]
-important_roads = ['gneE16', 'gneE59', 'gneE13']
-load_options = ["-c", "PoundSign/PoundSign.sumocfg", "--tripinfo-output", "PoundSign/tripinfo.xml", "-t"]
-
+with open('global_config.json') as global_json_file:
+    local_config_path = json.load(global_json_file)['config_path']
+with open(local_config_path) as json_file:
+    config_params = json.load(json_file)
+controlled_lights = config_params['controlled_lights']
+uncontrolled_lights = config_params['uncontrolled_lights']
+important_roads = config_params['important_roads']
+load_options = ["-c", config_params['sumocfg_path'], "--tripinfo-output", config_params['tripinfo_output_path'], "-t"]
 
 class SumoEnvParallel(gym.Env):
-    def __init__(self, steps_per_episode, render, rank):
+    def __init__(self, steps_per_episode, render):
         super(SumoEnvParallel, self).__init__()
         # self.scenario_name = scenario_name
         self.steps_per_episode = steps_per_episode
         self.is_done = False
         self.current_step = 0
-
-        if rank == 0:
-            self.sumo = traci0
-        elif rank == 1:
-            self.sumo = traci1
-        elif rank == 2:
-            self.sumo = traci2
-        elif rank == 3:
-            self.sumo = traci3
-        elif rank == 4:
-            self.sumo = traci4
-        elif rank == 5:
-            self.sumo = traci5
-        elif rank == 6:
-            self.sumo = traci6
-        elif rank == 7:
-            self.sumo = traci7
-        elif rank == 8:
-            self.sumo = traci8
-        elif rank == 9:
-            self.sumo = traci9
-        elif rank == 10:
-            self.sumo = traci10
-        elif rank == 11:
-            self.sumo = traci11
-        else:
-            raise Exception('Invalid Rank, cannot import traci module.')
+        import traci
+        self.sumo = traci
 
         self.reward_range = (-float('inf'), float('inf'))  # HARDCODE
         self.action_space = spaces.Discrete(5)  # HARDCODE
@@ -173,3 +115,7 @@ class SumoEnvParallel(gym.Env):
 
     def _set_tl_phase(self, intersection_id, phase_id):
         self.sumo.trafficlight.setPhase(intersection_id, phase_id)
+
+    def _on_training_end(self):
+        super(self)
+        self.sumo.close()
