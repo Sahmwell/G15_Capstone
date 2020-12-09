@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 12/06/20 17:47:54 by Eclipse SUMO sumo Version 1.7.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\mike\root\Fall%202020\G15_Capstone-master\individual_code\eric\sumo_gym\PositiveSign\PositiveSign.net.xml"/>
+        <route-files value="C:\Users\mike\root\Fall%202020\G15_Capstone-master\individual_code\eric\sumo_gym\PositiveSign\PositiveSign.rou.xml"/>
+    </input>
+
+    <output>
+        <tripinfo-output value="tripinfo.xml"/>
+    </output>
+
+    <report>
+        <verbose value="true"/>
+        <log value="log.txt"/>
+        <duration-log.statistics value="true"/>
+    </report>
+
+    <gui_only>
+        <start value="true"/>
+    </gui_only>
+
+</configuration>
+-->
+
+<tripinfos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tripinfo_file.xsd">
+    <tripinfo id="batch1_0" depart="0.00" departLane="edge1_0" departPos="5.10" departSpeed="0.00" departDelay="0.00" arrival="25.00" arrivalLane="edge6_0" arrivalPos="92.80" arrivalSpeed="14.58" duration="25.00" routeLength="194.90" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="10.79" rerouteNo="0" devices="tripinfo_batch1_0" vType="default" speedFactor="1.06" vaporized=""/>
+    <tripinfo id="batch1_1" depart="5.00" departLane="edge1_0" departPos="5.10" departSpeed="0.00" departDelay="4.00" arrival="32.00" arrivalLane="edge6_0" arrivalPos="92.80" arrivalSpeed="12.84" duration="27.00" routeLength="194.90" waitingTime="0.00" waitingCount="0" stopTime="0.00" timeLoss="11.61" rerouteNo="0" devices="tripinfo_batch1_1" vType="default" speedFactor="0.94" vaporized=""/>
+</tripinfos>
