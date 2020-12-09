@@ -36,5 +36,3 @@ Then
 To deactivate your virtual environment:
 
 ``deactivate``
-
-You will probably need to activate and deactivate each time you open/close the project.
