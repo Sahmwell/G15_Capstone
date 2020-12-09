@@ -1,2 +1,3 @@
-# Eric's Code
-I can't guarantee that this will work on your machine since I use some absolute paths, and my dependencies might be different.
+# Michael's code
+
+Primarily jupyter notebooks for prototyping. Will match final code with workflow that the rest of the group uses.
