@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 12/08/20 19:00:30 by Eclipse SUMO netedit Version 1.7.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="C:\Users\cau\Documents\Sumo%20Capstone\stvital.net.xml"/>
+    </input>
+
+    <output>
+        <output-file value="C:\Users\cau\Documents\Sumo%20Capstone\stvital.net.xml"/>
+        <output.street-names value="true"/>
+    </output>
+
+    <processing>
+        <geometry.min-radius.fix.railways value="false"/>
+        <geometry.max-grade.fix value="false"/>
+        <offset.disable-normalization value="true"/>
+        <lefthand value="false"/>
+    </processing>
+
+    <junctions>
+        <no-turnarounds value="true"/>
+        <junctions.corner-detail value="5"/>
+        <junctions.limit-turn-speed value="5.5"/>
+        <rectangular-lane-cut value="false"/>
+    </junctions>
+
+    <pedestrian>
+        <walkingareas value="false"/>
+    </pedestrian>
+
+    <report>
+        <aggregate-warnings value="5"/>
+    </report>
+
+</configuration>
+-->
+
+<additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
+    <tlLogic id="cluster_128638381_128638382_128640990_370013358_370013363_370229314_370229316_6897003259_6897003260" type="actuated" programID="0" offset="0">
+        <phase duration="7" state="rgrrrrryyyyyyrgrGggrrrrrrryryyrrrrrrr"/>
+        <phase duration="4" state="rgrrrrrrrrrrrrgrGyyrrrrrrrrrrrrrrrrrr"/>
+        <phase duration="2" state="rgrrrrrrrrrrrrgrGrrrrrrrrrrrrrrrrrrrr"/>
+        <phase duration="31" state="rgrrrrrrrrrrrrgrGrrrrrrrrGrgrrrrrrrrr"/>
+        <phase duration="4" state="rgrrrrrrrrrrrryrYrrrrrrrrYryrrrrrrrrr"/>
+        <phase duration="1" state="rgrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"/>
+        <phase duration="11" state="rgrrgrgrrrrrrrrrrrrrrrrggrrrrrrrrrrrr"/>
+        <phase duration="4" state="rgrryryrrrrrrrrrrrrrrrryyrrrrrrrrrrrr"/>
+        <phase duration="2" state="rgrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"/>
+        <phase duration="45" state="rgGGgrgrrrrrrrrrrrrrGGrggrrrrrrrrrrrr"/>
+        <phase duration="4" state="rgyyyryrrrrrrrrrrrrryyryyrrrrrrrrrrrr"/>
+        <phase duration="1" state="rgrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"/>
+    </tlLogic>
+</additional>
