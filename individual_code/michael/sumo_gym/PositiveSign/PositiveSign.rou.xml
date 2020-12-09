@@ -1,0 +1,43 @@
+<routes>
+        <vType id="default" accel="0.8" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="16.67" guiShape="passenger"/><route id="A-C" edges="edge1 edge6" /><route id="D-B" edges="edge7 edge4" />
+<vehicle id="batch1_0" type="default" route="A-C" depart="0" />
+<vehicle id="batch1_1" type="default" route="A-C" depart="1" />
+<vehicle id="batch1_2" type="default" route="A-C" depart="2" />
+<vehicle id="batch1_3" type="default" route="A-C" depart="3" />
+<vehicle id="batch1_4" type="default" route="A-C" depart="4" />
+<vehicle id="batch1_5" type="default" route="A-C" depart="5" />
+<vehicle id="batch1_6" type="default" route="A-C" depart="6" />
+<vehicle id="batch1_7" type="default" route="A-C" depart="7" />
+<vehicle id="batch1_8" type="default" route="A-C" depart="8" />
+<vehicle id="batch1_9" type="default" route="A-C" depart="9" />
+<vehicle id="batch2_0" type="default" route="D-B" depart="60" />
+<vehicle id="batch2_1" type="default" route="D-B" depart="61" />
+<vehicle id="batch2_2" type="default" route="D-B" depart="62" />
+<vehicle id="batch2_3" type="default" route="D-B" depart="63" />
+<vehicle id="batch2_4" type="default" route="D-B" depart="64" />
+<vehicle id="batch2_5" type="default" route="D-B" depart="65" />
+<vehicle id="batch2_6" type="default" route="D-B" depart="66" />
+<vehicle id="batch2_7" type="default" route="D-B" depart="67" />
+<vehicle id="batch2_8" type="default" route="D-B" depart="68" />
+<vehicle id="batch2_9" type="default" route="D-B" depart="69" />
+<vehicle id="batch3_0" type="default" route="A-C" depart="120" />
+<vehicle id="batch3_1" type="default" route="A-C" depart="121" />
+<vehicle id="batch3_2" type="default" route="A-C" depart="122" />
+<vehicle id="batch3_3" type="default" route="A-C" depart="123" />
+<vehicle id="batch3_4" type="default" route="A-C" depart="124" />
+<vehicle id="batch3_5" type="default" route="A-C" depart="125" />
+<vehicle id="batch3_6" type="default" route="A-C" depart="126" />
+<vehicle id="batch3_7" type="default" route="A-C" depart="127" />
+<vehicle id="batch3_8" type="default" route="A-C" depart="128" />
+<vehicle id="batch3_9" type="default" route="A-C" depart="129" />
+<vehicle id="batch4_0" type="default" route="D-B" depart="180" />
+<vehicle id="batch4_1" type="default" route="D-B" depart="181" />
+<vehicle id="batch4_2" type="default" route="D-B" depart="182" />
+<vehicle id="batch4_3" type="default" route="D-B" depart="183" />
+<vehicle id="batch4_4" type="default" route="D-B" depart="184" />
+<vehicle id="batch4_5" type="default" route="D-B" depart="185" />
+<vehicle id="batch4_6" type="default" route="D-B" depart="186" />
+<vehicle id="batch4_7" type="default" route="D-B" depart="187" />
+<vehicle id="batch4_8" type="default" route="D-B" depart="188" />
+<vehicle id="batch4_9" type="default" route="D-B" depart="189" />
+</routes>
