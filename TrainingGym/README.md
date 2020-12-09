@@ -1,8 +1,8 @@
-#Some Notes
+# Some Notes
 - Do not add tripinfo.xml to  your commits ever, it'll show up in the scenarios you work in, but we don't need to be
   sharing those files
 
-#How to start virtual environment
+# How to start virtual environment
 
 Note: You will need 3.7 and PIP
 
@@ -36,5 +36,3 @@ Then
 To deactivate your virtual environment:
 
 ``deactivate``
-
-You will probably need to activate and deactivate each time you open/close the project.
