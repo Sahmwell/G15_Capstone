@@ -13,20 +13,27 @@ with open('global_config.json') as global_json_file:
 with open(f'Scenarios/{local_config_path}') as json_file:
     config_params = json.load(json_file)
 
-parallel = config_params['num_proc'] > 1
-
+# Get config parameters
 steps_per_episode = config_params["steps_per_episode"]
 num_episodes = config_params["num_episodes"]
+controlled_lights = config_params['controlled_lights']
 
-env = DummyVecEnv([lambda: SumoEnvParallel(steps_per_episode, True)])
+# Create sumo environment
+env = SumoEnvParallel(steps_per_episode, True, controlled_lights[0]['name'])
 
-model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}')
+# Load each light's model
+model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}/PPO2_{controlled_lights[0]["name"]}')
+# model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}')
+
+# Reset and run the environment
 obs = env.reset()
-total_rewards = 0
+total_rewards = 0  # Count the sum of the reward function over all time steps
 for i in range(steps_per_episode):
-    action, _states = model.predict(obs)
+    action, state = model.predict(obs)
+
+    # Since we're not training, it doesn't matter which light is the first parameter
     obs, rewards, done, info = env.step(action)
-    total_rewards += rewards[0]
+    total_rewards += rewards
     if done:
         break
 print(total_rewards)
