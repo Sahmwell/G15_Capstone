@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on Wed 06 Jan 2021 10:46:43 AM by Eclipse SUMO netedit Version 1.7.0
+<!-- generated on Wed 06 Jan 2021 10:49:26 AM by Eclipse SUMO netedit Version 1.7.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
-        <sumo-net-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/PoundSign/PoundSign.net.xml"/>
+        <sumo-net-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/PoundSign/PoundSignLongPhase.net.xml"/>
     </input>
 
     <output>
-        <output-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/PoundSign/PoundSign.net.xml"/>
+        <output-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/PoundSign/PoundSignLongPhase.net.xml"/>
     </output>
 
     <processing>
@@ -28,10 +28,6 @@
     <pedestrian>
         <walkingareas value="false"/>
     </pedestrian>
-
-    <netedit>
-        <route-files value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/PoundSign/PoundSign.rou.xml"/>
-    </netedit>
 
     <report>
         <aggregate-warnings value="5"/>
@@ -311,28 +307,28 @@
     </edge>
 
     <tlLogic id="ne" type="static" programID="0" offset="0">
-        <phase duration="42" state="GGgrrrGGgrrr"/>
-        <phase duration="3"  state="yyyrrryyyrrr"/>
-        <phase duration="42" state="rrrGGgrrrGGg"/>
-        <phase duration="3"  state="rrryyyrrryyy"/>
+        <phase duration="99999" state="GGgrrrGGgrrr"/>
+        <phase duration="99999" state="yyyrrryyyrrr"/>
+        <phase duration="99999" state="rrrGGgrrrGGg"/>
+        <phase duration="99999" state="rrryyyrrryyy"/>
     </tlLogic>
     <tlLogic id="nw" type="static" programID="0" offset="0">
-        <phase duration="42" state="GGgrrrGGgrrr"/>
-        <phase duration="3"  state="yyyrrryyyrrr"/>
-        <phase duration="42" state="rrrGGgrrrGGg"/>
-        <phase duration="3"  state="rrryyyrrryyy"/>
+        <phase duration="99999" state="GGgrrrGGgrrr"/>
+        <phase duration="99999" state="yyyrrryyyrrr"/>
+        <phase duration="99999" state="rrrGGgrrrGGg"/>
+        <phase duration="99999" state="rrryyyrrryyy"/>
     </tlLogic>
     <tlLogic id="se" type="static" programID="0" offset="0">
-        <phase duration="42" state="GGgrrrGGgrrr"/>
-        <phase duration="3"  state="yyyrrryyyrrr"/>
-        <phase duration="42" state="rrrGGgrrrGGg"/>
-        <phase duration="3"  state="rrryyyrrryyy"/>
+        <phase duration="99999" state="GGgrrrGGgrrr"/>
+        <phase duration="99999" state="yyyrrryyyrrr"/>
+        <phase duration="99999" state="rrrGGgrrrGGg"/>
+        <phase duration="99999" state="rrryyyrrryyy"/>
     </tlLogic>
     <tlLogic id="sw" type="static" programID="0" offset="0">
-        <phase duration="42" state="GGgrrrGGgrrr"/>
-        <phase duration="3"  state="yyyrrryyyrrr"/>
-        <phase duration="42" state="rrrGGgrrrGGg"/>
-        <phase duration="3"  state="rrryyyrrryyy"/>
+        <phase duration="99999" state="GGgrrrGGgrrr"/>
+        <phase duration="99999" state="yyyrrryyyrrr"/>
+        <phase duration="99999" state="rrrGGgrrrGGg"/>
+        <phase duration="99999" state="rrryyyrrryyy"/>
     </tlLogic>
 
     <junction id="gneJ26" type="dead_end" x="400.00" y="0.00" incLanes="gneE61_0" intLanes="" shape="400.00,0.00 400.00,-3.20 400.00,0.00"/>

@@ -4,7 +4,7 @@
 
     <input>
         <net-file value="PoundSignLongPhase.net.xml"/>
-        <route-files value="test.rou.xml"/>
+        <route-files value="PoundSign.rou.xml"/>
     </input>
 
     <time>
