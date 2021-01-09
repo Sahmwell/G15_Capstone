@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 01/07/21 19:41:06 by Eclipse SUMO netedit Version 1.7.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="C:\Users\cau\Documents\GitHub\G15_Capstone\TrainingGym\Scenarios\VitalTriPM\VitalTriPM.net.xml"/>
+    </input>
+
+    <output>
+        <output-file value="C:\Users\cau\Documents\GitHub\G15_Capstone\TrainingGym\Scenarios\VitalTriPM\VitalTriPM.net.xml"/>
+        <output.street-names value="true"/>
+    </output>
+
+    <processing>
+        <geometry.min-radius.fix.railways value="false"/>
+        <geometry.max-grade.fix value="false"/>
+        <offset.disable-normalization value="true"/>
+        <lefthand value="false"/>
+    </processing>
+
+    <junctions>
+        <no-turnarounds value="true"/>
+        <junctions.corner-detail value="5"/>
+        <junctions.limit-turn-speed value="5.5"/>
+        <rectangular-lane-cut value="false"/>
+    </junctions>
+
+    <pedestrian>
+        <walkingareas value="false"/>
+    </pedestrian>
+
+    <report>
+        <aggregate-warnings value="5"/>
+    </report>
+
+</configuration>
+-->
+
+<additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
+    <tlLogic id="tl_1" type="actuated" programID="0" offset="0">
+        <phase duration="7" state="rrrrrGGggrrrrrrrrr"/>
+        <phase duration="4" state="rrrrrGGyyrrrrrrrrr"/>
+        <phase duration="2" state="rrrrrGGrrrrrrrrrrr"/>
+        <phase duration="31" state="rrrrrGGrrrrrrrGGgg"/>
+        <phase duration="4" state="rrrrrYYrrrrrrrYYyy"/>
+        <phase duration="1" state="rrrrrrrrrrrrrrrrrr"/>
+        <phase duration="21" state="rrggrrrrrrrggrrrrr"/>
+        <phase duration="4" state="rryyrrrrrrryyrrrrr"/>
+        <phase duration="2" state="rrrrrrrrrrrrrrrrrr"/>
+        <phase duration="55" state="GGrrrrrrrGGrrrrrrr"/>
+        <phase duration="4" state="yyrrrrrrryyrrrrrrr"/>
+        <phase duration="1" state="rrrrrrrrrrrrrrrrrr"/>
+    </tlLogic>
+</additional>
