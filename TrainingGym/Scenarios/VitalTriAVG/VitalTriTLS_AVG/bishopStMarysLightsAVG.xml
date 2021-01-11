@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 01/05/21 23:13:22 by Eclipse SUMO netedit Version 1.7.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="C:\Users\cau\Documents\GitHub\G15_Capstone\TrainingGym\Scenarios\VitalTri\VitalTri.net.xml"/>
+    </input>
+
+    <output>
+        <output-file value="C:\Users\cau\Documents\GitHub\G15_Capstone\TrainingGym\Scenarios\VitalTri\VitalTri.net.xml"/>
+        <output.street-names value="true"/>
+    </output>
+
+    <processing>
+        <geometry.min-radius.fix.railways value="false"/>
+        <geometry.max-grade.fix value="false"/>
+        <offset.disable-normalization value="true"/>
+        <lefthand value="false"/>
+    </processing>
+
+    <junctions>
+        <no-turnarounds value="true"/>
+        <junctions.corner-detail value="5"/>
+        <junctions.limit-turn-speed value="5.5"/>
+        <rectangular-lane-cut value="false"/>
+    </junctions>
+
+    <pedestrian>
+        <walkingareas value="false"/>
+    </pedestrian>
+
+    <report>
+        <aggregate-warnings value="5"/>
+    </report>
+
+</configuration>
+-->
+
+<additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
+    <tlLogic id="tl_2" type="actuated" programID="0" offset="0">
+        <phase duration="11" state="rrrrrrrrrrrGGgggrrrrr"/>
+        <phase duration="4.80" state="rrrrrrrrrrrGGyyyrrrrr"/>
+        <phase duration="2" state="rrrrrrrrrrrGGrrrrrrrr"/>
+        <phase duration="21.20" state="GGrrrrrrrrrGGrrrrrrrr"/>
+        <phase duration="4.80" state="GGrrrrrrrrrYYrrrrrrrr"/>
+        <phase duration="1" state="GGrrrrrrrrrrrrrrrrrrr"/>
+        <phase duration="9.20" state="GGgggrrrrrrrrrrrrrrrr"/>
+        <phase duration="4.80" state="yyyyyrrrrrrrrrrrrrrrr"/>
+        <phase duration="2.20" state="rrrrrrrrrrrrrrrrrrrrr"/>
+        <phase duration="12" state="rrrrrrrrrrrrrrrrGGGgg"/>
+        <phase duration="4" state="rrrrrrrrrrrrrrrrGGGyy"/>
+        <phase duration="2" state="rrrrrrrrrrrrrrrrGGGrr"/>
+        <phase duration="6" state="rrrrrGGGrrrrrrrrGGGrr"/>
+        <phase duration="4" state="rrrrrGGGrrrrrrrryyyrr"/>
+        <phase duration="2" state="rrrrrGGGrrrrrrrrrrrrr"/>
+        <phase duration="23" state="rrrrrGGGgggrrrrrrrrrr"/>
+        <phase duration="4" state="rrrrryyyyyyrrrrrrrrrr"/>
+        <phase duration="2" state="rrrrrrrrrrrrrrrrrrrrr"/>
+    </tlLogic>
+</additional>
