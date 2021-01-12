@@ -12,6 +12,7 @@ import sys
 import json
 import os
 
+
 def main():
     with open('global_config.json') as global_json_file:
         local_config_path = json.load(global_json_file)['config_path']
@@ -26,22 +27,22 @@ def main():
 
     # Run a learning session on each light
     for i in range(len(controlled_lights)):
-        # Create an environment where the ith light in controlled lights is being trained
-        env = create_env(controlled_lights[i]['name'], num_proc, steps_per_episode)
+        learning_light = controlled_lights[i]
 
-        path_name = f'Scenarios/{config_params["model_save_path"]}/PPO2_{controlled_lights[i]["name"]}'
+        # Create an environment where the ith light in controlled_lights is being trained
+        env = create_env(learning_light['name'], num_proc, steps_per_episode)
+
+        # Load existing model for the learning light if it exists
+        path_name = f'Scenarios/{config_params["model_save_path"]}/PPO2_{learning_light["name"]}'
         if os.path.isfile(path_name + '.zip'):
             model = PPO2.load(path_name, env=env)
         else:
             model = PPO2(MlpPolicy, env, verbose=1)
 
-
-        # model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}/PPO2_{controlled_lights[0]["name"]}')
-        light = controlled_lights[i]
-        start = time.time()
+        train_start_time = time.time()
         model.learn(total_timesteps=steps_per_episode * num_episodes)
-        print(f'LEARNING TIME: {time.time() - start}')
-        model.save(f'Scenarios/{config_params["model_save_path"]}/PPO2_{light["name"]}')
+        print(f'LEARNING TIME: {time.time() - train_start_time}')
+        model.save(f'Scenarios/{config_params["model_save_path"]}/PPO2_{learning_light["name"]}')
         print('done learning')
         env.close()
         del env
@@ -56,7 +57,7 @@ def create_env(node_name, num_proc, steps_per_episode):
             thread_method = 'spawn'
         else:
             thread_method = 'forkserver'  # fork was having issues with multi-agent for me so I switched to forkserver
-        env = SubprocVecEnv([lambda: SumoEnvParallel(steps_per_episode, False, node_name) for i in range(num_proc)],
+        env = SubprocVecEnv([lambda: SumoEnvParallel(steps_per_episode, False, node_name) for _ in range(num_proc)],
                             start_method=thread_method)
     return env
 

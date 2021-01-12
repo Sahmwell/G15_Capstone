@@ -23,7 +23,6 @@ env = SumoEnvParallel(steps_per_episode, True, controlled_lights[0]['name'])
 
 # Load each light's model
 model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}/PPO2_{controlled_lights[0]["name"]}')
-# model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}')
 
 # Reset and run the environment
 obs = env.reset()
