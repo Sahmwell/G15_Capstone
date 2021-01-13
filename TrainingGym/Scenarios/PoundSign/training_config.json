@@ -1,6 +1,6 @@
 {
   "num_proc": 12,
-  "steps_per_episode": 3000,
+  "steps_per_episode": 2000,
   "num_episodes": 4,
   "model_save_path": "PoundSign/training_models",
   "sumocfg_path": "PoundSign/PoundSign.sumocfg",
