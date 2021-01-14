@@ -23,6 +23,7 @@ with open('global_config.json') as global_json_file:
 with open(f'Scenarios/{local_config_path}') as json_file:
     config_params = json.load(json_file)
 
+# Load config
 controlled_lights = config_params['controlled_lights']
 uncontrolled_lights = config_params['uncontrolled_lights']
 all_important_roads = set()

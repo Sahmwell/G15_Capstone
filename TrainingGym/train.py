@@ -14,6 +14,7 @@ import os
 
 
 def main():
+    # Load configs
     with open('global_config.json') as global_json_file:
         local_config_path = json.load(global_json_file)['config_path']
     with open(f'Scenarios/{local_config_path}') as json_file:
@@ -39,11 +40,12 @@ def main():
         else:
             model = PPO2(MlpPolicy, env, verbose=1)
 
+
         train_start_time = time.time()
         model.learn(total_timesteps=steps_per_episode * num_episodes)
         print(f'LEARNING TIME: {time.time() - train_start_time}')
         model.save(f'Scenarios/{config_params["model_save_path"]}/PPO2_{learning_light["name"]}')
-        print('done learning')
+        print(f'DONE LEARNING LIGHT: {learning_light["name"]}')
         env.close()
         del env
 
