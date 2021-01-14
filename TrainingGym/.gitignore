@@ -136,5 +136,7 @@ $RECYCLE.BIN/
 __pycache__/
 *.py[cod]
 /venv/
-/PoundSign/tripinfo.xml
+**/tripinfo.xml
 *.zip
+**/training_models/**
+

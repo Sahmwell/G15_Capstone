@@ -3,8 +3,8 @@
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
-        <net-file value="PoundSignLongPhase.net.xml"/>
-        <route-files value="PoundSign.rou.xml"/>
+        <net-file value="VitalTriLongPhase.net.xml"/>
+        <route-files value="VitalTri.rou.xml"/>
     </input>
 
     <time>

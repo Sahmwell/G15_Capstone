@@ -1,19 +1,33 @@
 {
-  "num_proc": 6,
-  "steps_per_episode": 1000,
-  "num_episodes": 5,
-  "model_save_path": "PoundSign/ppo2_pound",
+  "num_proc": 12,
+  "steps_per_episode": 2000,
+  "num_episodes": 4,
+  "model_save_path": "PoundSign/training_models",
   "sumocfg_path": "PoundSign/PoundSign.sumocfg",
   "tripinfo_output_path": "PoundSign/tripinfo.xml",
   "controlled_lights": [
-    {"name": "gneJ14", "curr_phase": 0, "num_phases": 6}
+    {"name": "ne", "curr_phase": 0, "num_phases": 4,
+      "important_roads":  [
+        "gneE16", "gneE59", "gneE13", "gneE20" , "gneE23", "gneE56", "gneE57", "gneE58"
+      ]
+    },
+    {"name": "nw", "curr_phase": 0, "num_phases": 4,
+      "important_roads":  [
+        "gneE16", "gneE13", "gneE55", "gneE54" , "gneE66", "gneE67", "gneE12", "gneE19"
+      ]
+    },
+    {"name": "se", "curr_phase": 0, "num_phases": 4,
+      "important_roads":  [
+        "gneE22", "gneE21", "gneE62", "gneE63" , "gneE61", "gneE60", "gneE20", "gneE23"
+      ]
+    },
+    {"name": "sw", "curr_phase": 0, "num_phases": 4,
+      "important_roads":  [
+        "gneE12", "gneE19", "gneE52", "gneE53" , "gneE64", "gneE65", "gneE22", "gneE21"
+      ]
+    }
   ],
   "uncontrolled_lights": [
-    {"name": "nw", "curr_phase": 0, "num_phases": 4},
-    {"name": "se", "curr_phase": 0, "num_phases": 4},
-    {"name": "sw", "curr_phase": 0, "num_phases": 4}
-  ],
-  "important_roads": [
-    "gneE16", "gneE59", "gneE13"
+
   ]
 }
