@@ -61,10 +61,9 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         self.controlled_node = find_attr_in_list(controlled_lights, 'name', controlled_node_name)
 
         # Setup action, reward, and observation spaces
-        self.reward_range = (0, float('inf'))  # TODO: Restrict this to our final reward function
         self.action_space = spaces.Discrete(len(self.controlled_node['states']))
         self.observation_space = spaces.Box(low=0, high=float('inf'),
-                                            shape=np.array([len(self.controlled_node['important_roads']) * 2 + 1]),
+                                            shape=np.array([len(self.controlled_node['important_roads']) * 3 + 2]),
                                             dtype=np.float32)
 
         # Start connection with sumo
@@ -83,6 +82,13 @@ class SumoEnvParallel(gym.Env, BaseCallback):
                 else:
                     self.model_list.append({'node': node, 'model': None, 'next_phase': 0})
 
+        # Michael's added stuff TODO: Review if needed
+        self.total_reward = 0
+        self.current_action = 0
+        self.previous_action = 0
+        self.action_time = 0
+        self.proximity = 30  # later turn this into an env parameter that can be changed
+
     def reset(self):
         # Sumo is started on the first call to reset
         if not self.sumo_started:
@@ -90,12 +96,20 @@ class SumoEnvParallel(gym.Env, BaseCallback):
             self.sumo_started = True
         # Sumo should be started on subsequent resets
         else:
-            self.sumo.load(load_options)
+            self.sumo.load(load_options + ["--start"])
         self.current_step = 0
         self.is_done = False
+
+        # Michael's new stuff TODO: review these
+        self.total_reward = 0
+        self.current_action = 0
+        self.previous_action = 0
+        self.action_time = 0
         return self._next_observation(self.controlled_node)
 
     def step(self, action):
+        self.previous_action = self.current_action
+        self.current_action = action
         # Determine next phase for controlled lights not learning
         for model in self.model_list:
             if model['model'] is not None:
@@ -117,14 +131,8 @@ class SumoEnvParallel(gym.Env, BaseCallback):
 
         # Get obs and reward
         obs = self._next_observation(self.controlled_node)
-        reward = self._get_reward(action)
-
-        # Check if the simulation is already done (it shouldn't be)
-        if self.is_done:
-            logger.warn("You are calling 'step()' even though this environment has already returned done = True. "
-                        "You should always call 'reset()' once you receive 'done = True' "
-                        "-- any further steps are undefined behavior.")
-            reward = 0.0
+        reward = self._get_reward()
+        self.total_reward += reward
 
         # If the next step of the simulation is the last step of the episode, indicate the episode is done
         if self.current_step + 1 == self.steps_per_episode:
@@ -134,27 +142,34 @@ class SumoEnvParallel(gym.Env, BaseCallback):
     def _next_observation(self, node):
         # TODO: Consider a different observation function
         obs = []
-        wait_counts, road_counts = self._get_road_waiting_vehicle_count()
+        wait_counts, far_counts, near_counts = self._get_road_waiting_vehicle_count(node['name'])
         # For all important roads to this node add their vehicle and waiting vehicle counts
         for road in node['important_roads']:
-            if road in road_counts.keys():
-                obs.append(road_counts[road])
+            if road in far_counts.keys():
+                obs.append(far_counts[road])
                 obs.append(wait_counts[road])
+                obs.append(near_counts[road])
             else:
                 obs.append(0)
                 obs.append(0)
-        obs.append(self.controlled_node['curr_phase'])
+                obs.append(0)
+        # obs.append(self.action_time)
+        obs.append(self.controlled_node['steps_since_last_change'])
+        obs.append(self.controlled_node['last_phase'])
+        # obs.append(self.previous_action)
         return np.array(obs)
 
-    def _get_reward(self, action):
+    def _get_reward(self):
         # TODO: Consider a different reward function
-        road_waiting_vehicles_dict, _ = self._get_road_waiting_vehicle_count()
+        road_waiting_vehicles_dict, _, _ = self._get_road_waiting_vehicle_count(self.controlled_node['name'])
         reward = 0.0
-        for (road_id, num_vehicles) in road_waiting_vehicles_dict.items():
-            if road_id in all_important_roads:
-                reward -= num_vehicles
-        if self.controlled_node['curr_phase'] == 0:
-            reward += 10
+        if self.current_action != self.previous_action:
+            reward -= 1
+
+        for (road_id, vehicle_wait_time) in road_waiting_vehicles_dict.items():
+            if road_id in self.controlled_node['important_roads']:
+                reward -= vehicle_wait_time
+
         return reward
 
     def _take_action(self, action):
@@ -189,7 +204,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
                 red_string = ''.join(red_string)
 
                 # Create Phase and Logic objects to send to SUMO
-                phases = [Phase(YELLOW_LENGTH, yellow_string), Phase(RED_LENGTH, red_string), Phase(9999, green_string), ]
+                phases = [Phase(YELLOW_LENGTH, yellow_string), Phase(RED_LENGTH, red_string), Phase(9999, green_string)]
                 logic = Logic("1", 0, 0, phases=phases)
                 self._set_tl_logic(node['name'], logic)
                 self.sumo.trafficlight.setProgram(node['name'], "1")
@@ -197,22 +212,29 @@ class SumoEnvParallel(gym.Env, BaseCallback):
             else:
                 self._set_tl_ryg(node['name'], node['states'][node['curr_phase']])
 
-    def _get_road_waiting_vehicle_count(self):
+    def _get_road_waiting_vehicle_count(self, nodeID):
         # TODO: Find a more efficient way of getting these values (SUMO has a batch data function that might be
         #  interesting)
         wait_counts = {}
-        road_counts = {}
+        far_counts = {}
+        near_counts = {}
+        junc_x, junc_y = self.sumo.junction.getPosition(nodeID)
         vehicles = self.sumo.vehicle.getIDList()
         for v in vehicles:
             road = self.sumo.vehicle.getRoadID(v)
+            v_x, v_y = (self.sumo.vehicle.getPosition(v))
             if road in all_important_roads:
                 if road not in wait_counts.keys():
                     wait_counts[road] = 0
-                    road_counts[road] = 0
+                    far_counts[road] = 0
+                    near_counts[road] = 0
                 if self.sumo.vehicle.getWaitingTime(v) > 0:
-                    wait_counts[road] += 1
-                road_counts[road] += 1
-        return wait_counts, road_counts
+                    wait_counts[road] += self.sumo.vehicle.getWaitingTime(v)
+                if self.sumo.simulation.getDistance2D(junc_x, junc_y, v_x, v_y) <= self.proximity:
+                    near_counts[road] += 1
+                else:
+                    far_counts[road] += 1
+        return wait_counts, far_counts, near_counts
 
     def _set_tl_logic(self, light_id, logic):
         self.sumo.trafficlight.setProgramLogic(light_id, logic)
