@@ -8,6 +8,7 @@ from stable_baselines import PPO2
 from stable_baselines.common.callbacks import BaseCallback
 import numpy as np
 import json
+import time
 
 # we need to import python modules from the $SUMO_HOME/tools directory
 # TODO: This line isn't necessary if everyone directly installs the sumo python libraries in their python dist
@@ -17,6 +18,7 @@ if 'SUMO_HOME' in os.environ:
 else:
     sys.exit("please declare environment variable 'SUMO_HOME'")
 from sumolib import checkBinary
+from traci._trafficlight import Phase, Logic
 
 with open('global_config.json') as global_json_file:
     local_config_path = json.load(global_json_file)['config_path']
@@ -33,6 +35,10 @@ for i_node in controlled_lights:
 load_options = ["-c", f'Scenarios/{config_params["sumocfg_path"]}', "--tripinfo-output",
                 f'Scenarios/{config_params["tripinfo_output_path"]}', "-t"]
 
+# Constants
+YELLOW_LENGTH = 4.2  # seconds
+RED_LENGTH = 1.8  # seconds
+STEP_LENGTH = 1.0  # seconds
 
 # Find an object with a given value for an attribute in a list
 def find_attr_in_list(lst, attr, value):
@@ -43,7 +49,7 @@ def find_attr_in_list(lst, attr, value):
 
 
 class SumoEnvParallel(gym.Env, BaseCallback):
-    def __init__(self, steps_per_episode, validation_env, controlled_node_name):
+    def __init__(self, steps_per_episode, testing_env, controlled_node_name):
         super(SumoEnvParallel, self).__init__()
 
         # Environment parameters
@@ -55,16 +61,16 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         self.controlled_node = find_attr_in_list(controlled_lights, 'name', controlled_node_name)
 
         # Setup action, reward, and observation spaces
-        self.reward_range = (-float('inf'), float('inf'))  # TODO: Restrict this to our final reward function
-        self.action_space = spaces.Discrete(self.controlled_node['num_phases'])
+        self.reward_range = (0, float('inf'))  # TODO: Restrict this to our final reward function
+        self.action_space = spaces.Discrete(len(self.controlled_node['states']))
         self.observation_space = spaces.Box(low=0, high=float('inf'),
-                                            shape=np.array([len(self.controlled_node['important_roads']) * 2]),
+                                            shape=np.array([len(self.controlled_node['important_roads']) * 2 + 1]),
                                             dtype=np.float32)
 
         # Start connection with sumo
         import traci  # each gym environment instance has a discrete traci instance
         self.sumo = traci
-        self.sumoBinary = checkBinary('sumo-gui') if validation_env else checkBinary('sumo')
+        self.sumoBinary = checkBinary('sumo-gui') if testing_env else checkBinary('sumo')
         self.sumo_started = False
 
         # Get existing models for controlled, but not learning lights
@@ -101,13 +107,17 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         # Set all controlled light phases
         self._take_action(action)
 
+        # Update phase step counts
+        for node in controlled_lights:
+            node['steps_since_last_change'] += 1
+
         # Advance simulation
         self.sumo.simulationStep()
         self.current_step += 1
 
         # Get obs and reward
         obs = self._next_observation(self.controlled_node)
-        reward = self._get_reward()
+        reward = self._get_reward(action)
 
         # Check if the simulation is already done (it shouldn't be)
         if self.is_done:
@@ -119,7 +129,6 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         # If the next step of the simulation is the last step of the episode, indicate the episode is done
         if self.current_step + 1 == self.steps_per_episode:
             self.is_done = True
-
         return obs, reward, self.is_done, {}
 
     def _next_observation(self, node):
@@ -134,28 +143,59 @@ class SumoEnvParallel(gym.Env, BaseCallback):
             else:
                 obs.append(0)
                 obs.append(0)
+        obs.append(self.controlled_node['curr_phase'])
         return np.array(obs)
 
-    def _get_reward(self):
+    def _get_reward(self, action):
         # TODO: Consider a different reward function
         road_waiting_vehicles_dict, _ = self._get_road_waiting_vehicle_count()
         reward = 0.0
         for (road_id, num_vehicles) in road_waiting_vehicles_dict.items():
             if road_id in all_important_roads:
                 reward -= num_vehicles
+        if self.controlled_node['curr_phase'] == 0:
+            reward += 10
         return reward
 
     def _take_action(self, action):
         # Change phase for learning light
-        if action != self.controlled_node['curr_phase']:
-            self.controlled_node['curr_phase'] = action
-            self._set_tl_phase(self.controlled_node['name'], action)
+        self._update_tl(self.controlled_node, action)
 
         # Change phase for controlled lights not currently learning
         for model in self.model_list:
-            if model['next_phase'] != model['node']['curr_phase']:
-                model['node']['curr_phase'] = model['next_phase']
-                self._set_tl_phase(model['node']['name'], model['next_phase'])
+            self._update_tl(model['node'], model['next_phase'])
+
+    def _update_tl(self, node, next_phase):
+        # Make sure the light isn't in a a yellow or red phase
+        if node['steps_since_last_change'] * STEP_LENGTH > (RED_LENGTH + YELLOW_LENGTH):
+
+            # New phase, create a new Logic for it and reset counter
+            if next_phase != node['curr_phase']:
+                node['steps_since_last_change'] = 0  # reset counter
+                node['last_phase'] = node['curr_phase']
+                node['curr_phase'] = next_phase
+
+                # Create state strings for yellow, red, and green phases
+                yellow_string = list(node['states'][node['last_phase']])
+                red_string = list(node['states'][node['last_phase']])
+                green_string = node['states'][node['curr_phase']]
+                for i_char in range(len(green_string)):
+                    # If any green becomes red, or a green major becomes minor we need yellow and red phases for
+                    # those connections
+                    if yellow_string[i_char].lower() == 'g' and green_string[i_char] == 'r' or yellow_string[i_char] == 'G' and green_string[i_char] == 'g':
+                        yellow_string[i_char] = 'y'
+                        red_string[i_char] = 'r'
+                yellow_string = ''.join(yellow_string)
+                red_string = ''.join(red_string)
+
+                # Create Phase and Logic objects to send to SUMO
+                phases = [Phase(YELLOW_LENGTH, yellow_string), Phase(RED_LENGTH, red_string), Phase(9999, green_string), ]
+                logic = Logic("1", 0, 0, phases=phases)
+                self._set_tl_logic(node['name'], logic)
+                self.sumo.trafficlight.setProgram(node['name'], "1")
+            # Set light duration again, counter continues
+            else:
+                self._set_tl_ryg(node['name'], node['states'][node['curr_phase']])
 
     def _get_road_waiting_vehicle_count(self):
         # TODO: Find a more efficient way of getting these values (SUMO has a batch data function that might be
@@ -174,8 +214,14 @@ class SumoEnvParallel(gym.Env, BaseCallback):
                 road_counts[road] += 1
         return wait_counts, road_counts
 
-    def _set_tl_phase(self, intersection_id, phase_id):
-        self.sumo.trafficlight.setPhase(intersection_id, phase_id)
+    def _set_tl_logic(self, light_id, logic):
+        self.sumo.trafficlight.setProgramLogic(light_id, logic)
+
+    def _set_tl_phase(self, light_id, phase_id):
+        self.sumo.trafficlight.setPhase(light_id, phase_id)
+
+    def _set_tl_ryg(self, light_id, ryg_string):
+        self.sumo.trafficlight.setRedYellowGreenState(light_id, ryg_string)
 
     def close(self):
         print('Closing SUMO')

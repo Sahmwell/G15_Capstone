@@ -36,10 +36,9 @@ def main():
         # Load existing model for the learning light if it exists
         path_name = f'Scenarios/{config_params["model_save_path"]}/PPO2_{learning_light["name"]}'
         if os.path.isfile(path_name + '.zip'):
-            model = PPO2.load(path_name, env=env)
+            model = PPO2.load(path_name, env=env, tensorboard_log=f'./Scenarios/{config_params["model_save_path"]}/tensorboard/{learning_light["name"]}/')
         else:
-            model = PPO2(MlpPolicy, env, verbose=1)
-
+            model = PPO2(MlpPolicy, env, verbose=1, tensorboard_log=f'./Scenarios/{config_params["model_save_path"]}/tensorboard/{learning_light["name"]}/')
 
         train_start_time = time.time()
         model.learn(total_timesteps=steps_per_episode * num_episodes)
