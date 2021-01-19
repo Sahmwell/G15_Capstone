@@ -139,4 +139,4 @@ __pycache__/
 **/tripinfo.xml
 *.zip
 **/training_models/**
-
+global_config.json
