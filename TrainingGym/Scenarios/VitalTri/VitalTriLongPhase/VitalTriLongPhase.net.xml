@@ -15226,20 +15226,6 @@
     </edge>
 
     <tlLogic id="tl_1" type="actuated" programID="0" offset="0">
-        <phase duration="7"  state="rrrrrGGggrrrrrrrrr"/>
-        <phase duration="4"  state="rrrrrGGyyrrrrrrrrr"/>
-        <phase duration="2"  state="rrrrrGGrrrrrrrrrrr"/>
-        <phase duration="31" state="rrrrrGGrrrrrrrGGgg"/>
-        <phase duration="4"  state="rrrrrYYrrrrrrrYYyy"/>
-        <phase duration="1"  state="rrrrrrrrrrrrrrrrrr"/>
-        <phase duration="11" state="rrggrrrrrrrggrrrrr"/>
-        <phase duration="4"  state="rryyrrrrrrryyrrrrr"/>
-        <phase duration="2"  state="rrrrrrrrrrrrrrrrrr"/>
-        <phase duration="45" state="GGrrrrrrrGGrrrrrrr"/>
-        <phase duration="4"  state="yyrrrrrrryyrrrrrrr"/>
-        <phase duration="1"  state="rrrrrrrrrrrrrrrrrr"/>
-    </tlLogic>
-    <tlLogic id="tl_1" type="actuated" programID="1" offset="0">
         <phase duration="9999" state="rrrrrGGggrrrrrrrrrrr"/>
         <phase duration="9999" state="rrrrrGGyyrrrrrrrrrrr"/>
         <phase duration="9999" state="rrrrrGGrrrrrrrrrrrrr"/>
