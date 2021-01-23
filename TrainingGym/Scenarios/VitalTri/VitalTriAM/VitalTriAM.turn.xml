@@ -1,0 +1,173 @@
+<interval id="generated" begin="0.0" end="3600">
+        <!--1. ST MARY'S RD & DUNKIRK DR (DUNKIRK DR)-->
+        <!--From North-->
+        <edgeRelation from="edge_101_1#5" to="edge_1_101#0" count="1"/>
+        <edgeRelation from="edge_101_1#5" to="edge_1_4#0" count="151"/>
+        <edgeRelation from="edge_101_1#5" to="edge_1_2#0" count="363"/>
+        <edgeRelation from="edge_101_1#5" to="edge_1_2#0" count="364"/>
+        <edgeRelation from="edge_101_1#4" to="ramp_1_NW" count="7"/>
+        <!--From South-->
+        <edgeRelation from="edge_2_1#10" to="edge_1_102#0" count="377"/>
+        <edgeRelation from="edge_2_1#10" to="edge_1_101#0" count="511"/>
+        <edgeRelation from="edge_2_1#10" to="edge_1_101#0" count="511"/>
+        <edgeRelation from="edge_2_1#9" to="ramp_1_SE" count="12"/>
+        <!--From East-->
+        <edgeRelation from="edge_4_1#3" to="edge_1_2#0" count="48"/>
+        <edgeRelation from="edge_4_1#3" to="edge_1_102#0" count="371"/>
+        <edgeRelation from="edge_4_1#3" to="edge_1_102#0" count="371"/>
+        <edgeRelation from="edge_4_1#2" to="ramp_1_NE" count="410"/>
+        <!--From West-->
+        <edgeRelation from="edge_102_1#6" to="edge_1_101#0" count="20"/>
+        <edgeRelation from="edge_102_1#6" to="edge_1_4#0" count="128"/>
+        <edgeRelation from="edge_102_1#6" to="edge_1_4#0" count="129"/>
+        <edgeRelation from="edge_102_1#4" to="ramp_1_SW" count="201"/>
+        <!--2. ST MARY'S RD & BISHOP GRANDIN BLVD-->
+        <!--From North-->
+        <edgeRelation from="edge_1_2#12" to="edge_2_3#0" count="61"/>
+        <edgeRelation from="edge_1_2#12" to="edge_2_5#0" count="151"/>
+        <edgeRelation from="edge_1_2#12" to="edge_2_5#0" count="151"/>
+        <edgeRelation from="edge_1_2#12" to="edge_2_5#0" count="152"/>
+        <edgeRelation from="edge_1_2#11" to="ramp_2_NW" count="640"/>
+        <!--From South-->
+        <edgeRelation from="edge_5_2#5" to="edge_2_103#0" count="245"/>
+        <edgeRelation from="edge_5_2#5" to="edge_2_103#0" count="246"/>
+        <edgeRelation from="edge_5_2#5" to="edge_2_1#0" count="452"/>
+        <edgeRelation from="edge_5_2#5" to="edge_2_1#0" count="453"/>
+        <edgeRelation from="edge_5_2#4" to="ramp_2_SE" count="81"/>
+        <!--From East-->
+        <edgeRelation from="edge_3_2#5" to="edge_2_5#0" count="23"/>
+        <edgeRelation from="edge_3_2#5" to="edge_2_5#0" count="24"/>
+        <edgeRelation from="edge_3_2#5" to="edge_2_103#0" count="689"/>
+        <edgeRelation from="edge_3_2#5" to="edge_2_103#0" count="689"/>
+        <edgeRelation from="edge_3_2#4" to="ramp_2_NE" count="16"/>
+        <!--From West-->
+        <edgeRelation from="edge_103_2#5" to="edge_2_1#0" count="133"/>
+        <edgeRelation from="edge_103_2#5" to="edge_2_1#0" count="133"/>
+        <edgeRelation from="edge_103_2#5" to="edge_2_3#0" count="331"/>
+        <edgeRelation from="edge_103_2#5" to="edge_2_3#0" count="331"/>
+        <edgeRelation from="edge_103_2#4" to="ramp_2_SW" count="105"/>
+        <!--3. DAKOTA ST & BISHOP GRANDIN BLVD-->
+        <!--From North-->
+        <edgeRelation from="edge_4_3#2" to="edge_3_107#0" count="89"/>
+        <edgeRelation from="edge_4_3#2" to="edge_3_9#0" count="165"/>
+        <edgeRelation from="edge_4_3#2" to="edge_3_9#0" count="165"/>
+        <edgeRelation from="edge_4_3#1" to="ramp_3_NW" count="74"/>
+        <!--From South-->
+        <edgeRelation from="edge_9_3#5" to="edge_3_2#0" count="249"/>
+        <edgeRelation from="edge_9_3#5" to="edge_3_4#0" count="439"/>
+        <edgeRelation from="edge_9_3#5" to="edge_3_4#0" count="440"/>
+        <edgeRelation from="edge_9_3#4" to="ramp_3_SE" count="120"/>
+        <!--From East-->
+        <edgeRelation from="edge_107_3#3" to="edge_3_9#0" count="94"/>
+        <edgeRelation from="edge_107_3#3" to="edge_3_9#0" count="95"/>
+        <edgeRelation from="edge_107_3#3" to="edge_3_2#0" count="531"/>
+        <edgeRelation from="edge_107_3#3" to="edge_3_2#0" count="532"/>
+        <edgeRelation from="edge_107_3#2" to="ramp_3_NE" count="269"/>
+        <!--From West-->
+        <edgeRelation from="edge_2_3#5" to="edge_3_2#0" count="1"/>
+        <edgeRelation from="edge_2_3#5" to="edge_3_4#0" count="67"/>
+        <edgeRelation from="edge_2_3#5" to="edge_3_107#0" count="325"/>
+        <edgeRelation from="edge_2_3#5" to="edge_3_107#0" count="326"/>
+        <edgeRelation from="edge_2_3#4" to="ramp_3_SW" count="83"/>
+        <!--4. DAKOTA ST & BELIVEAU RD-->
+        <!--From North-->
+        <edgeRelation from="edge_1_4#3" to="edge_4_108#0" count="54"/>
+        <edgeRelation from="edge_1_4#3" to="edge_4_3#0" count="148"/>
+        <edgeRelation from="edge_1_4#3" to="edge_4_3#0" count="148"/>
+        <edgeRelation from="edge_1_4#3" to="-32868409#2" count="2"/>
+        <!--From South-->
+        <edgeRelation from="edge_3_4#4" to="-32868409#2" count="8"/>
+        <edgeRelation from="edge_3_4#4" to="edge_4_3#0" count="4"/>
+        <edgeRelation from="edge_3_4#4" to="edge_4_1#0" count="559"/>
+        <edgeRelation from="edge_3_4#4" to="edge_4_1#0" count="560"/>
+        <edgeRelation from="edge_3_4#4" to="edge_4_108#0" count="216"/>
+        <!--From East-->
+        <edgeRelation from="edge_108_4#6" to="edge_4_1#0" count="85"/>
+        <edgeRelation from="edge_108_4#6" to="-32868409#2" count="17"/>
+        <edgeRelation from="edge_108_4#6" to="edge_4_3#0" count="94"/>
+        <!--From West-->
+        <edgeRelation from="32868409#2" to="edge_4_1#0" count="5"/>
+        <edgeRelation from="32868409#2" to="edge_4_108#0" count="49"/>
+        <edgeRelation from="32868409#2" to="edge_4_3#0" count="17"/>
+        <!--6. ST MARY'S RD & MEADOWOOD DR (RIVERBEND AVE)-->
+        <!--From North-->
+        <edgeRelation from="edge_5_6#4" to="edge_6_7#0" count="101"/>
+        <edgeRelation from="edge_5_6#4" to="edge_6_104#0" count="221"/>
+        <edgeRelation from="edge_5_6#4" to="edge_6_104#0" count="220"/>
+        <edgeRelation from="edge_5_6#4" to="edge_6_109#0" count="12"/>
+        <!--From South-->
+        <edgeRelation from="edge_104_6#1" to="edge_6_7#0" count="116"/>
+        <edgeRelation from="edge_104_6#1" to="edge_6_5#0" count="581"/>
+        <edgeRelation from="edge_104_6#1" to="edge_6_5#0" count="582"/>
+        <edgeRelation from="edge_104_6#1" to="edge_6_109#0" count="26"/>
+        <!--From East-->
+        <edgeRelation from="edge_7_6#6" to="edge_6_104#0" count="84"/>
+        <edgeRelation from="edge_7_6#6" to="edge_6_7#0" count="3"/>
+        <edgeRelation from="edge_7_6#6" to="edge_6_109#0" count="47"/>
+        <edgeRelation from="edge_7_6#5" to="ramp_6_NE" count="126"/>
+        <!--From West-->
+        <edgeRelation from="edge_109_6#3" to="edge_6_5#0" count="72"/>
+        <edgeRelation from="edge_109_6#3" to="edge_6_7#0" count="22"/>
+        <edgeRelation from="edge_109_6#3" to="edge_6_7#0" count="23"/>
+        <edgeRelation from="edge_109_6#2" to="ramp_6_SW" count="11"/>
+        <!--7. ACCESS TO ST VITAL MALL (345m W OF DAKOTA ST) & MEADOWOOD DR-->
+        <!--From North-->
+        <edgeRelation from="289432762" to="edge_7_8#0" count="51"/>
+        <edgeRelation from="289432762" to="edge_7_6#0" count="6"/>
+        <!--From South-->
+        <edgeRelation from="-289432766" to="edge_7_6#0" count="1"/>
+        <edgeRelation from="-289432766" to="32868040" count="1"/>
+        <edgeRelation from="-289432766" to="edge_7_8#0" count="1"/>
+        <!--From East-->
+        <edgeRelation from="edge_8_7#3" to="edge_7_8#0" count="2"/>
+        <edgeRelation from="edge_8_7#3" to="289432766" count="5"/>
+        <edgeRelation from="edge_8_7#3" to="edge_7_6#0" count="177"/>
+        <edgeRelation from="edge_8_7#3" to="edge_7_6#0" count="177"/>
+        <edgeRelation from="edge_8_7#3" to="32868040" count="15"/>
+        <!--From West-->
+        <edgeRelation from="edge_6_7#4" to="32868040" count="18"/>
+        <edgeRelation from="edge_6_7#4" to="edge_7_8#0" count="92"/>
+        <edgeRelation from="edge_6_7#4" to="edge_7_8#0" count="93"/>
+        <edgeRelation from="edge_6_7#4" to="289432766" count="3"/>
+        <!--8. DAKOTA ST & MEADOWOOD DR-->
+        <!--From North-->
+        <edgeRelation from="edge_9_8#4" to="edge_8_9#0" count="1"/>
+        <edgeRelation from="edge_9_8#4" to="edge_8_106#0" count="40"/>
+        <edgeRelation from="edge_9_8#4" to="edge_8_105#0" count="158"/>
+        <edgeRelation from="edge_9_8#4" to="edge_8_105#0" count="159"/>
+        <edgeRelation from="edge_9_8#3" to="ramp_8_NW" count="73"/>
+        <!--From South-->
+        <edgeRelation from="edge_105_8#9" to="edge_8_7#0" count="174"/>
+        <edgeRelation from="edge_105_8#9" to="edge_8_9#0" count="500"/>
+        <edgeRelation from="edge_105_8#9" to="edge_8_9#0" count="499"/>
+        <edgeRelation from="edge_105_8#9" to="edge_8_106#0" count="19"/>
+        <!--From East-->
+        <edgeRelation from="edge_106_8#14" to="edge_8_105#0" count="52"/>
+        <edgeRelation from="edge_106_8#14" to="edge_8_7#0" count="80"/>
+        <edgeRelation from="edge_106_8#14" to="edge_8_7#0" count="80"/>
+        <edgeRelation from="edge_106_8#14" to="edge_8_9#0" count="128"/>
+        <!--From West-->
+        <edgeRelation from="edge_7_8#6" to="edge_8_9#0" count="49"/>
+        <edgeRelation from="edge_7_8#6" to="edge_8_106#0" count="52"/>
+        <edgeRelation from="edge_7_8#5" to="ramp_8_SW" count="40"/>
+        <!--9. DAKOTA & ST VITAL MALL ENTRANCE-->
+        <!--From North-->
+        <edgeRelation from="edge_3_9#5" to="gneE43" count="38"/>
+        <edgeRelation from="edge_3_9#5" to="edge_9_8#0" count="158"/>
+        <edgeRelation from="edge_3_9#5" to="edge_9_8#0" count="158"/>
+        <edgeRelation from="edge_3_9#4" to="ramp_9_NW" count="85"/>
+        <!--From South-->
+        <edgeRelation from="edge_8_9#5" to="edge_9_8#0" count="1"/>
+        <edgeRelation from="edge_8_9#5" to="gneE44" count="54"/>
+        <edgeRelation from="edge_8_9#5" to="edge_9_3#0" count="679"/>
+        <edgeRelation from="edge_8_9#5" to="edge_9_3#0" count="680"/>
+        <edgeRelation from="edge_8_9#5" to="gneE43" count="43"/>
+        <!--From East-->
+        <edgeRelation from="gneE10" to="edge_9_3#0" count="24"/>
+        <edgeRelation from="gneE10" to="gneE44" count="6"/>
+        <edgeRelation from="gneE10" to="edge_9_8#0" count="15"/>
+        <!--From West-->
+        <edgeRelation from="gneE3" to="edge_9_3#0" count="35"/>
+        <edgeRelation from="gneE3" to="gneE43" count="11"/>
+        <edgeRelation from="gneE3" to="edge_9_8#0" count="17"/>
+</interval>
