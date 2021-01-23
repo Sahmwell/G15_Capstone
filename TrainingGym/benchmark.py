@@ -26,17 +26,17 @@ def printProgressBar(iteration, total, prefix='Progress:', suffix='', decimals=1
         print()
 
 
-def get_metrics(road_capacities: list):
-    for direction in road_capacities:
+def get_metrics(connections: list):
+    for direction in connections:
         [direction['vehicles'].add(v_id) for e in direction['edges'] for v_id in traci.edge.getLastStepVehicleIDs(e)]
         direction['delays'].append(sum([traci.edge.getWaitingTime(e) for e in direction['edges']]))
         direction['queues'].append(sum([traci.edge.getLastStepHaltingNumber(e) for e in direction['edges']]))
 
 
-def step(road_caps: list, total_steps: int):
+def step(connections: list, total_steps: int):
     # Advance simulation
     traci.simulationStep()
-    get_metrics(road_caps)
+    get_metrics(connections)
 
     t = traci.simulation.getTime()
     printProgressBar(t, total_steps, suffix=f'Complete. Finished {t} of {total_steps} ')
@@ -51,22 +51,21 @@ def benchmark():
 
     load_options = ["-c", f'Scenarios/{config_params["sumocfg_path"]}', "--tripinfo-output",
                     f'Scenarios/{config_params["tripinfo_output_path"]}', "-t", "--random"]
-    # load_options = ["-c", f'Scenarios/{config_params["sumocfg_path"]}', "--tripinfo-output",
-    #                 f'Scenarios/{config_params["tripinfo_output_path"]}', "-t"]
+
     # Get config parameters
     total_steps = config_params["steps_per_episode"]
     controlled_lights = config_params['controlled_lights']
-    road_caps = [direction for intersection in controlled_lights for direction in intersection['road_capacities']]
-    for direction in road_caps:
+    connections = [direction for intersection in controlled_lights for direction in intersection['connections']]
+    for direction in connections:
         direction['vehicles'], direction['queues'], direction['delays'] = set(), [], []
 
     traci.start([sumolib.checkBinary('sumo')] + load_options)
-    [step(road_caps, total_steps) for _ in range(total_steps)]
+    [step(connections, total_steps) for _ in range(total_steps)]
 
-    avg_queue_length = sum([q_len for direction in road_caps for q_len in direction['queues']]) / sum(
-        [len(direction['queues']) for direction in road_caps])
-    avg_delay_on_important_edges = sum([delay for direction in road_caps for delay in direction['delays']]) / sum(
-        [len(direction['delays']) for direction in road_caps])
+    avg_queue_length = sum([q_len for direction in connections for q_len in direction['queues']]) / sum(
+        [len(direction['queues']) for direction in connections])
+    avg_delay_on_important_edges = sum([delay for direction in connections for delay in direction['delays']]) / sum(
+        [len(direction['delays']) for direction in connections])
     count = traci.vehicle.getIDCount() if traci.vehicle.getIDCount() else 1
     avg_v_delay = sum([traci.vehicle.getWaitingTime(v) for v in traci.vehicle.getIDList()]) / count
 
@@ -76,14 +75,14 @@ def benchmark():
         norm_arrive_rate = 3600 * (arrive_rate / total_steps)
         return (norm_arrive_rate - road_cap) / road_cap if norm_arrive_rate > road_cap else 0
 
-    avg_overflow = sum([condition(len(edge['vehicles']), edge['capacity']) for edge in road_caps]) / len(road_caps)
+    avg_overflow = sum([condition(len(edge['vehicles']), edge['capacity']) for edge in connections]) / len(connections)
 
     print(f'Average Overflow (%): {avg_overflow}\n'
           f'Average Queue Length (Num Cars): {avg_queue_length}\n'
           f'Average Delay On Edge (seconds): {avg_delay_on_important_edges}\n'
           f'Average Vehicle Wait (seconds): {avg_v_delay}')
 
-    [print(f'Total Vehicles on {r["label"]}: {len(r["vehicles"])} Expected: {r["expected"]}') for r in road_caps]
+    [print(f'Total Vehicles on {r["label"]}: {len(r["vehicles"])} Expected: {r["expected"]}') for r in connections]
 
 
 benchmark()
