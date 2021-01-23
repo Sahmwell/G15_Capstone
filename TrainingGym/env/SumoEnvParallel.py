@@ -49,7 +49,7 @@ def find_attr_in_list(lst, attr, value):
 
 
 class SumoEnvParallel(gym.Env, BaseCallback):
-    def __init__(self, steps_per_episode, testing_env, controlled_node_name):
+    def __init__(self, steps_per_episode, testing_env, controlled_light_name):
         super(SumoEnvParallel, self).__init__()
 
         # Environment parameters
@@ -58,7 +58,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         self.current_step = 0
 
         # Get the node which this agent is controlling
-        self.controlled_node = find_attr_in_list(controlled_lights, 'name', controlled_node_name)
+        self.controlled_node = find_attr_in_list(controlled_lights, 'light_name', controlled_light_name)
 
         # Setup action, reward, and observation spaces
         self.action_space = spaces.Discrete(len(self.controlled_node['states']))
@@ -75,8 +75,8 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         # Get existing models for controlled, but not learning lights
         self.model_list = []
         for node in controlled_lights:
-            if node['name'] != controlled_node_name:
-                model_path = f'Scenarios/{config_params["model_save_path"]}/PPO2_{node["name"]}'
+            if node['light_name'] != controlled_light_name:
+                model_path = f'Scenarios/{config_params["model_save_path"]}/PPO2_{node["light_name"]}'
                 if os.path.isfile(model_path + '.zip'):
                     self.model_list.append({'node': node, 'model': PPO2.load(model_path), 'next_phase': 0})
                 else:
@@ -142,7 +142,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
     def _next_observation(self, node):
         # TODO: Consider a different observation function
         obs = []
-        wait_counts, far_counts, near_counts = self._get_road_waiting_vehicle_count(node['name'])
+        wait_counts, far_counts, near_counts = self._get_road_waiting_vehicle_count(node)
         # For all important roads to this node add their vehicle and waiting vehicle counts
         for road in node['important_roads']:
             if road in far_counts.keys():
@@ -161,7 +161,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
 
     def _get_reward(self):
         # TODO: Consider a different reward function
-        road_waiting_vehicles_dict, _, _ = self._get_road_waiting_vehicle_count(self.controlled_node['name'])
+        road_waiting_vehicles_dict, _, _ = self._get_road_waiting_vehicle_count(self.controlled_node)
         reward = 0.0
         if self.current_action != self.previous_action:
             reward -= 1
@@ -206,24 +206,24 @@ class SumoEnvParallel(gym.Env, BaseCallback):
                 # Create Phase and Logic objects to send to SUMO
                 phases = [Phase(YELLOW_LENGTH, yellow_string), Phase(RED_LENGTH, red_string), Phase(9999, green_string)]
                 logic = Logic("1", 0, 0, phases=phases)
-                self._set_tl_logic(node['name'], logic)
-                self.sumo.trafficlight.setProgram(node['name'], "1")
+                self._set_tl_logic(node['light_name'], logic)
+                self.sumo.trafficlight.setProgram(node['light_name'], "1")
             # Set light duration again, counter continues
             else:
-                self._set_tl_ryg(node['name'], node['states'][node['curr_phase']])
+                self._set_tl_ryg(node['light_name'], node['states'][node['curr_phase']])
 
-    def _get_road_waiting_vehicle_count(self, nodeID):
+    def _get_road_waiting_vehicle_count(self, node):
         # TODO: Find a more efficient way of getting these values (SUMO has a batch data function that might be
         #  interesting)
         wait_counts = {}
         far_counts = {}
         near_counts = {}
-        junc_x, junc_y = self.sumo.junction.getPosition(nodeID)
+        junc_x, junc_y = self.sumo.junction.getPosition(node['node_name'])
         vehicles = self.sumo.vehicle.getIDList()
         for v in vehicles:
             road = self.sumo.vehicle.getRoadID(v)
             v_x, v_y = (self.sumo.vehicle.getPosition(v))
-            if road in all_important_roads:
+            if road in node['important_roads']:
                 if road not in wait_counts.keys():
                     wait_counts[road] = 0
                     far_counts[road] = 0

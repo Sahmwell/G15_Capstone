@@ -1,13 +1,13 @@
 {
   "num_proc": 12,
-  "steps_per_episode": 500,
-  "num_episodes": 100,
+  "steps_per_episode": 3000,
+  "num_episodes": 30,
   "test_steps": 3000,
   "model_save_path": "PoundSign/training_models",
   "sumocfg_path": "PoundSign/PoundSign.sumocfg",
   "tripinfo_output_path": "PoundSign/tripinfo.xml",
   "controlled_lights": [
-    {"name": "ne", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+    {"node_name": "ne", "light_name": "ne", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
       "important_roads":  [
         "gneE16", "gneE59", "gneE13", "gneE20" , "gneE23", "gneE56", "gneE57", "gneE58"
       ],
@@ -15,7 +15,7 @@
         "GGgrrrGGgrrr", "rrrGGgrrrGGg"
       ]
     },
-    {"name": "nw", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+    {"node_name": "nw", "light_name": "nw", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
       "important_roads":  [
         "gneE16", "gneE13", "gneE55", "gneE54" , "gneE66", "gneE67", "gneE12", "gneE19"
       ],
@@ -23,7 +23,7 @@
         "GGgrrrGGgrrr", "rrrGGgrrrGGg"
       ]
     },
-    {"name": "se", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+    {"node_name": "se", "light_name": "se", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
       "important_roads":  [
         "gneE22", "gneE21", "gneE62", "gneE63" , "gneE61", "gneE60", "gneE20", "gneE23"
       ],
@@ -31,7 +31,7 @@
         "GGgrrrGGgrrr", "rrrGGgrrrGGg"
       ]
     },
-    {"name": "sw", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+    {"node_name": "sw", "light_name": "sw", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
       "important_roads":  [
         "gneE12", "gneE19", "gneE52", "gneE53" , "gneE64", "gneE65", "gneE22", "gneE21"
       ],

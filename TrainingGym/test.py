@@ -19,10 +19,10 @@ num_episodes = config_params["num_episodes"]
 controlled_lights = config_params['controlled_lights']
 
 # Create sumo environment
-env = SumoEnvParallel(steps_per_episode, True, controlled_lights[0]['name'])
+env = SumoEnvParallel(steps_per_episode, True, controlled_lights[0]['light_name'])
 
 # Load each light's model
-model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}/PPO2_{controlled_lights[0]["name"]}')
+model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}/PPO2_{controlled_lights[0]["light_name"]}')
 
 # Reset and run the environment
 obs = env.reset()
