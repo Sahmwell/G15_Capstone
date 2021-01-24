@@ -25,9 +25,10 @@ def main():
     steps_per_episode = config_params['steps_per_episode']
     num_episodes = config_params['num_episodes']
     controlled_lights = config_params['controlled_lights']
+    num_trials = config_params['num_trials']
 
     # Run a learning session on each light
-    for i in range(10 * len(controlled_lights)):
+    for i in range(num_trials * len(controlled_lights)):
         learning_light = controlled_lights[i % len(controlled_lights)]
 
         # Create an environment where the ith light in controlled_lights is being trained
@@ -36,9 +37,9 @@ def main():
         # Load existing model for the learning light if it exists
         path_name = f'Scenarios/{config_params["model_save_path"]}/PPO2_{learning_light["light_name"]}'
         if os.path.isfile(path_name + '.zip'):
-            model = PPO2.load(path_name, env=env, tensorboard_log=f'./Scenarios/{config_params["model_save_path"]}/tensorboard/{learning_light["name"]}/')
+            model = PPO2.load(path_name, env=env, tensorboard_log=f'./Scenarios/{config_params["model_save_path"]}/tensorboard/{learning_light["light_name"]}/')
         else:
-            model = PPO2(MlpPolicy, env, verbose=1, tensorboard_log=f'./Scenarios/{config_params["model_save_path"]}/tensorboard/{learning_light["name"]}/')
+            model = PPO2(MlpPolicy, env, verbose=1, tensorboard_log=f'./Scenarios/{config_params["model_save_path"]}/tensorboard/{learning_light["light_name"]}/')
 
         train_start_time = time.time()
         model.learn(total_timesteps=steps_per_episode * num_episodes)

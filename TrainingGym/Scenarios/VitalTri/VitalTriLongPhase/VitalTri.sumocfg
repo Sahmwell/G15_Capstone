@@ -3,7 +3,7 @@
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
-        <net-file value="VitalTriLongPhase.net.xml"/>
+        <net-file value="VitalTriTrimLongPhase.net.xml"/>
         <route-files value="VitalTri.rou.xml"/>
     </input>
 

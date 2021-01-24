@@ -7,10 +7,6 @@
   "tripinfo_output_path": "VitalTri/VitalTriAM/tripinfo.xml",
   "controlled_lights": [
     {"name": "tl_1", "curr_phase": 0, "num_phases": 12,
-      "important_roads":  [
-        "edge_4_1#3", "edge_4_1#2", "edge_101_1#5", "edge_101_1#4" ,
-        "edge_102_1#6", "edge_102_1#5", "edge_2_1#10", "edge_2_1#9"
-      ],
       "connections":  [
         { "edges": [ "edge_102_1#6", "edge_102_1#4", "edge_102_1#5", "ramp_1_SW", "edge_102_1#3", "edge_102_1#2"],
           "capacity": 1525, "expected": 478, "label": "1. East Bound"},
@@ -23,10 +19,6 @@
       ]
     },
     {"name": "tl_2", "curr_phase": 0, "num_phases": 18,
-      "important_roads":  [
-        "edge_1_2#12", "edge_1_2#11", "edge_103_2#5", "edge_103_2#4" ,
-        "edge_5_2#5", "edge_5_2#4", "edge_3_2#5", "edge_3_2#4"
-      ],
       "connections":  [
         { "edges": ["edge_103_2#5", "ramp_2_SW", "edge_103_2#4", "edge_103_2#3", "edge_103_2#2", "edge_103_2#1"],
           "capacity": 2345, "expected": 1033, "label": "2. East Bound" },
@@ -39,10 +31,6 @@
       ]
     },
     {"name": "tl_3", "curr_phase": 0, "num_phases": 15,
-      "important_roads":  [
-        "edge_107_3#3", "edge_107_3#2", "edge_4_3#2", "edge_4_3#1" ,
-        "edge_2_3#5", "edge_2_3#4", "edge_9_3#5", "edge_9_3#4"
-      ],
       "connections":  [
         { "edges": ["edge_2_3#5", "ramp_3_SW", "edge_2_3#4", "edge_2_3#3", "edge_2_3#2", "edge_2_3#1"],
           "capacity": 1864, "expected": 802, "label": "3. East Bound" },
@@ -55,10 +43,6 @@
       ]
     },
     {"name": "tl_4", "curr_phase": 0, "num_phases": 6,
-      "important_roads":  [
-        "edge_108_4#6", "edge_108_4#5", "edge_1_4#3", "edge_1_4#2" ,
-        "32868409#2", "edge_3_4#4", "edge_3_4#3"
-      ],
       "connections":  [
         { "edges": ["32868409#2"],
           "capacity": 158, "expected": 71, "label": "4. East Bound" },
@@ -71,10 +55,6 @@
       ]
     },
     {"name": "tl_5", "curr_phase": 0, "num_phases": 6,
-      "important_roads":  [
-        "edge_5_110#0", "edge_2_5#3", "edge_2_5#2" ,
-        "edge_6_5#9", "edge_6_5#8"
-      ],
       "connections":  [
         { "edges": ["edge_5_110#0"],
           "capacity": 276, "expected": 36, "label": "5. West Bound" },
@@ -85,10 +65,6 @@
       ]
     },
     {"name": "tl_6", "curr_phase": 0, "num_phases": 12,
-      "important_roads":  [
-        "edge_5_6#4", "edge_5_6#3", "edge_109_6#3", "edge_109_6#2" ,
-        "edge_104_6#1", "edge_104_6#0", "edge_7_6#6", "edge_7_6#5"
-      ],
       "connections":  [
         { "edges": ["edge_109_6#3", "edge_109_6#2", "edge_109_6#1"],
           "capacity": 78, "expected": 128, "label": "6. East Bound" },
@@ -101,11 +77,12 @@
       ]
     },
     {"name": "tl_7", "curr_phase": 0, "num_phases": 6,
-      "important_roads":  [
-        "edge_8_7#3", "edge_6_7#4", "edge_6_7#3" ,
-        "edge_102_1#6", "edge_102_1#5", "edge_2_1#10", "edge_2_1#9"
-      ],
-      "connections": []
+      "connections": [
+        { "edges": ["edge_6_7#4", "edge_6_7#3", "edge_6_7#2", "edge_6_7#1", "edge_6_7#0"],
+          "capacity": 78, "expected": 128, "label": "6. East Bound" },
+        { "edges": ["edge_8_7#3", "edge_8_7#2", "edge_8_7#1", "edge_8_7#0"],
+          "capacity": 710, "expected": 260, "label": "6. West Bound" }
+      ]
     },
     {"name": "tl_8", "curr_phase": 0, "num_phases": 12,
       "important_roads":  [
@@ -124,9 +101,6 @@
       ]
     },
     {"name": "tl_9", "curr_phase": 0, "num_phases": 12,
-      "important_roads":  [
-        "edge_8_9#5", "edge_8_9#4", "edge_3_9#5", "edge_3_9#4"
-      ],
       "connections":  [
         { "edges": ["gneE3", "gneE2"],
           "capacity": 167, "expected": 63, "label": "9. East Bound" },
