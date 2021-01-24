@@ -28,7 +28,6 @@ with open(f'Scenarios/{local_config_path}') as json_file:
 
 # Load config
 controlled_lights = config_params['controlled_lights']
-uncontrolled_lights = config_params['uncontrolled_lights']
 all_important_roads = set()
 for i_node in controlled_lights:
     for i_direction in i_node['connections']:
