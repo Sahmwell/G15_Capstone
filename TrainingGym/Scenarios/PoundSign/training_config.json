@@ -1,46 +1,72 @@
 {
-  "num_proc": 12,
-  "steps_per_episode": 3000,
-  "num_episodes": 30,
+  "num_proc": 1,
+  "steps_per_episode": 200,
+  "num_episodes": 300,
+  "num_trials": 1,
   "test_steps": 3000,
   "model_save_path": "PoundSign/training_models",
   "sumocfg_path": "PoundSign/PoundSign.sumocfg",
   "tripinfo_output_path": "PoundSign/tripinfo.xml",
   "controlled_lights": [
     {"node_name": "ne", "light_name": "ne", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "important_roads":  [
-        "gneE16", "gneE59", "gneE13", "gneE20" , "gneE23", "gneE56", "gneE57", "gneE58"
+      "connections":  [
+        { "edges": ["gneE16"],
+          "capacity": 0, "expected": 0, "label": "ne. East Bound"},
+        { "edges": ["gneE59"],
+          "capacity": 0, "expected": 0, "label": "ne. West Bound" },
+        { "edges": ["gneE20"],
+          "capacity": 0, "expected": 0, "label": "ne. North Bound" },
+        { "edges": ["gneE56"],
+          "capacity": 0, "expected": 0, "label": "ne. South Bound" }
       ],
       "states": [
         "GGgrrrGGgrrr", "rrrGGgrrrGGg"
       ]
     },
     {"node_name": "nw", "light_name": "nw", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "important_roads":  [
-        "gneE16", "gneE13", "gneE55", "gneE54" , "gneE66", "gneE67", "gneE12", "gneE19"
+      "connections":  [
+        { "edges": ["gneE67"],
+          "capacity": 0, "expected": 0, "label": "nw. East Bound"},
+        { "edges": ["gneE13"],
+          "capacity": 0, "expected": 0, "label": "nw. West Bound" },
+        { "edges": ["gneE19"],
+          "capacity": 0, "expected": 0, "label": "nw. North Bound" },
+        { "edges": ["gneE54"],
+          "capacity": 0, "expected": 0, "label": "nw. South Bound" }
       ],
       "states": [
         "GGgrrrGGgrrr", "rrrGGgrrrGGg"
       ]
     },
     {"node_name": "se", "light_name": "se", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "important_roads":  [
-        "gneE22", "gneE21", "gneE62", "gneE63" , "gneE61", "gneE60", "gneE20", "gneE23"
+      "connections":  [
+        { "edges": ["gneE53"],
+          "capacity": 0, "expected": 0, "label": "se. East Bound"},
+        { "edges": ["gneE21"],
+          "capacity": 0, "expected": 0, "label": "se. West Bound" },
+        { "edges": ["gneE65"],
+          "capacity": 0, "expected": 0, "label": "se. North Bound" },
+        { "edges": ["gneE12"],
+          "capacity": 0, "expected": 0, "label": "se. South Bound" }
       ],
       "states": [
         "GGgrrrGGgrrr", "rrrGGgrrrGGg"
       ]
     },
     {"node_name": "sw", "light_name": "sw", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "important_roads":  [
-        "gneE12", "gneE19", "gneE52", "gneE53" , "gneE64", "gneE65", "gneE22", "gneE21"
+      "connections":  [
+        { "edges": ["gneE22"],
+          "capacity": 0, "expected": 0, "label": "sw. East Bound"},
+        { "edges": ["gneE60"],
+          "capacity": 0, "expected": 0, "label": "sw. West Bound" },
+        { "edges": ["gneE63"],
+          "capacity": 0, "expected": 0, "label": "sw. North Bound" },
+        { "edges": ["gneE23"],
+          "capacity": 0, "expected": 0, "label": "sw. South Bound" }
       ],
       "states": [
         "GGgrrrGGgrrr", "rrrGGgrrrGGg"
       ]
     }
-  ],
-  "uncontrolled_lights": [
-
   ]
 }
