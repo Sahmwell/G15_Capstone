@@ -90,6 +90,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         self.proximity = 30  # later turn this into an env parameter that can be changed
 
     def reset(self):
+
         # Sumo is started on the first call to reset
         if not self.sumo_started:
             self.sumo.start([self.sumoBinary] + load_options)
@@ -101,6 +102,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         self.is_done = False
 
         # Michael's new stuff TODO: review these
+        self.sumo.poi.add('poi_0', -100, 200, (255, 0, 0), poiType='test')
         self.total_reward = 0
         self.current_action = 0
         self.previous_action = 0
@@ -137,6 +139,8 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         # If the next step of the simulation is the last step of the episode, indicate the episode is done
         if self.current_step + 1 == self.steps_per_episode:
             self.is_done = True
+
+        self.sumo.poi.setType('poi_0', str(action) + ", " + str(reward) + ", " + str(self.total_reward))
         return obs, reward, self.is_done, {}
 
     def _next_observation(self, node):

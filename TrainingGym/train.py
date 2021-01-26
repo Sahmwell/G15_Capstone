@@ -21,7 +21,9 @@ def main():
         config_params = json.load(json_file)
 
     # Load Config Parameters
-    num_proc = config_params['num_proc']
+    # num_proc = config_params['num_proc']
+    num_proc = 12 # shouldnt this be independent of the scenario but depend on the training code?
+    render_env = False
     steps_per_episode = config_params['steps_per_episode']
     num_episodes = config_params['num_episodes']
     controlled_lights = config_params['controlled_lights']
@@ -31,14 +33,14 @@ def main():
         learning_light = controlled_lights[i % len(controlled_lights)]
 
         # Create an environment where the ith light in controlled_lights is being trained
-        env = create_env(learning_light['light_name'], num_proc, steps_per_episode)
+        env = create_env(learning_light['light_name'], num_proc, steps_per_episode, render_env)
 
         # Load existing model for the learning light if it exists
         path_name = f'Scenarios/{config_params["model_save_path"]}/PPO2_{learning_light["light_name"]}'
         if os.path.isfile(path_name + '.zip'):
-            model = PPO2.load(path_name, env=env, tensorboard_log=f'./Scenarios/{config_params["model_save_path"]}/tensorboard/{learning_light["name"]}/')
+            model = PPO2.load(path_name, env=env, tensorboard_log=f'./Scenarios/{config_params["model_save_path"]}/tensorboard/{learning_light["node_name"]}/')
         else:
-            model = PPO2(MlpPolicy, env, verbose=1, tensorboard_log=f'./Scenarios/{config_params["model_save_path"]}/tensorboard/{learning_light["name"]}/')
+            model = PPO2(MlpPolicy, env, verbose=1, tensorboard_log=f'./Scenarios/{config_params["model_save_path"]}/tensorboard/{learning_light["node_name"]}/')
 
         train_start_time = time.time()
         model.learn(total_timesteps=steps_per_episode * num_episodes)
@@ -50,15 +52,15 @@ def main():
 
 
 # Create a sumo environment
-def create_env(node_name, num_proc, steps_per_episode):
+def create_env(node_name, num_proc, steps_per_episode, render_env):
     if num_proc == 1:
-        env = DummyVecEnv([lambda: SumoEnvParallel(steps_per_episode, False, node_name)])
+        env = DummyVecEnv([lambda: SumoEnvParallel(steps_per_episode, render_env, node_name)])
     else:
         if sys.platform == 'win32':
             thread_method = 'spawn'
         else:
             thread_method = 'forkserver'  # fork was having issues with multi-agent for me so I switched to forkserver
-        env = SubprocVecEnv([lambda: SumoEnvParallel(steps_per_episode, False, node_name) for _ in range(num_proc)],
+        env = SubprocVecEnv([lambda: SumoEnvParallel(steps_per_episode, render_env, node_name) for _ in range(num_proc)],
                             start_method=thread_method)
     return env
 

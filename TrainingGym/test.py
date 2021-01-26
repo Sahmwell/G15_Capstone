@@ -27,11 +27,14 @@ model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}/PPO2_{controlle
 # Reset and run the environment
 obs = env.reset()
 total_rewards = 0  # Count the sum of the reward function over all time steps
-for i in range(config_params['test_steps']):
-    action, state = model.predict(obs)
-    # Since we're not training, it doesn't matter which light is the first parameter
-    obs, rewards, done, info = env.step(action)
-    total_rewards += rewards
-    if done:
-        break
+while True:
+    env.reset()
+    for i in range(config_params['test_steps']):
+        action, state = model.predict(obs)
+        # Since we're not training, it doesn't matter which light is the first parameter
+        obs, rewards, done, info = env.step(action)
+        total_rewards += rewards
+        if done:
+            env.reset()
+            break
 print(total_rewards)
