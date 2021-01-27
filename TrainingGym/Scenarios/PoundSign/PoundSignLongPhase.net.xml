@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on Wed 06 Jan 2021 10:49:26 AM by Eclipse SUMO netedit Version 1.7.0
+<!-- generated on Tue 26 Jan 2021 03:02:23 PM by Eclipse SUMO netedit Version 1.7.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
@@ -28,6 +28,10 @@
     <pedestrian>
         <walkingareas value="false"/>
     </pedestrian>
+
+    <netedit>
+        <route-files value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/PoundSign/PoundSign.rou.xml"/>
+    </netedit>
 
     <report>
         <aggregate-warnings value="5"/>

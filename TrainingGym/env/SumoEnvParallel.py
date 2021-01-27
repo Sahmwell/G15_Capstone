@@ -26,6 +26,11 @@ with open('global_config.json') as global_json_file:
 with open(f'Scenarios/{local_config_path}') as json_file:
     config_params = json.load(json_file)
 
+# Constants
+YELLOW_LENGTH = 4.2  # seconds
+RED_LENGTH = 1.8  # seconds
+STEP_LENGTH = 1.0  # seconds
+
 # Load config
 controlled_lights = config_params['controlled_lights']
 all_important_roads = set()
@@ -33,14 +38,7 @@ for i_node in controlled_lights:
     for i_direction in i_node['connections']:
         for i_edge in i_direction['edges']:
             all_important_roads.add(i_edge)
-load_options = ["-c", f'Scenarios/{config_params["sumocfg_path"]}', "--tripinfo-output",
-                f'Scenarios/{config_params["tripinfo_output_path"]}', "-t", "--random"]
-
-# Constants
-YELLOW_LENGTH = 4.2  # seconds
-RED_LENGTH = 1.8  # seconds
-STEP_LENGTH = 1.0  # seconds
-
+load_options = ["-c", f'Scenarios/{config_params["sumocfg_path"]}', "--start", "--quit-on-end", "--step-length", str(STEP_LENGTH), "--random", "--no-warnings", "true"]
 
 # Find an object with a given value for an attribute in a list
 def find_attr_in_list(lst, attr, value):
@@ -93,8 +91,8 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         self.current_action = 0
         self.previous_action = 0
         self.action_time = 0
-        self.near_dist = 30  # TODO: Turn this into an env parameter that can be changed
-        self.far_dist = 200 # TODO: Review this number. It was randomly selected
+        self.near_dist = config_params["near_distance"]  # TODO: Turn this into an env parameter that can be changed
+        self.far_dist = config_params['far_distance']  # TODO: Review this number. It was randomly selected
 
     def reset(self):
         # Sumo is started on the first call to reset
@@ -103,7 +101,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
             self.sumo_started = True
         # Sumo should be started on subsequent resets
         else:
-            self.sumo.load(load_options + ["--start"])
+            self.sumo.load(load_options)
         self.current_step = 0
         self.is_done = False
 
@@ -111,6 +109,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         self.vehicles_on_edge = defaultdict(lambda: [])
 
         # Michael's new stuff TODO: review these
+        self.sumo.poi.add('poi_0', -100, 200, (255, 0, 0), poiType='test')
         self.total_reward = 0
         self.current_action = 0
         self.previous_action = 0
@@ -151,6 +150,8 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         # If the next step of the simulation is the last step of the episode, indicate the episode is done
         if self.current_step + 1 == self.steps_per_episode:
             self.is_done = True
+
+        self.sumo.poi.setType('poi_0', str(action) + ", " + str(reward) + ", " + str(self.total_reward))
         return obs, reward, self.is_done, {}
 
     # Retrieve values from sumo for the current time step
@@ -187,10 +188,13 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         road_waiting_vehicles_dict, _, _ = self._get_direction_vehicle_counts(self.controlled_node)
         reward = 0.0
         if self.current_action != self.previous_action:
-            reward -= 1
+            reward -= 5
 
         for direction in self.controlled_node['connections']:
-            reward -= road_waiting_vehicles_dict[direction['label']]
+            if self.current_action != self.previous_action:
+                reward -= 5 * road_waiting_vehicles_dict[direction['label']]
+            else:
+                reward -= road_waiting_vehicles_dict[direction['label']]
 
         return reward
 

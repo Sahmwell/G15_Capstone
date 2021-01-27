@@ -28,11 +28,12 @@ def main():
     num_trials = config_params['num_trials']
 
     # Run a learning session on each light
+
     for i in range(num_trials * len(controlled_lights)):
         learning_light = controlled_lights[i % len(controlled_lights)]
 
         # Create an environment where the ith light in controlled_lights is being trained
-        env = create_env(learning_light['light_name'], num_proc, steps_per_episode)
+        env = create_env(learning_light['light_name'], num_proc, steps_per_episode, config_params['visualize_training'])
 
         # Load existing model for the learning light if it exists
         path_name = f'Scenarios/{config_params["model_save_path"]}/PPO2_{learning_light["light_name"]}'
@@ -43,7 +44,7 @@ def main():
 
         train_start_time = time.time()
         model.learn(total_timesteps=steps_per_episode * num_episodes)
-        print(f'LEARNING TIME: {time.time() - train_start_time}')
+        print(f'LIGHT LEARNING TIME: {time.time() - train_start_time}')
         model.save(f'Scenarios/{config_params["model_save_path"]}/PPO2_{learning_light["light_name"]}')
         print(f'DONE LEARNING LIGHT: {learning_light["light_name"]}')
         env.close()
@@ -51,15 +52,15 @@ def main():
 
 
 # Create a sumo environment
-def create_env(node_name, num_proc, steps_per_episode):
+def create_env(node_name, num_proc, steps_per_episode, visualize_training):
     if num_proc == 1:
-        env = DummyVecEnv([lambda: SumoEnvParallel(steps_per_episode, False, node_name)])
+        env = DummyVecEnv([lambda: SumoEnvParallel(steps_per_episode, visualize_training, node_name)])
     else:
         if sys.platform == 'win32':
             thread_method = 'spawn'
         else:
             thread_method = 'forkserver'  # fork was having issues with multi-agent for me so I switched to forkserver
-        env = SubprocVecEnv([lambda: SumoEnvParallel(steps_per_episode, False, node_name) for _ in range(num_proc)],
+        env = SubprocVecEnv([lambda: SumoEnvParallel(steps_per_episode, visualize_training, node_name) for _ in range(num_proc)],
                             start_method=thread_method)
     return env
 

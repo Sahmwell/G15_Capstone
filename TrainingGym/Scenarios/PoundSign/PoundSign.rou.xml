@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on Wed 06 Jan 2021 10:22:23 AM by Eclipse SUMO netedit Version 1.7.0
+<!-- generated on Tue 26 Jan 2021 05:46:39 PM by Eclipse SUMO netedit Version 1.7.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
-        <sumo-net-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/PoundSign/PoundSign.net.xml"/>
+        <sumo-net-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/PoundSign/PoundSignLongPhase.net.xml"/>
     </input>
 
     <output>
-        <output-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/PoundSign/PoundSign.net.xml"/>
+        <output-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/PoundSign/PoundSignLongPhase.net.xml"/>
     </output>
 
     <processing>
@@ -41,40 +41,8 @@
 -->
 
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
-    <flow id="flow_0" begin="0.00" from="gneE63" to="gneE57" end="3600.00" probability="0.01"/>
-    <flow id="flow_1" begin="0.00" from="gneE53" to="gneE61" end="3600.00" probability="0.01"/>
-    <flow id="flow_10" begin="0.00" from="gneE59" to="gneE57" end="3600.00" probability="0.01"/>
-    <flow id="flow_11" begin="0.00" from="gneE54" to="gneE66" end="3600.00" probability="0.01"/>
-    <flow id="flow_12" begin="0.00" from="gneE53" to="gneE57" end="3600.00" probability="0.01"/>
-    <flow id="flow_13" begin="0.00" from="gneE53" to="gneE66" end="3600.00" probability="0.01"/>
-    <flow id="flow_14" begin="0.00" from="gneE65" to="gneE57" end="3600.00" probability="0.01"/>
-    <flow id="flow_15" begin="0.00" from="gneE65" to="gneE58" end="3600.00" probability="0.01"/>
-    <flow id="flow_16" begin="0.00" from="gneE63" to="gneE52" end="3600.00" probability="0.01"/>
-    <flow id="flow_17" begin="0.00" from="gneE63" to="gneE66" end="3600.00" probability="0.01"/>
-    <flow id="flow_18" begin="0.00" from="gneE60" to="gneE64" end="3600.00" probability="0.01"/>
-    <flow id="flow_19" begin="0.00" from="gneE60" to="gneE57" end="3600.00" probability="0.01"/>
-    <flow id="flow_2" begin="0.00" from="gneE65" to="gneE55" end="3600.00" probability="0.01"/>
-    <flow id="flow_20" begin="0.00" from="gneE59" to="gneE52" end="3600.00" probability="0.01"/>
-    <flow id="flow_21" begin="0.00" from="gneE56" to="gneE64" end="3600.00" probability="0.01"/>
-    <flow id="flow_22" begin="0.00" from="gneE56" to="gneE61" end="3600.00" probability="0.01"/>
-    <flow id="flow_23" begin="0.00" from="gneE54" to="gneE58" end="3600.00" probability="0.01"/>
-    <flow id="flow_24" begin="0.00" from="gneE54" to="gneE52" end="3600.00" probability="0.01"/>
-    <flow id="flow_25" begin="0.00" from="gneE67" to="gneE57" end="3600.00" probability="0.01"/>
-    <flow id="flow_26" begin="0.00" from="gneE67" to="gneE61" end="3600.00" probability="0.01"/>
-    <flow id="flow_27" begin="0.00" from="gneE67" to="gneE62" end="3600.00" probability="0.01"/>
-    <flow id="flow_28" begin="0.00" from="gneE65" to="gneE61" end="3600.00" probability="0.01"/>
-    <flow id="flow_29" begin="0.00" from="gneE56" to="gneE58" end="3600.00" probability="0.01"/>
-    <flow id="flow_3" begin="0.00" from="gneE59" to="gneE66" end="3600.00" probability="0.01"/>
-    <flow id="flow_30" begin="0.00" from="gneE67" to="gneE55" end="3600.00" probability="0.01"/>
-    <flow id="flow_31" begin="0.00" from="gneE53" to="gneE58" end="3600.00" probability="0.01"/>
-    <flow id="flow_32" begin="0.00" from="gneE63" to="gneE64" end="3600.00" probability="0.01"/>
-    <flow id="flow_33" begin="0.00" from="gneE60" to="gneE62" end="3600.00" probability="0.01"/>
-    <flow id="flow_34" begin="0.00" from="gneE56" to="gneE64" end="3600.00" probability="0.01"/>
-    <flow id="flow_35" begin="0.00" from="gneE67" to="gneE64" end="3600.00" probability="0.01"/>
-    <flow id="flow_4" begin="0.00" from="gneE56" to="gneE62" end="3600.00" probability="0.01"/>
-    <flow id="flow_5" begin="0.00" from="gneE54" to="gneE64" end="3600.00" probability="0.01"/>
-    <flow id="flow_6" begin="0.00" from="gneE67" to="gneE58" end="3600.00" probability="0.01"/>
-    <flow id="flow_7" begin="0.00" from="gneE60" to="gneE52" end="3600.00" probability="0.01"/>
-    <flow id="flow_8" begin="0.00" from="gneE53" to="gneE64" end="3600.00" probability="0.01"/>
-    <flow id="flow_9" begin="0.00" from="gneE63" to="gneE61" end="3600.00" probability="0.01"/>
+    <flow id="flow_2" begin="0.00" from="gneE67" to="gneE58" end="150.00" probability="0.20"/>
+    <flow id="flow_3" begin="0.00" from="gneE60" to="gneE52" end="150.00" probability="0.20"/>
+    <flow id="flow_0" begin="200.00" from="gneE56" to="gneE62" end="350.00" probability="0.20"/>
+    <flow id="flow_1" begin="200.00" from="gneE65" to="gneE55" end="350.00" probability="0.20"/>
 </routes>

@@ -1,8 +1,8 @@
 {
   "num_proc": 1,
-  "steps_per_episode": 300,
-  "num_episodes": 300,
-  "num_trials": 1,
+  "steps_per_episode": 1500,
+  "num_episodes": 80,
+  "num_trials": 2,
   "test_steps": 3000,
   "model_save_path": "VitalTri/VitalTriLongPhase/training_models",
   "sumocfg_path": "VitalTri/VitalTriLongPhase/VitalTri.sumocfg",

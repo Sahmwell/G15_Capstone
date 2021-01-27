@@ -1,9 +1,12 @@
 {
-  "num_proc": 1,
-  "steps_per_episode": 200,
-  "num_episodes": 300,
-  "num_trials": 1,
-  "test_steps": 3000,
+  "num_proc": 12,
+  "steps_per_episode": 500,
+  "num_episodes": 36,
+  "num_trials": 50,
+  "test_steps": 350,
+  "near_distance": 30,
+  "far_distance": 150,
+  "visualize_training": true,
   "model_save_path": "PoundSign/training_models",
   "sumocfg_path": "PoundSign/PoundSign.sumocfg",
   "tripinfo_output_path": "PoundSign/tripinfo.xml",
@@ -40,13 +43,13 @@
     },
     {"node_name": "se", "light_name": "se", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
       "connections":  [
-        { "edges": ["gneE53"],
+        { "edges": ["gneE22"],
           "capacity": 0, "expected": 0, "label": "se. East Bound"},
-        { "edges": ["gneE21"],
+        { "edges": ["gneE60"],
           "capacity": 0, "expected": 0, "label": "se. West Bound" },
-        { "edges": ["gneE65"],
+        { "edges": ["gneE63"],
           "capacity": 0, "expected": 0, "label": "se. North Bound" },
-        { "edges": ["gneE12"],
+        { "edges": ["gneE23"],
           "capacity": 0, "expected": 0, "label": "se. South Bound" }
       ],
       "states": [
@@ -55,14 +58,14 @@
     },
     {"node_name": "sw", "light_name": "sw", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
       "connections":  [
-        { "edges": ["gneE22"],
-          "capacity": 0, "expected": 0, "label": "sw. East Bound"},
-        { "edges": ["gneE60"],
-          "capacity": 0, "expected": 0, "label": "sw. West Bound" },
-        { "edges": ["gneE63"],
-          "capacity": 0, "expected": 0, "label": "sw. North Bound" },
-        { "edges": ["gneE23"],
-          "capacity": 0, "expected": 0, "label": "sw. South Bound" }
+        { "edges": ["gneE53"],
+          "capacity": 0, "expected": 0, "label": "se. East Bound"},
+        { "edges": ["gneE21"],
+          "capacity": 0, "expected": 0, "label": "se. West Bound" },
+        { "edges": ["gneE65"],
+          "capacity": 0, "expected": 0, "label": "se. North Bound" },
+        { "edges": ["gneE12"],
+          "capacity": 0, "expected": 0, "label": "se. South Bound" }
       ],
       "states": [
         "GGgrrrGGgrrr", "rrrGGgrrrGGg"
