@@ -22,7 +22,8 @@ from sumolib import checkBinary
 from traci._trafficlight import Phase, Logic
 
 with open('global_config.json') as global_json_file:
-    local_config_path = json.load(global_json_file)['config_path']
+    global_config_params = json.load(global_json_file)
+    local_config_path = global_config_params['config_path']
 with open(f'Scenarios/{local_config_path}') as json_file:
     config_params = json.load(json_file)
 
@@ -33,12 +34,16 @@ STEP_LENGTH = 1.0  # seconds
 
 # Load config
 controlled_lights = config_params['controlled_lights']
+for i in range(len(controlled_lights) - 1, -1, -1):
+    if not controlled_lights[i]['train']:
+        del controlled_lights[i]
 all_important_roads = set()
 for i_node in controlled_lights:
     for i_direction in i_node['connections']:
         for i_edge in i_direction['edges']:
             all_important_roads.add(i_edge)
 load_options = ["-c", f'Scenarios/{config_params["sumocfg_path"]}', "--start", "--quit-on-end", "--step-length", str(STEP_LENGTH), "--random", "--no-warnings", "true"]
+
 
 # Find an object with a given value for an attribute in a list
 def find_attr_in_list(lst, attr, value):
@@ -49,7 +54,7 @@ def find_attr_in_list(lst, attr, value):
 
 
 class SumoEnvParallel(gym.Env, BaseCallback):
-    def __init__(self, steps_per_episode, testing_env, controlled_light_name):
+    def __init__(self, steps_per_episode, use_sumo_gui, controlled_light_name):
         super(SumoEnvParallel, self).__init__()
 
         # Environment parameters
@@ -69,7 +74,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         # Start connection with sumo
         import traci  # each gym environment instance has a discrete traci instance
         self.sumo = traci
-        self.sumoBinary = checkBinary('sumo-gui') if testing_env else checkBinary('sumo')
+        self.sumoBinary = checkBinary('sumo-gui') if use_sumo_gui else checkBinary('sumo')
         self.sumo_started = False
 
         # Get existing models for controlled, but not learning lights

@@ -16,15 +16,19 @@ import os
 def main():
     # Load configs
     with open('global_config.json') as global_json_file:
-        local_config_path = json.load(global_json_file)['config_path']
+        global_config_params = json.load(global_json_file)
+        local_config_path = global_config_params['config_path']
     with open(f'Scenarios/{local_config_path}') as json_file:
         config_params = json.load(json_file)
 
     # Load Config Parameters
-    num_proc = config_params['num_proc']
+    num_proc = global_config_params['num_proc']
     steps_per_episode = config_params['steps_per_episode']
     num_episodes = config_params['num_episodes']
     controlled_lights = config_params['controlled_lights']
+    for i in range(len(controlled_lights) - 1, -1, -1):
+        if not controlled_lights[i]['train']:
+            del controlled_lights[i]
     num_trials = config_params['num_trials']
 
     # Run a learning session on each light
@@ -33,14 +37,20 @@ def main():
         learning_light = controlled_lights[i % len(controlled_lights)]
 
         # Create an environment where the ith light in controlled_lights is being trained
-        env = create_env(learning_light['light_name'], num_proc, steps_per_episode, config_params['visualize_training'])
+        env = create_env(learning_light['light_name'], num_proc, steps_per_episode, global_config_params['visualize_training'])
 
         # Load existing model for the learning light if it exists
         path_name = f'Scenarios/{config_params["model_save_path"]}/PPO2_{learning_light["light_name"]}'
-        if os.path.isfile(path_name + '.zip'):
-            model = PPO2.load(path_name, env=env, tensorboard_log=f'./Scenarios/{config_params["model_save_path"]}/tensorboard/{learning_light["light_name"]}/')
+        if global_config_params['use_tensorboard']:
+            if os.path.isfile(path_name + '.zip'):
+                model = PPO2.load(path_name, env=env, tensorboard_log=f'./Scenarios/{config_params["model_save_path"]}/tensorboard/{learning_light["light_name"]}/')
+            else:
+                model = PPO2(MlpPolicy, env, verbose=1, tensorboard_log=f'./Scenarios/{config_params["model_save_path"]}/tensorboard/{learning_light["light_name"]}/')
         else:
-            model = PPO2(MlpPolicy, env, verbose=1, tensorboard_log=f'./Scenarios/{config_params["model_save_path"]}/tensorboard/{learning_light["light_name"]}/')
+            if os.path.isfile(path_name + '.zip'):
+                model = PPO2.load(path_name, env=env)
+            else:
+                model = PPO2(MlpPolicy, env, verbose=1)
 
         train_start_time = time.time()
         model.learn(total_timesteps=steps_per_episode * num_episodes)

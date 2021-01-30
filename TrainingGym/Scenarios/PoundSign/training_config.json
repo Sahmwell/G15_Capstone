@@ -1,17 +1,15 @@
 {
-  "num_proc": 12,
   "steps_per_episode": 500,
   "num_episodes": 36,
   "num_trials": 50,
   "test_steps": 350,
   "near_distance": 30,
   "far_distance": 150,
-  "visualize_training": true,
   "model_save_path": "PoundSign/training_models",
   "sumocfg_path": "PoundSign/PoundSign.sumocfg",
-  "tripinfo_output_path": "PoundSign/tripinfo.xml",
   "controlled_lights": [
     {"node_name": "ne", "light_name": "ne", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+      "train": true,
       "connections":  [
         { "edges": ["gneE16"],
           "capacity": 0, "expected": 0, "label": "ne. East Bound"},
@@ -27,6 +25,7 @@
       ]
     },
     {"node_name": "nw", "light_name": "nw", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+      "train": false,
       "connections":  [
         { "edges": ["gneE67"],
           "capacity": 0, "expected": 0, "label": "nw. East Bound"},
@@ -42,6 +41,7 @@
       ]
     },
     {"node_name": "se", "light_name": "se", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+      "train": false,
       "connections":  [
         { "edges": ["gneE22"],
           "capacity": 0, "expected": 0, "label": "se. East Bound"},
@@ -57,6 +57,7 @@
       ]
     },
     {"node_name": "sw", "light_name": "sw", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+      "train": false,
       "connections":  [
         { "edges": ["gneE53"],
           "capacity": 0, "expected": 0, "label": "se. East Bound"},

@@ -1,3 +1,6 @@
 {
-  "config_path": "../Scenarios/PoundSign/training_config.json"
+  "config_path": "../Scenarios/PoundSign/training_config.json",
+  "visualize_training": true,
+  "use_tensorboard": false,
+  "num_proc": 12
 }
