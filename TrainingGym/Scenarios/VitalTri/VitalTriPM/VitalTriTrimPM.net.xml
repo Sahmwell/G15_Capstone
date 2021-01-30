@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on Sat 23 Jan 2021 01:32:20 PM by Eclipse SUMO netedit Version 1.7.0
+<!-- generated on 01/30/21 17:03:37 by Eclipse SUMO netedit Version 1.7.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
-        <sumo-net-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/VitalTri/VitalTriPM/VitalTriTrimPM.net.xml"/>
+        <sumo-net-file value="C:\Users\cau\Documents\GitHub\G15_Capstone\TrainingGym\Scenarios\VitalTri\VitalTriPM\VitalTriTrimPM.net.xml"/>
     </input>
 
     <output>
-        <output-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/VitalTri/VitalTriPM/VitalTriTrimPM.net.xml"/>
+        <output-file value="C:\Users\cau\Documents\GitHub\G15_Capstone\TrainingGym\Scenarios\VitalTri\VitalTriPM\VitalTriTrimPM.net.xml"/>
         <output.street-names value="true"/>
     </output>
 
@@ -7979,7 +7979,7 @@
         <phase duration="1"  state="rrrrrrrrrrrrrrrrrr"/>
         <phase duration="21" state="rrggrrrrrrrggrrrrr"/>
         <phase duration="4"  state="rryyrrrrrrryyrrrrr"/>
-        <phase duration="2"  state="rrrrrrrrrrrrrrrrrr"/>
+        <phase duration="6"  state="rrrrrrrrrrrrrrrrrr"/>
         <phase duration="55" state="GGrrrrrrrGGrrrrrrr"/>
         <phase duration="4"  state="yyrrrrrrryyrrrrrrr"/>
         <phase duration="1"  state="rrrrrrrrrrrrrrrrrr"/>
