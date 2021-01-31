@@ -9,7 +9,6 @@ from stable_baselines.common.callbacks import BaseCallback
 import numpy as np
 import json
 from collections import defaultdict
-from math import sqrt
 
 # we need to import python modules from the $SUMO_HOME/tools directory
 # TODO: This line isn't necessary if everyone directly installs the sumo python libraries in their python dist
@@ -196,10 +195,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
             reward -= 5
 
         for direction in self.controlled_node['connections']:
-            if self.current_action != self.previous_action:
-                reward -= 5 * road_waiting_vehicles_dict[direction['label']]
-            else:
-                reward -= road_waiting_vehicles_dict[direction['label']]
+            reward -= road_waiting_vehicles_dict[direction['label']]
 
         return reward
 

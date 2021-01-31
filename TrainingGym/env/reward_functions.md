@@ -25,6 +25,10 @@ def _get_reward(self):
 
 #### -5 light switch with weighted wait time on switch
 Potentially converged faster with multi-agent than above, but it is not well tested yet.
+While i've noticed that it converges faster than the basic reward function that does not change weight
+it sometimes gets sucked in to a black hole where it doesn't want to change anything because its
+lane is full, and swapping phase would tank the reward function. Maybe a lower weight, and well
+supervised training could fix this.
 ```python
 def _get_reward(self):
     road_waiting_vehicles_dict, _, _ = self._get_direction_vehicle_counts(self.controlled_node)

@@ -1,6 +1,7 @@
 {
   "config_path": "../Scenarios/PoundSign/training_config.json",
-  "visualize_training": true,
+  "other_config_paths": ["../Scenarios/VitalTri/VitalTriLongPhase/training_config.json"],
+  "visualize_training": false,
   "use_tensorboard": false,
   "num_proc": 12
 }
