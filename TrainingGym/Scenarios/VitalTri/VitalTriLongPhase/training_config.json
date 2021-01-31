@@ -145,7 +145,7 @@
           "capacity": 2949, "expected": 439, "label": "9. South Bound" }
       ],
       "states": [
-        "srrsrrrrsrrrGGGGr", "srrgGGggsrrrGGggr", "gGGsrrrrsrrrrrrrr" , "gGgsrrrrgGgrrrrrr"
+        "rrrrrrrrrrrrGGGGr", "rrrrGGggrrrrGGggr", "gGGrrrrrrrrrrrrrr" , "gGgrrrrrgGgrrrrrr"
       ]
     }
   ]
