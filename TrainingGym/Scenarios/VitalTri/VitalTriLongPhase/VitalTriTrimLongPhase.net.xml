@@ -8085,7 +8085,7 @@
     </tlLogic>
     <tlLogic id="tl_8" type="static" programID="0" offset="0">
         <phase duration="9999" state="srrrrgGGGGrrrrrrr"/>
-        <phase duration="v"  state="srrrrgGGYYrrrrrrr"/>
+        <phase duration="9999"  state="srrrrgGGYYrrrrrrr"/>
         <phase duration="9999"  state="srrrrgGGrrrrrrrrr"/>
         <phase duration="9999" state="srrrrgGGggrrrGGgg"/>
         <phase duration="9999"  state="srrrryYYyyrrrYYyy"/>
