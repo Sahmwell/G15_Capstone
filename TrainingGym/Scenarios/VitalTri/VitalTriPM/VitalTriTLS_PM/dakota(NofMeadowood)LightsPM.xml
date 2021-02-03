@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 01/16/21 13:03:11 by Eclipse SUMO netedit Version 1.7.0
+<!-- generated on 02/02/21 20:37:38 by Eclipse SUMO netedit Version 1.7.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
-        <sumo-net-file value="C:\Users\cau\Documents\GitHub\G15_Capstone\TrainingGym\Scenarios\VitalTri\VitalTriPM\VitalTriPM.net.xml"/>
+        <sumo-net-file value="C:\Users\cau\Documents\GitHub\G15_Capstone\TrainingGym\Scenarios\VitalTri\VitalTriPM\VitalTriTrimPM.net.xml"/>
     </input>
 
     <output>
-        <output-file value="C:\Users\cau\Documents\GitHub\G15_Capstone\TrainingGym\Scenarios\VitalTri\VitalTriPM\VitalTriPM.net.xml"/>
+        <output-file value="C:\Users\cau\Documents\GitHub\G15_Capstone\TrainingGym\Scenarios\VitalTri\VitalTriPM\VitalTriTrimPM.net.xml"/>
         <output.street-names value="true"/>
     </output>
 
@@ -39,17 +39,17 @@
 
 <additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
     <tlLogic id="tl_9" type="static" programID="0" offset="0">
-        <phase duration="6.90" state="rrrrsrrrrrrrrrGGgg"/>
-        <phase duration="4" state="rrrrsrrrrrrrrgGGyy"/>
-        <phase duration="2" state="rrrrsrrrrrrrrrGGrr"/>
-        <phase duration="64" state="rrrrgGGggrrrrrGGgg"/>
-        <phase duration="4" state="rrrryYYyyrrrrrYYyy"/>
-        <phase duration="1.50" state="rrrrsrrrrrrrrrrrrr"/>
-        <phase duration="23.50" state="rrrrsrrrrgGggrrrrr"/>
-        <phase duration="4" state="rrrrsrrrrgGyyrrrrr"/>
+        <phase duration="6.90" state="srrrsrrrrsrrrrGGgg"/>
+        <phase duration="4" state="srrrsrrrrsrrrgGGyy"/>
+        <phase duration="2" state="srrrsrrrrsrrrrGGrr"/>
+        <phase duration="64" state="srrrgGGggsrrrrGGgg"/>
+        <phase duration="4" state="srrryYYyysrrrrYYyy"/>
+        <phase duration="1.50" state="srrrsrrrrsrrrrrrrr"/>
+        <phase duration="23.50" state="srrrsrrrrgGggrrrrr"/>
+        <phase duration="4" state="srrrsrrrrgGyyrrrrr"/>
         <phase duration="2" state="rrrrsrrrrGGrrrrrrr"/>
-        <phase duration="22" state="gGgrsrrrrgGgrrrrrr"/>
-        <phase duration="4" state="yYyrsrrrryYyrrrrrr"/>
-        <phase duration="2.10" state="rrrrsrrrrrrrrrrrrr"/>
+        <phase duration="22" state="gGggsrrrrgGggrrrrr"/>
+        <phase duration="4" state="yYyysrrrryYyyrrrrr"/>
+        <phase duration="2.10" state="srrrsrrrrsrrrrrrrr"/>
     </tlLogic>
 </additional>
