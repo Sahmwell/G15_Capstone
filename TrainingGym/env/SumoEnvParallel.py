@@ -125,7 +125,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         self.current_action = action
         # Determine next phase for controlled lights not learning
         for model in self.model_list:
-            if model['model'] is not None:
+            if model['model']:
                 other_obs = self._next_observation(model['node'])
                 model['next_phase'] = model['model'].predict(other_obs)[0]
             # If no model exists yet just keep it on current phase (This will only be the case for the
@@ -160,14 +160,10 @@ class SumoEnvParallel(gym.Env, BaseCallback):
 
     # Retrieve values from sumo for the current time step
     def _get_sumo_values(self):
-        # TODO: Find a more efficient way of getting these values (SUMO has a batch data function that might be
-        #  interesting)
-        # Get the vehicles on roads that we care about
         vehicles_on_edge = defaultdict(lambda: [])
-        vehicles = self.sumo.vehicle.getIDList()
-        for v in vehicles:
-            edge = self.sumo.vehicle.getRoadID(v)
-            if edge in all_important_roads:
+        for edge in all_important_roads:
+            vehicles = self.sumo.edge.getLastStepVehicleIDs(edge)
+            for v in vehicles:
                 v_pos = np.array(self.sumo.vehicle.getPosition(v))
                 vehicles_on_edge[edge].append(
                     {"name": v, "wait_time": self.sumo.vehicle.getWaitingTime(v), "pos": v_pos}
