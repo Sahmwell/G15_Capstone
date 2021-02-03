@@ -9,30 +9,34 @@ from env.SumoEnvParallel import SumoEnvParallel
 import json
 
 with open('global_config.json') as global_json_file:
-    local_config_path = json.load(global_json_file)['config_path']
+    global_config_params = json.load(global_json_file)
+    local_config_path = global_config_params['config_path']
 with open(f'Scenarios/{local_config_path}') as json_file:
     config_params = json.load(json_file)
 
 # Get config parameters
-steps_per_episode = config_params["steps_per_episode"]
+steps_per_episode = config_params['test_steps']
 num_episodes = config_params["num_episodes"]
 controlled_lights = config_params['controlled_lights']
+for i in range(len(controlled_lights) - 1, -1, -1):
+    if not controlled_lights[i]['train']:
+        del controlled_lights[i]
 
 # Create sumo environment
-env = SumoEnvParallel(steps_per_episode, True, controlled_lights[0]['name'])
+env = SumoEnvParallel(config_params['test_steps'], True, controlled_lights[0]['light_name'])
 
 # Load each light's model
-model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}/PPO2_{controlled_lights[0]["name"]}')
+model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}/PPO2_{controlled_lights[0]["light_name"]}')
 
 # Reset and run the environment
 obs = env.reset()
 total_rewards = 0  # Count the sum of the reward function over all time steps
-for i in range(steps_per_episode):
+while True:
     action, state = model.predict(obs)
-
     # Since we're not training, it doesn't matter which light is the first parameter
     obs, rewards, done, info = env.step(action)
     total_rewards += rewards
     if done:
-        break
-print(total_rewards)
+        obs = env.reset()
+        print(f'Episode reward: {total_rewards}')
+        total_rewards = 0

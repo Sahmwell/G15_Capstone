@@ -45,7 +45,8 @@ def step(connections: list, total_steps: int):
 def benchmark():
     # init
     with open('global_config.json') as global_json_file:
-        local_config_path = json.load(global_json_file)['config_path']
+        global_config_params = json.load(global_json_file)
+        local_config_path = global_config_params['config_path']
     with open(f'Scenarios/{local_config_path}') as json_file:
         config_params = json.load(json_file)
 

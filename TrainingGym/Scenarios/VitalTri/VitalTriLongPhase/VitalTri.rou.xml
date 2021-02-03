@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on Wed 13 Jan 2021 11:54:13 AM by Eclipse SUMO netedit Version 1.7.0
+<!-- generated on Sun 24 Jan 2021 03:35:32 PM by Eclipse SUMO netedit Version 1.7.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
-        <sumo-net-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/VitalTri/VitalTriPM/VitalTriPM.net.xml"/>
+        <sumo-net-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/VitalTri/VitalTriLongPhase/VitalTriTrimLongPhase.net.xml"/>
     </input>
 
     <output>
-        <output-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/VitalTri/VitalTriPM/VitalTriPM.net.xml"/>
+        <output-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/VitalTri/VitalTriLongPhase/VitalTriTrimLongPhase.net.xml"/>
         <output.street-names value="true"/>
     </output>
 
@@ -44,10 +44,14 @@
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
     <flow id="flow_0" begin="0.00" from="edge_103_2#0" to="edge_3_107#2" end="3600.00" probability="0.05"/>
     <flow id="flow_1" begin="0.00" from="edge_104_6#0" to="edge_1_101#5" end="3600.00" probability="0.05"/>
-    <flow id="flow_2" begin="0.00" from="130655171#0" to="edge_8_106#12" end="3600.00" probability="0.05"/>
+    <flow id="flow_10" begin="0.00" from="edge_108_4#0" to="edge_6_104#1" end="3600.00" probability="0.01"/>
+    <flow id="flow_11" begin="0.00" from="edge_107_3#0" to="edge_4_108#6" end="3600.00" probability="0.01"/>
+    <flow id="flow_2" begin="0.00" from="edge_109_6#0" to="edge_1_101#5.164" end="3600.00" probability="0.01"/>
     <flow id="flow_3" begin="0.00" from="edge_105_8#0" to="edge_1_102#4" end="3600.00" probability="0.05"/>
     <flow id="flow_4" begin="0.00" from="edge_102_1#0" to="edge_8_105#10" end="3600.00" probability="0.05"/>
     <flow id="flow_5" begin="0.00" from="edge_106_8#0" to="edge_6_109#2" end="3600.00" probability="0.05"/>
     <flow id="flow_6" begin="0.00" from="edge_107_3#0" to="edge_2_103#4" end="3600.00" probability="0.05"/>
     <flow id="flow_7" begin="0.00" from="edge_101_1#0" to="edge_6_104#1" end="3600.00" probability="0.05"/>
+    <flow id="flow_8" begin="0.00" from="edge_102_1#0" to="edge_3_107#2" end="3600.00" probability="0.01"/>
+    <flow id="flow_9" begin="0.00" from="edge_108_4#0" to="edge_8_105#10" end="3600.00" probability="0.01"/>
 </routes>

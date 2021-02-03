@@ -8,6 +8,7 @@ from stable_baselines import PPO2
 from stable_baselines.common.callbacks import BaseCallback
 import numpy as np
 import json
+from collections import defaultdict
 
 # we need to import python modules from the $SUMO_HOME/tools directory
 # TODO: This line isn't necessary if everyone directly installs the sumo python libraries in their python dist
@@ -17,21 +18,30 @@ if 'SUMO_HOME' in os.environ:
 else:
     sys.exit("please declare environment variable 'SUMO_HOME'")
 from sumolib import checkBinary
+from traci._trafficlight import Phase, Logic
 
 with open('global_config.json') as global_json_file:
-    local_config_path = json.load(global_json_file)['config_path']
+    global_config_params = json.load(global_json_file)
+    local_config_path = global_config_params['config_path']
 with open(f'Scenarios/{local_config_path}') as json_file:
     config_params = json.load(json_file)
 
+# Constants
+YELLOW_LENGTH = 4.2  # seconds
+RED_LENGTH = 1.8  # seconds
+STEP_LENGTH = 1.0  # seconds
+
 # Load config
 controlled_lights = config_params['controlled_lights']
-uncontrolled_lights = config_params['uncontrolled_lights']
+for i in range(len(controlled_lights) - 1, -1, -1):
+    if not controlled_lights[i]['train']:
+        del controlled_lights[i]
 all_important_roads = set()
 for i_node in controlled_lights:
-    for i_road in i_node['important_roads']:
-        all_important_roads.add(i_road)
-load_options = ["-c", f'Scenarios/{config_params["sumocfg_path"]}', "--tripinfo-output",
-                f'Scenarios/{config_params["tripinfo_output_path"]}', "-t"]
+    for i_direction in i_node['connections']:
+        for i_edge in i_direction['edges']:
+            all_important_roads.add(i_edge)
+load_options = ["-c", f'Scenarios/{config_params["sumocfg_path"]}', "--start", "--quit-on-end", "--step-length", str(STEP_LENGTH), "--random", "--no-warnings", "true"]
 
 
 # Find an object with a given value for an attribute in a list
@@ -43,7 +53,7 @@ def find_attr_in_list(lst, attr, value):
 
 
 class SumoEnvParallel(gym.Env, BaseCallback):
-    def __init__(self, steps_per_episode, validation_env, controlled_node_name):
+    def __init__(self, steps_per_episode, use_sumo_gui, controlled_light_name):
         super(SumoEnvParallel, self).__init__()
 
         # Environment parameters
@@ -52,30 +62,41 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         self.current_step = 0
 
         # Get the node which this agent is controlling
-        self.controlled_node = find_attr_in_list(controlled_lights, 'name', controlled_node_name)
+        self.controlled_node = find_attr_in_list(controlled_lights, 'light_name', controlled_light_name)
 
         # Setup action, reward, and observation spaces
-        self.reward_range = (-float('inf'), float('inf'))  # TODO: Restrict this to our final reward function
-        self.action_space = spaces.Discrete(self.controlled_node['num_phases'])
+        self.action_space = spaces.Discrete(len(self.controlled_node['states']))
         self.observation_space = spaces.Box(low=0, high=float('inf'),
-                                            shape=np.array([len(self.controlled_node['important_roads']) * 2]),
+                                            shape=np.array([len(self.controlled_node['connections']) * 3 + 2]),
                                             dtype=np.float32)
 
         # Start connection with sumo
         import traci  # each gym environment instance has a discrete traci instance
         self.sumo = traci
-        self.sumoBinary = checkBinary('sumo-gui') if validation_env else checkBinary('sumo')
+        self.sumoBinary = checkBinary('sumo-gui') if use_sumo_gui else checkBinary('sumo')
         self.sumo_started = False
 
         # Get existing models for controlled, but not learning lights
         self.model_list = []
         for node in controlled_lights:
-            if node['name'] != controlled_node_name:
-                model_path = f'Scenarios/{config_params["model_save_path"]}/PPO2_{node["name"]}'
+            if node['light_name'] != controlled_light_name:
+                model_path = f'Scenarios/{config_params["model_save_path"]}/PPO2_{node["light_name"]}'
                 if os.path.isfile(model_path + '.zip'):
                     self.model_list.append({'node': node, 'model': PPO2.load(model_path), 'next_phase': 0})
                 else:
                     self.model_list.append({'node': node, 'model': None, 'next_phase': 0})
+
+        # Variables to hold sumo state values
+        self.vehicles_on_edge = defaultdict(lambda: [])  # dict where key is the road name, and value is a list of
+        # cars with the members: name, wait_time, pos
+
+        # Michael's added stuff TODO: Review if needed
+        self.total_reward = 0
+        self.current_action = 0
+        self.previous_action = 0
+        self.action_time = 0
+        self.near_dist = config_params["near_distance"]  # TODO: Turn this into an env parameter that can be changed
+        self.far_dist = config_params['far_distance']  # TODO: Review this number. It was randomly selected
 
     def reset(self):
         # Sumo is started on the first call to reset
@@ -87,12 +108,24 @@ class SumoEnvParallel(gym.Env, BaseCallback):
             self.sumo.load(load_options)
         self.current_step = 0
         self.is_done = False
+
+        # No vehicles in the simulation yet
+        self.vehicles_on_edge = defaultdict(lambda: [])
+
+        # Michael's new stuff TODO: review these
+        self.sumo.poi.add('poi_0', -100, 200, (255, 0, 0), poiType='test')
+        self.total_reward = 0
+        self.current_action = 0
+        self.previous_action = 0
+        self.action_time = 0
         return self._next_observation(self.controlled_node)
 
     def step(self, action):
+        self.previous_action = self.current_action
+        self.current_action = action
         # Determine next phase for controlled lights not learning
         for model in self.model_list:
-            if model['model'] is not None:
+            if model['model']:
                 other_obs = self._next_observation(model['node'])
                 model['next_phase'] = model['model'].predict(other_obs)[0]
             # If no model exists yet just keep it on current phase (This will only be the case for the
@@ -101,81 +134,133 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         # Set all controlled light phases
         self._take_action(action)
 
+        # Update phase step counts
+        for node in controlled_lights:
+            node['steps_since_last_change'] += 1
+
         # Advance simulation
         self.sumo.simulationStep()
         self.current_step += 1
 
+        # Get sumo state information
+        self.vehicles_on_edge = self._get_sumo_values()  # This data is used by the observation returned from
+        # the step function as well as the observation for each agent at the start of the next call to step
+
         # Get obs and reward
         obs = self._next_observation(self.controlled_node)
         reward = self._get_reward()
-
-        # Check if the simulation is already done (it shouldn't be)
-        if self.is_done:
-            logger.warn("You are calling 'step()' even though this environment has already returned done = True. "
-                        "You should always call 'reset()' once you receive 'done = True' "
-                        "-- any further steps are undefined behavior.")
-            reward = 0.0
+        self.total_reward += reward
 
         # If the next step of the simulation is the last step of the episode, indicate the episode is done
         if self.current_step + 1 == self.steps_per_episode:
             self.is_done = True
 
+        self.sumo.poi.setType('poi_0', str(action) + ", " + str(reward) + ", " + str(self.total_reward))
         return obs, reward, self.is_done, {}
 
+    # Retrieve values from sumo for the current time step
+    def _get_sumo_values(self):
+        vehicles_on_edge = defaultdict(lambda: [])
+        for edge in all_important_roads:
+            vehicles = self.sumo.edge.getLastStepVehicleIDs(edge)
+            for v in vehicles:
+                v_pos = np.array(self.sumo.vehicle.getPosition(v))
+                vehicles_on_edge[edge].append(
+                    {"name": v, "wait_time": self.sumo.vehicle.getWaitingTime(v), "pos": v_pos}
+                )
+        return vehicles_on_edge
+
     def _next_observation(self, node):
-        # TODO: Consider a different observation function
         obs = []
-        wait_counts, road_counts = self._get_road_waiting_vehicle_count()
-        # For all important roads to this node add their vehicle and waiting vehicle counts
-        for road in node['important_roads']:
-            if road in road_counts.keys():
-                obs.append(road_counts[road])
-                obs.append(wait_counts[road])
-            else:
-                obs.append(0)
-                obs.append(0)
+        total_wait_times, far_vehicle_count, near_vehicle_count = self._get_direction_vehicle_counts(node)
+        # For all incoming directions to this junction add their metrics to the observation
+        for direction in node['connections']:
+            obs.append(total_wait_times[direction['label']])
+            obs.append(far_vehicle_count[direction['label']])
+            obs.append(near_vehicle_count[direction['label']])
+        # obs.append(self.action_time)
+        obs.append(self.controlled_node['steps_since_last_change'])
+        obs.append(self.controlled_node['last_phase'])
+        # obs.append(self.previous_action)
         return np.array(obs)
 
     def _get_reward(self):
-        # TODO: Consider a different reward function
-        road_waiting_vehicles_dict, _ = self._get_road_waiting_vehicle_count()
+        road_waiting_vehicles_dict, _, _ = self._get_direction_vehicle_counts(self.controlled_node)
         reward = 0.0
-        for (road_id, num_vehicles) in road_waiting_vehicles_dict.items():
-            if road_id in all_important_roads:
-                reward -= num_vehicles
+        if self.current_action != self.previous_action:
+            reward -= 5
+
+        for direction in self.controlled_node['connections']:
+            reward -= road_waiting_vehicles_dict[direction['label']]
+
         return reward
 
     def _take_action(self, action):
         # Change phase for learning light
-        if action != self.controlled_node['curr_phase']:
-            self.controlled_node['curr_phase'] = action
-            self._set_tl_phase(self.controlled_node['name'], action)
+        self._update_tl(self.controlled_node, action)
 
         # Change phase for controlled lights not currently learning
         for model in self.model_list:
-            if model['next_phase'] != model['node']['curr_phase']:
-                model['node']['curr_phase'] = model['next_phase']
-                self._set_tl_phase(model['node']['name'], model['next_phase'])
+            self._update_tl(model['node'], model['next_phase'])
 
-    def _get_road_waiting_vehicle_count(self):
-        # TODO: Find a more efficient way of getting these values (SUMO has a batch data function that might be
-        #  interesting)
-        wait_counts = {}
-        road_counts = {}
-        vehicles = self.sumo.vehicle.getIDList()
-        for v in vehicles:
-            road = self.sumo.vehicle.getRoadID(v)
-            if road in all_important_roads:
-                if road not in wait_counts.keys():
-                    wait_counts[road] = 0
-                    road_counts[road] = 0
-                if self.sumo.vehicle.getWaitingTime(v) > 0:
-                    wait_counts[road] += 1
-                road_counts[road] += 1
-        return wait_counts, road_counts
+    def _update_tl(self, node, next_phase):
+        # Make sure the light isn't in a a yellow or red phase
+        if node['steps_since_last_change'] * STEP_LENGTH > (RED_LENGTH + YELLOW_LENGTH):
 
-    def _set_tl_phase(self, intersection_id, phase_id):
-        self.sumo.trafficlight.setPhase(intersection_id, phase_id)
+            # New phase, create a new Logic for it and reset counter
+            if next_phase != node['curr_phase']:
+                node['steps_since_last_change'] = 0  # reset counter
+                node['last_phase'] = node['curr_phase']
+                node['curr_phase'] = next_phase
+
+                # Create state strings for yellow, red, and green phases
+                # TODO: We could speed this up with a dynamic programming approach (use a dict to hold these intermediates)
+                yellow_string = list(node['states'][node['last_phase']])
+                red_string = list(node['states'][node['last_phase']])
+                green_string = node['states'][node['curr_phase']]
+                for i_char in range(len(green_string)):
+                    # If any green becomes red, or a green major becomes minor we need yellow and red phases for
+                    # those connections
+                    if (yellow_string[i_char].lower() == 'g' and (green_string[i_char].lower() in ['r', 's'])) or yellow_string[i_char] == 'G' and green_string[i_char] == 'g':
+                        yellow_string[i_char] = 'y'
+                        red_string[i_char] = 'r'
+                yellow_string = ''.join(yellow_string)
+                red_string = ''.join(red_string)
+
+                # Create Phase and Logic objects to send to SUMO
+                phases = [Phase(YELLOW_LENGTH, yellow_string), Phase(RED_LENGTH, red_string), Phase(9999, green_string)]
+                logic = Logic("1", 0, 0, phases=phases)
+                self._set_tl_logic(node['light_name'], logic)
+                self.sumo.trafficlight.setProgram(node['light_name'], "1")
+            # Set light duration again, counter continues
+            else:
+                self._set_tl_ryg(node['light_name'], node['states'][node['curr_phase']])
+
+    def _get_direction_vehicle_counts(self, node):
+        # This function assumes that self._get_sumo_values() has been called for the current timestep
+        total_wait_times = defaultdict(lambda: 0)
+        far_vehicle_count = defaultdict(lambda: 0)
+        near_vehicle_count = defaultdict(lambda: 0)
+        junc_pos = np.array(self.sumo.junction.getPosition(node['node_name']))
+        for direction in node['connections']:
+            for edge in direction['edges']:
+                for vehicle in self.vehicles_on_edge[edge]:
+                    total_wait_times[direction['label']] += vehicle['wait_time']
+                    dist_to_junc = np.linalg.norm(vehicle['pos'] - junc_pos)
+                    if dist_to_junc <= self.near_dist:
+                        near_vehicle_count[direction['label']] += 1
+                    elif dist_to_junc <= self.far_dist:
+                        far_vehicle_count[direction['label']] += 1
+        return total_wait_times, far_vehicle_count, near_vehicle_count
+
+    def _set_tl_logic(self, light_id, logic):
+        self.sumo.trafficlight.setProgramLogic(light_id, logic)
+
+    def _set_tl_phase(self, light_id, phase_id):
+        self.sumo.trafficlight.setPhase(light_id, phase_id)
+
+    def _set_tl_ryg(self, light_id, ryg_string):
+        self.sumo.trafficlight.setRedYellowGreenState(light_id, ryg_string)
 
     def close(self):
         print('Closing SUMO')

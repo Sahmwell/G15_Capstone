@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 01/06/21 00:01:37 by Eclipse SUMO netedit Version 1.7.0
+<!-- generated on 02/02/21 20:59:53 by Eclipse SUMO netedit Version 1.7.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
-        <sumo-net-file value="C:\Users\cau\Documents\GitHub\G15_Capstone\TrainingGym\Scenarios\VitalTri\VitalTri.net.xml"/>
+        <sumo-net-file value="C:\Users\cau\Documents\GitHub\G15_Capstone\TrainingGym\Scenarios\VitalTri\VitalTriAVG\VitalTriTrimAVG.net.xml"/>
     </input>
 
     <output>
-        <output-file value="C:\Users\cau\Documents\GitHub\G15_Capstone\TrainingGym\Scenarios\VitalTri\VitalTri.net.xml"/>
+        <output-file value="C:\Users\cau\Documents\GitHub\G15_Capstone\TrainingGym\Scenarios\VitalTri\VitalTriAVG\VitalTriTrimAVG.net.xml"/>
         <output.street-names value="true"/>
     </output>
 
@@ -39,11 +39,11 @@
 
 <additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
     <tlLogic id="tl_4" type="actuated" programID="0" offset="0">
-        <phase duration="83" state="srrgGGggrrrgGGgr"/>
-        <phase duration="4" state="srryYYyyrrryYYyr"/>
-        <phase duration="1" state="srrrrrrrrrrrrrrr"/>
-        <phase duration="26" state="gGgrrrrrgGgrrrrr"/>
-        <phase duration="4" state="yyyrrrrryyyrrrrr"/>
-        <phase duration="2" state="srrrrrrrrrrrrrrr"/>
+        <phase duration="83" state="srrgGGggsrrgGGgg"/>
+        <phase duration="4" state="srryYYyysrryYYyy"/>
+        <phase duration="1" state="srrsrrrrsrrsrrrr"/>
+        <phase duration="26" state="gGgsrrrrgGgsrrrr"/>
+        <phase duration="4" state="yyysrrrryyysrrrr"/>
+        <phase duration="2" state="srrsrrrrsrrsrrrr"/>
     </tlLogic>
 </additional>
