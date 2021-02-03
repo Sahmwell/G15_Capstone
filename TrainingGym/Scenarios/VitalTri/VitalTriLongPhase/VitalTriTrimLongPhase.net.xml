@@ -7990,7 +7990,7 @@
         </lane>
     </edge>
 
-    <tlLogic id="tl_1" type="actuated" programID="0" offset="0">
+    <tlLogic id="tl_1" type="static" programID="0" offset="0">
         <phase duration="9999"  state="rrrrrGGggrrrrrrrrr"/>
         <phase duration="9999"  state="rrrrrGGyyrrrrrrrrr"/>
         <phase duration="9999"  state="rrrrrGGrrrrrrrrrrr"/>
@@ -8004,7 +8004,7 @@
         <phase duration="9999"  state="yyrrrrrrryyrrrrrrr"/>
         <phase duration="9999"  state="rrrrrrrrrrrrrrrrrr"/>
     </tlLogic>
-    <tlLogic id="tl_2" type="actuated" programID="0" offset="0">
+    <tlLogic id="tl_2" type="static" programID="0" offset="0">
         <phase duration="9999" state="rrrrrrrrrrrGGgggrrrrr"/>
         <phase duration="9999"  state="rrrrrrrrrrrGGyyyrrrrr"/>
         <phase duration="9999"  state="rrrrrrrrrrrGGrrrrrrrr"/>
@@ -8024,27 +8024,7 @@
         <phase duration="9999"  state="rrrrryyyyyyrrrrrrrrrr"/>
         <phase duration="9999"  state="rrrrrrrrrrrrrrrrrrrrr"/>
     </tlLogic>
-    <tlLogic id="tl_3" type="actuated" programID="0" offset="0">
-        <phase duration="9999" state="GGgggrrrrrrrrrrrrrrrrrrr"/>
-        <phase duration="9999"  state="GGyyyrrrrrrrrrrrrrrrrrrr"/>
-        <phase duration="9999"  state="GGrrrrrrrrrrrrrrrrrrrrrr"/>
-        <phase duration="9999" state="GGrrrrrrrGGrrrrrrrrrrrrr"/>
-        <phase duration="9999"  state="YYrrrrrrrGGrrrrrrrrrrrrr"/>
-        <phase duration="9999"  state="rrrrrrrrrGGrrrrrrrrrrrrr"/>
-        <phase duration="9999" state="rrrrrrrrrGGggrrrrrrrrrrr"/>
-        <phase duration="9999"  state="rrrrrrrrryyyyrrrrrrrrrrr"/>
-        <phase duration="9999"  state="rrrrrrrrrrrrrrrrrrrrrrrr"/>
-        <phase duration="9999"  state="rrrrrrrggrrrrrrggrrrrrrr"/>
-        <phase duration="9999"  state="rrrrrrryyrrrrrrggrrrrrrr"/>
-        <phase duration="9999"  state="rrrrrrrrrrrrrrrggrrrrrrr"/>
-        <phase duration="9999"  state="rrrrrrrrrrrrrGGggrrrrrrr"/>
-        <phase duration="9999"  state="rrrrrrrrrrrrrGGyyrrrrrrr"/>
-        <phase duration="9999"  state="rrrrrrrrrrrrrGGrrrrrrrrr"/>
-        <phase duration="9999" state="rrrrrGGrrrrrrGGrrrrrrrrr"/>
-        <phase duration="9999"  state="rrrrryyrrrrrryyrrrrrrrrr"/>
-        <phase duration="9999"  state="rrrrrrrrrrrrrrrrrrrrrrrr"/>
-    </tlLogic>
-    <tlLogic id="tl_3" type="actuated" programID="1" offset="0">
+    <tlLogic id="tl_3" type="static" programID="1" offset="0">
         <phase duration="9999" state="GGgggrrrrrrrrrrrr"/>
         <phase duration="9999"  state="GGyyyrrrrrrrrrrrr"/>
         <phase duration="9999"  state="GGrrrrrrrrrrrrrrr"/>
@@ -8064,13 +8044,13 @@
         <phase duration="9999"  state="rrrrryyrrrrrryyrr"/>
         <phase duration="9999"  state="rrrrrrrrrrrrrrrrr"/>
     </tlLogic>
-    <tlLogic id="tl_4" type="actuated" programID="0" offset="0">
-        <phase duration="9999" state="srrgGGggrrrgGGgg"/>
-        <phase duration="9999"  state="srryYYyyrrryYYyy"/>
-        <phase duration="9999"  state="srrrrrrrrrrrrrrr"/>
-        <phase duration="9999" state="gGgrrrrrgGgrrrrr"/>
-        <phase duration="9999"  state="yyyrrrrryyyrrrrr"/>
-        <phase duration="9999"  state="srrrrrrrrrrrrrrr"/>
+    <tlLogic id="tl_4" type="static" programID="0" offset="0">
+        <phase duration="9999" state="srrgGGggsrrgGGgg"/>
+        <phase duration="9999"  state="srryYYyysrryYYyy"/>
+        <phase duration="9999"  state="srrsrrrrsrrsrrrr"/>
+        <phase duration="9999" state="gGgsrrrrgGgsrrrr"/>
+        <phase duration="9999"  state="yyysrrrryyysrrrr"/>
+        <phase duration="9999"  state="srrsrrrrsrrsrrrr"/>
     </tlLogic>
     <tlLogic id="tl_5" type="static" programID="0" offset="0">
         <phase duration="9999" state="rrgGGGGrrr"/>
@@ -8098,10 +8078,10 @@
     <tlLogic id="tl_7" type="static" programID="0" offset="0">
         <phase duration="9999" state="srrrrgGgsrrrrgGg"/>
         <phase duration="9999"  state="srrrryYysrrrryYy"/>
-        <phase duration="9999"  state="srrrrrrrsrrrrrrr"/>
-        <phase duration="9999" state="gGGggrrrgGGggrrr"/>
-        <phase duration="9999"  state="yyyyyrrryyyyyrrr"/>
-        <phase duration="9999"  state="srrrrrrrsrrrrrrr"/>
+        <phase duration="9999"  state="srrrrsrrsrrrrsrr"/>
+        <phase duration="9999" state="gGGggsrrgGGggsrr"/>
+        <phase duration="9999"  state="yyyyysrryyyyysrr"/>
+        <phase duration="9999"  state="srrrrsrrsrrrrsrr"/>
     </tlLogic>
     <tlLogic id="tl_8" type="static" programID="0" offset="0">
         <phase duration="9999" state="srrrrgGGGGrrrrrrr"/>
@@ -8118,18 +8098,18 @@
         <phase duration="9999"  state="srrrrsrrrrrrrrrrr"/>
     </tlLogic>
     <tlLogic id="tl_9" type="static" programID="0" offset="0">
-        <phase duration="9999"  state="srrrsrrrrsrrrrGGgg"/>
+        <phase duration="9999"  state="srrrsrrrrsrrrgGGgg"/>
         <phase duration="9999"  state="srrrsrrrrsrrrgGGyy"/>
-        <phase duration="9999"  state="srrrsrrrrsrrrrGGrr"/>
-        <phase duration="9999" state="srrrgGGggsrrrrGGgg"/>
-        <phase duration="9999"  state="srrryYYyysrrrrYYyy"/>
-        <phase duration="9999"  state="srrrsrrrrsrrrrrrrr"/>
-        <phase duration="9999" state="srrrsrrrrgGggrrrrr"/>
-        <phase duration="9999"  state="srrrsrrrrgGyyrrrrr"/>
-        <phase duration="9999"  state="rrrrsrrrrGGrrrrrrr"/>
-        <phase duration="9999" state="gGggsrrrrgGggrrrrr"/>
-        <phase duration="9999"  state="yYyysrrrryYyyrrrrr"/>
-        <phase duration="9999"  state="srrrsrrrrsrrrrrrrr"/>
+        <phase duration="9999"  state="srrrsrrrrsrrrgGGrr"/>
+        <phase duration="9999" state="srrrgGGggsrrrgGGgg"/>
+        <phase duration="9999"  state="srrryYYyysrrryYYyy"/>
+        <phase duration="9999"  state="srrrsrrrrsrrrsrrrr"/>
+        <phase duration="9999" state="srrrsrrrrgGggsrrrr"/>
+        <phase duration="9999"  state="srrrsrrrrgGyysrrrr"/>
+        <phase duration="9999"  state="srrrsrrrrGGrrsrrrr"/>
+        <phase duration="9999" state="gGggsrrrrgGggsrrrr"/>
+        <phase duration="9999"  state="yYyysrrrryYyysrrrr"/>
+        <phase duration="9999"  state="srrrsrrrrsrrrsrrrr"/>
     </tlLogic>
 
     <junction id="1438345351" type="priority" x="1546.07" y="1883.09" incLanes="edge_6_109#1_0 edge_109_6#0_0 -130655057#0_0" intLanes=":1438345351_0_0 :1438345351_1_0 :1438345351_2_0 :1438345351_6_0 :1438345351_4_0 :1438345351_5_0" shape="1550.67,1889.56 1553.95,1884.07 1551.07,1882.36 1548.90,1881.14 1547.07,1880.23 1545.18,1879.45 1542.84,1878.60 1539.68,1877.51 1537.59,1883.56 1539.48,1884.67 1539.94,1885.40 1540.08,1886.26 1539.90,1887.24 1539.40,1888.33 1544.96,1891.50 1546.60,1889.51 1547.52,1889.02 1548.51,1888.87 1549.55,1889.05">

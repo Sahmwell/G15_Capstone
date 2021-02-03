@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on Wed 03 Feb 2021 11:13:04 AM by Eclipse SUMO netedit Version 1.7.0
+<!-- generated on Wed 03 Feb 2021 12:25:25 PM by Eclipse SUMO netedit Version 1.7.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
-        <sumo-net-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/VitalTri/VitalTriAM/VitalTriTrimAM.net.xml"/>
+        <sumo-net-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/VitalTri/VitalTriPM/VitalTriTrimPM.net.xml"/>
     </input>
 
     <output>
-        <output-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/VitalTri/VitalTriAM/VitalTriTrimAM.net.xml"/>
+        <output-file value="/home/eric/Github/G15_Capstone/TrainingGym/Scenarios/VitalTri/VitalTriPM/VitalTriTrimPM.net.xml"/>
         <output.street-names value="true"/>
     </output>
 
@@ -3109,7 +3109,7 @@
         <lane id=":gneJ133_0_0" index="0" allow="pedestrian delivery bicycle" speed="9.72" length="0.10" shape="1963.57,2105.94 1963.57,2105.94"/>
     </edge>
     <edge id=":gneJ133_1" function="internal">
-        <lane id=":gneJ133_1_0" index="0" allow="pedestrian delivery bicycle" speed="13.89" length="0.10" shape="1965.41,2103.32 1965.40,2103.32"/>
+        <lane id=":gneJ133_1_0" index="0" allow="pedestrian delivery bicycle" speed="13.89" length="0.10" shape="1965.41,2103.32 1965.41,2103.32"/>
     </edge>
     <edge id=":gneJ15_0" function="internal">
         <lane id=":gneJ15_0_0" index="0" allow="private pedestrian passenger delivery bicycle" speed="7.96" length="7.52" shape="2314.85,2799.18 2312.51,2799.57 2310.63,2800.22 2309.22,2801.12 2308.28,2802.27"/>
@@ -4257,7 +4257,7 @@
         </lane>
     </edge>
     <edge id="-289433295#1.22" from="gneJ133" to="2929871553" priority="1" type="highway.service" shape="1964.49,2104.63 1967.37,2106.64 1990.64,2129.16 2007.56,2151.15 2035.80,2166.89 2039.24,2168.80 2067.44,2184.53">
-        <lane id="-289433295#1.22_0" index="0" allow="pedestrian delivery bicycle" speed="13.89" length="127.34" shape="1965.40,2103.32 1968.39,2105.40 1991.84,2128.09 2008.63,2149.91 2036.58,2165.49 2040.02,2167.40 2064.12,2180.85">
+        <lane id="-289433295#1.22_0" index="0" allow="pedestrian delivery bicycle" speed="13.89" length="127.33" shape="1965.41,2103.32 1968.39,2105.40 1991.84,2128.09 2008.63,2149.91 2036.58,2165.49 2040.02,2167.40 2064.12,2180.85">
             <param key="origId" value="289433295"/>
         </lane>
     </edge>
@@ -5082,7 +5082,7 @@
         </lane>
     </edge>
     <edge id="289433294#2" from="2929871553" to="gneJ133" priority="1" type="highway.service" shape="2067.44,2184.53 2039.24,2168.80 2035.80,2166.89 2007.56,2151.15 1990.64,2129.16 1967.37,2106.64 1964.49,2104.63">
-        <lane id="289433294#2_0" index="0" allow="pedestrian delivery bicycle" speed="5.56" length="127.68" shape="2062.56,2183.64 2038.46,2170.20 2035.02,2168.29 2006.49,2152.39 1989.44,2130.23 1966.35,2107.88 1963.57,2105.94">
+        <lane id="289433294#2_0" index="0" allow="pedestrian delivery bicycle" speed="5.56" length="127.67" shape="2062.56,2183.64 2038.46,2170.20 2035.02,2168.29 2006.49,2152.39 1989.44,2130.23 1966.35,2107.88 1963.57,2105.94">
             <param key="origId" value="289433294"/>
         </lane>
         <param key="origTo" value="2929871569"/>
@@ -7990,7 +7990,7 @@
         </lane>
     </edge>
 
-    <tlLogic id="tl_1" type="actuated" programID="0" offset="0">
+    <tlLogic id="tl_1" type="static" programID="0" offset="40">
         <phase duration="7"  state="rrrrrGGggrrrrrrrrr"/>
         <phase duration="4"  state="rrrrrGGyyrrrrrrrrr"/>
         <phase duration="2"  state="rrrrrGGrrrrrrrrrrr"/>
@@ -8004,7 +8004,7 @@
         <phase duration="4"  state="yyrrrrrrryyrrrrrrr"/>
         <phase duration="1"  state="rrrrrrrrrrrrrrrrrr"/>
     </tlLogic>
-    <tlLogic id="tl_2" type="actuated" programID="0" offset="0">
+    <tlLogic id="tl_2" type="static" programID="0" offset="27">
         <phase duration="21" state="rrrrrrrrrrrGGgggrrrrr"/>
         <phase duration="4.80"  state="rrrrrrrrrrrGGyyyrrrrr"/>
         <phase duration="2"  state="rrrrrrrrrrrGGrrrrrrrr"/>
@@ -8024,31 +8024,11 @@
         <phase duration="4"  state="rrrrryyyyyyrrrrrrrrrr"/>
         <phase duration="2"  state="rrrrrrrrrrrrrrrrrrrrr"/>
     </tlLogic>
-    <tlLogic id="tl_3" type="actuated" programID="0" offset="0">
-        <phase duration="19.30" state="GGgggrrrrrrrrrrrrrrrrrrr"/>
-        <phase duration="4.80"  state="GGyyyrrrrrrrrrrrrrrrrrrr"/>
-        <phase duration="2"  state="GGrrrrrrrrrrrrrrrrrrrrrr"/>
-        <phase duration="29.20" state="GGrrrrrrrGGrrrrrrrrrrrrr"/>
-        <phase duration="4.80"  state="YYrrrrrrrGGrrrrrrrrrrrrr"/>
-        <phase duration="1"  state="rrrrrrrrrGGrrrrrrrrrrrrr"/>
-        <phase duration="16.20" state="rrrrrrrrrGGggrrrrrrrrrrr"/>
-        <phase duration="4.80"  state="rrrrrrrrryyyyrrrrrrrrrrr"/>
-        <phase duration="2"  state="rrrrrrrrrrrrrrrrrrrrrrrr"/>
-        <phase duration="8.20"  state="rrrrrrrggrrrrrrggrrrrrrr"/>
-        <phase duration="4"  state="rrrrrrryyrrrrrrggrrrrrrr"/>
-        <phase duration="2"  state="rrrrrrrrrrrrrrrggrrrrrrr"/>
-        <phase duration="2"  state="rrrrrrrrrrrrrGGggrrrrrrr"/>
-        <phase duration="4"  state="rrrrrrrrrrrrrGGyyrrrrrrr"/>
-        <phase duration="2"  state="rrrrrrrrrrrrrGGrrrrrrrrr"/>
-        <phase duration="28" state="rrrrrGGrrrrrrGGrrrrrrrrr"/>
-        <phase duration="4"  state="rrrrryyrrrrrryyrrrrrrrrr"/>
-        <phase duration="1.70"  state="rrrrrrrrrrrrrrrrrrrrrrrr"/>
-    </tlLogic>
-    <tlLogic id="tl_3" type="actuated" programID="1" offset="0">
+    <tlLogic id="tl_3" type="static" programID="0" offset="35">
         <phase duration="19.30" state="GGgggrrrrrrrrrrrr"/>
         <phase duration="4.80"  state="GGyyyrrrrrrrrrrrr"/>
         <phase duration="2"  state="GGrrrrrrrrrrrrrrr"/>
-        <phase duration="21.20" state="GGrrrrrrrGGrrrrrr"/>
+        <phase duration="29.20" state="GGrrrrrrrGGrrrrrr"/>
         <phase duration="4.80"  state="YYrrrrrrrGGrrrrrr"/>
         <phase duration="1"  state="rrrrrrrrrGGrrrrrr"/>
         <phase duration="16.20" state="rrrrrrrrrGGggrrrr"/>
@@ -8064,13 +8044,13 @@
         <phase duration="4"  state="rrrrryyrrrrrryyrr"/>
         <phase duration="1.70"  state="rrrrrrrrrrrrrrrrr"/>
     </tlLogic>
-    <tlLogic id="tl_4" type="actuated" programID="0" offset="0">
-        <phase duration="99" state="srrgGGggrrrgGGgg"/>
-        <phase duration="4"  state="srryYYyyrrryYYyy"/>
-        <phase duration="1"  state="srrrrrrrrrrrrrrr"/>
-        <phase duration="30" state="gGgrrrrrgGgrrrrr"/>
-        <phase duration="4"  state="yyyrrrrryyyrrrrr"/>
-        <phase duration="2"  state="srrrrrrrrrrrrrrr"/>
+    <tlLogic id="tl_4" type="static" programID="0" offset="1">
+        <phase duration="99" state="srrgGGggsrrgGGgg"/>
+        <phase duration="4"  state="srryYYyysrryYYyy"/>
+        <phase duration="1"  state="srrsrrrrsrrsrrrr"/>
+        <phase duration="30" state="gGgsrrrrgGgsrrrr"/>
+        <phase duration="4"  state="yyysrrrryyysrrrr"/>
+        <phase duration="2"  state="srrsrrrrsrrsrrrr"/>
     </tlLogic>
     <tlLogic id="tl_5" type="static" programID="0" offset="0">
         <phase duration="84" state="rrgGGGGrrr"/>
@@ -8098,12 +8078,12 @@
     <tlLogic id="tl_7" type="static" programID="0" offset="0">
         <phase duration="20" state="srrrrgGgsrrrrgGg"/>
         <phase duration="4"  state="srrrryYysrrrryYy"/>
-        <phase duration="1"  state="srrrrrrrsrrrrrrr"/>
-        <phase duration="34" state="gGGggrrrgGGggrrr"/>
-        <phase duration="4"  state="yyyyyrrryyyyyrrr"/>
-        <phase duration="1"  state="srrrrrrrsrrrrrrr"/>
+        <phase duration="1"  state="srrrrsrrsrrrrsrr"/>
+        <phase duration="34" state="gGGggsrrgGGggsrr"/>
+        <phase duration="4"  state="yyyyysrryyyyysrr"/>
+        <phase duration="1"  state="srrrrsrrsrrrrsrr"/>
     </tlLogic>
-    <tlLogic id="tl_8" type="static" programID="0" offset="0">
+    <tlLogic id="tl_8" type="static" programID="0" offset="11">
         <phase duration="17.10" state="srrrrgGGGGrrrrrrr"/>
         <phase duration="4"  state="srrrrgGGYYrrrrrrr"/>
         <phase duration="2"  state="srrrrgGGrrrrrrrrr"/>
@@ -8117,19 +8097,19 @@
         <phase duration="4"  state="yYYyysrrrrYyyrrrr"/>
         <phase duration="1.90"  state="srrrrsrrrrrrrrrrr"/>
     </tlLogic>
-    <tlLogic id="tl_9" type="static" programID="0" offset="0">
-        <phase duration="6.90"  state="srrrsrrrrsrrrrGGgg"/>
+    <tlLogic id="tl_9" type="static" programID="0" offset="139">
+        <phase duration="6.90"  state="srrrsrrrrsrrrgGGgg"/>
         <phase duration="4"  state="srrrsrrrrsrrrgGGyy"/>
-        <phase duration="2"  state="srrrsrrrrsrrrrGGrr"/>
-        <phase duration="64" state="srrrgGGggsrrrrGGgg"/>
-        <phase duration="4"  state="srrryYYyysrrrrYYyy"/>
-        <phase duration="1.50"  state="srrrsrrrrsrrrrrrrr"/>
-        <phase duration="23.50" state="srrrsrrrrgGggrrrrr"/>
-        <phase duration="4"  state="srrrsrrrrgGyyrrrrr"/>
-        <phase duration="2"  state="rrrrsrrrrGGrrrrrrr"/>
-        <phase duration="22" state="gGggsrrrrgGggrrrrr"/>
-        <phase duration="4"  state="yYyysrrrryYyyrrrrr"/>
-        <phase duration="2.10"  state="srrrsrrrrsrrrrrrrr"/>
+        <phase duration="2"  state="srrrsrrrrsrrrgGGrr"/>
+        <phase duration="64" state="srrrgGGggsrrrgGGgg"/>
+        <phase duration="4"  state="srrryYYyysrrryYYyy"/>
+        <phase duration="1.50"  state="srrrsrrrrsrrrsrrrr"/>
+        <phase duration="23.50" state="srrrsrrrrgGggsrrrr"/>
+        <phase duration="4"  state="srrrsrrrrgGyysrrrr"/>
+        <phase duration="2"  state="srrrsrrrrGGrrsrrrr"/>
+        <phase duration="22" state="gGggsrrrrgGggsrrrr"/>
+        <phase duration="4"  state="yYyysrrrryYyysrrrr"/>
+        <phase duration="2.10"  state="srrrsrrrrsrrrsrrrr"/>
     </tlLogic>
 
     <junction id="1438345351" type="priority" x="1546.07" y="1883.09" incLanes="edge_6_109#1_0 edge_109_6#0_0 -130655057#0_0" intLanes=":1438345351_0_0 :1438345351_1_0 :1438345351_2_0 :1438345351_6_0 :1438345351_4_0 :1438345351_5_0" shape="1550.67,1889.56 1553.95,1884.07 1551.07,1882.36 1548.90,1881.14 1547.07,1880.23 1545.18,1879.45 1542.84,1878.60 1539.68,1877.51 1537.59,1883.56 1539.48,1884.67 1539.94,1885.40 1540.08,1886.26 1539.90,1887.24 1539.40,1888.33 1544.96,1891.50 1546.60,1889.51 1547.52,1889.02 1548.51,1888.87 1549.55,1889.05">
@@ -9595,7 +9575,7 @@
     </junction>
     <junction id="gneJ129" type="dead_end" x="1960.33" y="3133.89" incLanes="-gneE84_0" intLanes="" shape="1960.33,3133.89 1963.06,3135.56 1960.33,3133.89"/>
     <junction id="gneJ130" type="dead_end" x="1981.91" y="3098.89" incLanes="gneE85_0" intLanes="" shape="1981.91,3098.89 1979.19,3097.20 1981.91,3098.89"/>
-    <junction id="gneJ133" type="priority" x="1964.49" y="2104.63" incLanes="289433294#2_0 -289433295#1_0" intLanes=":gneJ133_0_0 :gneJ133_1_0" shape="1962.66,2107.25 1966.32,2102.00 1962.65,2107.25">
+    <junction id="gneJ133" type="priority" x="1964.49" y="2104.63" incLanes="289433294#2_0 -289433295#1_0" intLanes=":gneJ133_0_0 :gneJ133_1_0" shape="1962.66,2107.25 1966.32,2102.01 1962.66,2107.25">
         <request index="0" response="00" foes="00" cont="0"/>
         <request index="1" response="00" foes="00" cont="0"/>
     </junction>
@@ -9890,7 +9870,7 @@
         <request index="0"  response="0000000000110000" foes="0000000000110000" cont="0"/>
         <request index="1"  response="0111100001110000" foes="0111110001110000" cont="0"/>
         <request index="2"  response="0111001001110000" foes="0111001011110000" cont="1"/>
-        <request index="3"  response="0000000000000000" foes="0100001000000000" cont="0"/>
+        <request index="3"  response="0000001000000000" foes="0100001000000000" cont="0"/>
         <request index="4"  response="0000010000000100" foes="1100011000000111" cont="0"/>
         <request index="5"  response="0000010000000100" foes="1100011000000111" cont="0"/>
         <request index="6"  response="0011110000000100" foes="0011111000000110" cont="1"/>
@@ -9898,7 +9878,7 @@
         <request index="8"  response="0011000000000000" foes="0011000000000000" cont="0"/>
         <request index="9"  response="0111000001111000" foes="0111000001111100" cont="0"/>
         <request index="10" response="0111000001110010" foes="1111000001110010" cont="1"/>
-        <request index="11" response="0000000000000000" foes="0000000001000010" cont="0"/>
+        <request index="11" response="0000000000000010" foes="0000000001000010" cont="0"/>
         <request index="12" response="0000010000000100" foes="0000011111000110" cont="0"/>
         <request index="13" response="0000010000000100" foes="0000011111000110" cont="0"/>
         <request index="14" response="0000010000111100" foes="0000011000111110" cont="1"/>
@@ -9971,7 +9951,7 @@
         <request index="16" response="00000100011000000" foes="00000100011000000" cont="1"/>
     </junction>
     <junction id="node_9" type="traffic_light" x="2363.06" y="2689.22" incLanes="gneE10_0 edge_8_9#5_0 edge_8_9#5_1 edge_8_9#5_2 gneE3_0 edge_3_9#5_0 edge_3_9#5_1 edge_3_9#5_2" intLanes=":node_9_0_0 :node_9_1_0 :node_9_18_0 :node_9_19_0 :node_9_4_0 :node_9_5_0 :node_9_5_1 :node_9_20_0 :node_9_21_0 :node_9_9_0 :node_9_10_0 :node_9_22_0 :node_9_23_0 :node_9_13_0 :node_9_14_0 :node_9_14_1 :node_9_24_0 :node_9_25_0" shape="2371.91,2699.15 2375.52,2693.86 2373.71,2691.98 2373.31,2690.91 2373.25,2689.75 2373.53,2688.50 2374.14,2687.16 2357.91,2678.21 2356.45,2679.95 2355.59,2680.36 2354.64,2680.48 2353.60,2680.29 2352.47,2679.80 2349.41,2685.42 2351.28,2687.04 2351.70,2688.02 2351.76,2689.11 2351.48,2690.31 2350.86,2691.62 2366.67,2700.39 2368.11,2698.69 2368.95,2698.33 2369.86,2698.28 2370.84,2698.55">
-        <request index="0"  response="000000000001100000" foes="000000000001100000" cont="0"/>
+        <request index="0"  response="000000100001100000" foes="000000000001100000" cont="0"/>
         <request index="1"  response="010000000010000000" foes="011111100011100000" cont="0"/>
         <request index="2"  response="010000010010000000" foes="011100010111100000" cont="1"/>
         <request index="3"  response="010000010000010000" foes="010000010000010000" cont="1"/>
@@ -9980,11 +9960,11 @@
         <request index="6"  response="000000110000000111" foes="110000110000000111" cont="0"/>
         <request index="7"  response="001110110000000110" foes="001111110000000110" cont="1"/>
         <request index="8"  response="001100000000000100" foes="001100000000000100" cont="1"/>
-        <request index="9"  response="001100000000000100" foes="001100000000000000" cont="0"/>
+        <request index="9"  response="001100000000000000" foes="001100000000000000" cont="0"/>
         <request index="10" response="010000000010000000" foes="011100000011111100" cont="0"/>
         <request index="11" response="010000000010000010" foes="111100000011100010" cont="1"/>
         <request index="12" response="000010000010000010" foes="000010000010000010" cont="1"/>
-        <request index="13" response="000000000010000010" foes="000001000010000010" cont="0"/>
+        <request index="13" response="000000000000000010" foes="000001000010000010" cont="0"/>
         <request index="14" response="000000111000000110" foes="000000111110000110" cont="0"/>
         <request index="15" response="000000111000000110" foes="000000111110000110" cont="0"/>
         <request index="16" response="000000110001110110" foes="000000110001111110" cont="1"/>
