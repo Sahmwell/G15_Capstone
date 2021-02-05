@@ -23,7 +23,7 @@ for i in range(len(controlled_lights) - 1, -1, -1):
         del controlled_lights[i]
 
 # Create sumo environment
-env = SumoEnvParallel(config_params['test_steps'], True, controlled_lights[0]['light_name'])
+env = SumoEnvParallel(config_params['test_steps'], True, controlled_lights[0]['light_name'], collect_statistics=False)
 
 # Load each light's model
 model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}/PPO2_{controlled_lights[0]["light_name"]}')
