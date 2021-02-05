@@ -53,7 +53,7 @@ def find_attr_in_list(lst, attr, value):
 
 
 class SumoEnvParallel(gym.Env, BaseCallback):
-    def __init__(self, steps_per_episode, use_sumo_gui, controlled_light_name):
+    def __init__(self, steps_per_episode, use_sumo_gui, controlled_light_name, collect_statistics):
         super(SumoEnvParallel, self).__init__()
 
         # Environment parameters
@@ -98,6 +98,8 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         self.near_dist = config_params["near_distance"]  # TODO: Turn this into an env parameter that can be changed
         self.far_dist = config_params['far_distance']  # TODO: Review this number. It was randomly selected
 
+        self.collect_statistics = collect_statistics
+
     def reset(self):
         # Sumo is started on the first call to reset
         if not self.sumo_started:
@@ -121,6 +123,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         return self._next_observation(self.controlled_node)
 
     def step(self, action):
+        info = {}
         self.previous_action = self.current_action
         self.current_action = action
         # Determine next phase for controlled lights not learning
@@ -148,15 +151,21 @@ class SumoEnvParallel(gym.Env, BaseCallback):
 
         # Get obs and reward
         obs = self._next_observation(self.controlled_node)
-        reward = self._get_reward()
+        reward = self._get_reward(self.controlled_node)
         self.total_reward += reward
 
         # If the next step of the simulation is the last step of the episode, indicate the episode is done
         if self.current_step + 1 == self.steps_per_episode:
             self.is_done = True
 
+        if self.collect_statistics:
+            statistics = [{'node_name': self.controlled_node['node_name'], 'step_reward':reward}]
+            for model in self.model_list:
+                statistics.append({'node_name': model['node']['node_name'], 'step_reward': self._get_reward(model['node'])})
+            info['statistics'] = statistics
+
         self.sumo.poi.setType('poi_0', str(action) + ", " + str(reward) + ", " + str(self.total_reward))
-        return obs, reward, self.is_done, {}
+        return obs, reward, self.is_done, info
 
     # Retrieve values from sumo for the current time step
     def _get_sumo_values(self):
@@ -184,13 +193,13 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         # obs.append(self.previous_action)
         return np.array(obs)
 
-    def _get_reward(self):
-        road_waiting_vehicles_dict, _, _ = self._get_direction_vehicle_counts(self.controlled_node)
+    def _get_reward(self, node):
+        road_waiting_vehicles_dict, _, _ = self._get_direction_vehicle_counts(node)
         reward = 0.0
         if self.current_action != self.previous_action:
             reward -= 5
 
-        for direction in self.controlled_node['connections']:
+        for direction in node['connections']:
             reward -= road_waiting_vehicles_dict[direction['label']]
 
         return reward

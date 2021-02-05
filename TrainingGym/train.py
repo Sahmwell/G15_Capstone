@@ -13,9 +13,16 @@ import json
 import os
 import multiprocessing as mp
 from datetime import datetime
+from collections import defaultdict
+import numpy as np
 
 
 def main():
+    if sys.platform == 'win32':
+        thread_method = 'spawn'
+    else:
+        thread_method = 'spawn'  # fork was having issues with multi-agent for me so I switched to forkserver
+    mp.set_start_method(thread_method)
     # Load configs
     with open('global_config.json') as global_json_file:
         global_config_params = json.load(global_json_file)
@@ -31,8 +38,13 @@ def main():
     num_trials = config_params['num_trials']
     num_workers_per_light = global_config_params['num_proc'] // len(controlled_lights)
 
+    # Statistics list (will be saved as a numpy object later)
+    # stats = [[node['node_name'] for node in controlled_lights]]
+    stats = []
+
     # Run a learning session on each light
-    log_to_file(f'BEGINNING {num_trials} TRIAL TRAINING LOOP AT {datetime.now()}')
+    start_datetime = datetime.now()
+    log_to_file(f'BEGINNING {num_trials} TRIAL TRAINING LOOP AT {start_datetime}')
     loop_start_time = time.time()
     for i_trial in range(num_trials):
         log_to_file(f'    Starting trial {i_trial}')
@@ -45,6 +57,17 @@ def main():
         for proc in light_procs:
             proc.join()
         log_to_file(f'    Done trial {i_trial} in {time.time() - trial_start_time} s')
+
+        # Collect statistics
+        if i_trial % global_config_params['trials_per_statistic_gather'] == 0:
+            print(f'Collecting statistics in {global_config_params["trials_per_statistic_gather"]} episodes ...')
+            start_stats = time.time()
+            next_stats = collect_statistics(controlled_lights, global_config_params["statistic_episodes"], config_params)
+            stats.append([next_stats[node['node_name']] for node in controlled_lights])
+            stats_path = os.path.join('.', 'Scenarios', config_params["model_save_path"], 'stats', str(start_datetime) + '.npy')
+            np.save(stats_path, np.array(stats))
+            log_to_file(f'    Collected statistics after trial {i_trial} saved in {stats_path} (Took {time.time() - start_stats} s)')
+
     log_to_file(f'FINISHED TRAINING LOOP in {time.time() - loop_start_time} s')
 
 
@@ -77,16 +100,44 @@ def learn_light(learning_light, num_workers, global_config_params, config_params
     sumo_gym.close()
 
 
+def collect_statistics(controlled_lights, num_episodes, config_params):
+    # Create sumo environment
+    sumo_env = SumoEnvParallel(config_params['test_steps'], False, controlled_lights[0]['light_name'], collect_statistics=True)
+
+    # Load each light's model
+    model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}/PPO2_{controlled_lights[0]["light_name"]}')
+
+    # Reset and run the environment
+    total_rewards = defaultdict(lambda: 0)
+    for _ in range(num_episodes):
+        done = False
+        obs = sumo_env.reset()
+        while not done:
+            action, state = model.predict(obs)
+            # Since we're not training, it doesn't matter which light is the first parameter
+            obs, rewards, done, info = sumo_env.step(action)
+            for node in info['statistics']:
+                total_rewards[node['node_name']] += node['step_reward']
+
+    for node in total_rewards.keys():
+        total_rewards[node] /= num_episodes
+
+    sumo_env.close()
+    del model
+
+    return total_rewards
+
+
 # Create a sumo environment
 def create_env(node_name, num_proc, steps_per_episode, visualize_training):
     if num_proc == 1:
-        return DummyVecEnv([lambda: SumoEnvParallel(steps_per_episode, visualize_training, node_name)])
+        return DummyVecEnv([lambda: SumoEnvParallel(steps_per_episode, visualize_training, node_name, collect_statistics=False)])
     else:
         if sys.platform == 'win32':
             thread_method = 'spawn'
         else:
-            thread_method = 'forkserver'  # fork was having issues with multi-agent for me so I switched to forkserver
-        return SubprocVecEnv([lambda: SumoEnvParallel(steps_per_episode, visualize_training, node_name) for _ in range(num_proc)],
+            thread_method = 'spawn'  # fork was having issues with multi-agent for me so I switched to forkserver
+        return SubprocVecEnv([lambda: SumoEnvParallel(steps_per_episode, visualize_training, node_name, collect_statistics=False) for _ in range(num_proc)],
                             start_method=thread_method)
 
 
