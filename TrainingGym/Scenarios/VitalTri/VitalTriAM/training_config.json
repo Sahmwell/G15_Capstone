@@ -3,11 +3,9 @@
   "num_episodes": 12,
   "num_trials": 100,
   "test_steps": 3600,
-  "near_distance": 30,
-  "far_distance": 150,
+  "wait_accumulation_time": 10,
   "model_save_path": "VitalTri/VitalTriAM/training_models",
   "sumocfg_path": "VitalTri/VitalTriAM/VitalTriAM.sumocfg",
-  "wait_accumulation_time": 10,
   "controlled_lights": [
     {"node_name": "node_1", "light_name": "tl_1", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
       "train": true, "near_distance": 30,  "far_distance": 150,
