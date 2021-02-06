@@ -43,7 +43,6 @@ for i_node in controlled_lights:
     for i_direction in i_node['connections']:
         for i_edge in i_direction['edges']:
             all_important_roads.add(i_edge)
-print(int(time.time()) + mp.current_process().pid)
 load_options = ["-c", f'Scenarios/{config_params["sumocfg_path"]}', "--start", "--quit-on-end",
                 "--step-length", str(STEP_LENGTH), "--seed",str(int(time.time()) + mp.current_process().pid), 
                 "--no-warnings", "true", "--waiting-time-memory", str(config_params['wait_accumulation_time'])]
