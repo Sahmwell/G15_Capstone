@@ -102,7 +102,7 @@ def learn_light(learning_light, num_workers, global_config_params, config_params
 
 def collect_statistics(controlled_lights, num_episodes, config_params):
     # Create sumo environment
-    sumo_env = SumoEnvParallel(config_params['test_steps'], False, controlled_lights[0]['light_name'], collect_statistics=True)
+    sumo_env = SumoEnvParallel(config_params['steps_per_episode'], False, controlled_lights[0]['light_name'], collect_statistics=True)
 
     # Load each light's model
     model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}/PPO2_{controlled_lights[0]["light_name"]}')
