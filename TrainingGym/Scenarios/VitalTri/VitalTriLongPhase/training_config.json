@@ -5,6 +5,7 @@
   "test_steps": 3600,
   "near_distance": 30,
   "far_distance": 150,
+  "wait_accumulation_time": 10,
   "model_save_path": "VitalTri/VitalTriLongPhase/training_models",
   "sumocfg_path": "VitalTri/VitalTriLongPhase/VitalTri.sumocfg",
   "controlled_lights": [

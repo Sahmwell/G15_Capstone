@@ -8,7 +8,9 @@ from stable_baselines import PPO2
 from stable_baselines.common.callbacks import BaseCallback
 import numpy as np
 import json
+import time
 from collections import defaultdict
+import multiprocessing as mp
 
 # we need to import python modules from the $SUMO_HOME/tools directory
 # TODO: This line isn't necessary if everyone directly installs the sumo python libraries in their python dist
@@ -41,7 +43,10 @@ for i_node in controlled_lights:
     for i_direction in i_node['connections']:
         for i_edge in i_direction['edges']:
             all_important_roads.add(i_edge)
-load_options = ["-c", f'Scenarios/{config_params["sumocfg_path"]}', "--start", "--quit-on-end", "--step-length", str(STEP_LENGTH), "--random", "--no-warnings", "true"]
+print(int(time.time()) + mp.current_process().pid)
+load_options = ["-c", f'Scenarios/{config_params["sumocfg_path"]}', "--start", "--quit-on-end",
+                "--step-length", str(STEP_LENGTH), "--seed",str(int(time.time()) + mp.current_process().pid), 
+                "--no-warnings", "true", "--waiting-time-memory", str(config_params['wait_accumulation_time'])]
 
 
 # Find an object with a given value for an attribute in a list
@@ -175,7 +180,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
             for v in vehicles:
                 v_pos = np.array(self.sumo.vehicle.getPosition(v))
                 vehicles_on_edge[edge].append(
-                    {"name": v, "wait_time": self.sumo.vehicle.getWaitingTime(v), "pos": v_pos}
+                    {"name": v, "wait_time": self.sumo.vehicle.getAccumulatedWaitingTime(v), "pos": v_pos}
                 )
         return vehicles_on_edge
 
