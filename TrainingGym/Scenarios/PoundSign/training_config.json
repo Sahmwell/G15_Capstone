@@ -3,8 +3,7 @@
   "num_episodes": 16,
   "num_trials": 100,
   "test_steps": 500,
-  "near_distance": 30,
-  "far_distance": 150,
+  "wait_accumulation_time": 10,
   "model_save_path": "PoundSign/training_models",
   "sumocfg_path": "PoundSign/PoundSign.sumocfg",
   "controlled_lights": [

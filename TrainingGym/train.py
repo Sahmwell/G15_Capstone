@@ -35,8 +35,8 @@ def main():
         config_params = json.load(json_file)
 
     # Make sure that training_models, stats, and tensorboard folders exist for this scenario
-    os.makedirs(os.path.join('Scenarios', config_params['model_save_path'], 'stats'))
-    os.makedirs(os.path.join('Scenarios', config_params['model_save_path'], 'tensorboard'))
+    os.makedirs(os.path.join('Scenarios', config_params['model_save_path'], 'stats'), exist_ok=True)
+    os.makedirs(os.path.join('Scenarios', config_params['model_save_path'], 'tensorboard'), exist_ok=True)
 
     # Load Config Parameters
     controlled_lights = config_params['controlled_lights']
