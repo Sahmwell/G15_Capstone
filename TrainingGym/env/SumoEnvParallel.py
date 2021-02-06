@@ -95,8 +95,6 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         self.current_action = 0
         self.previous_action = 0
         self.action_time = 0
-        self.near_dist = config_params["near_distance"]  # TODO: Turn this into an env parameter that can be changed
-        self.far_dist = config_params['far_distance']  # TODO: Review this number. It was randomly selected
 
         self.collect_statistics = collect_statistics
 
@@ -256,9 +254,9 @@ class SumoEnvParallel(gym.Env, BaseCallback):
                 for vehicle in self.vehicles_on_edge[edge]:
                     total_wait_times[direction['label']] += vehicle['wait_time']
                     dist_to_junc = np.linalg.norm(vehicle['pos'] - junc_pos)
-                    if dist_to_junc <= self.near_dist:
+                    if dist_to_junc <= node['near_distance']:
                         near_vehicle_count[direction['label']] += 1
-                    elif dist_to_junc <= self.far_dist:
+                    elif dist_to_junc <= node['far_distance']:
                         far_vehicle_count[direction['label']] += 1
         return total_wait_times, far_vehicle_count, near_vehicle_count
 
