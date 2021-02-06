@@ -1,50 +1,91 @@
 {
-  "num_proc": 8,
-  "steps_per_episode": 3600,
-  "num_episodes": 10,
-  "model_save_path": "VitalTri/VitalTriAM/training_models",
-  "sumocfg_path": "VitalTri/VitalTriAM/VitalTriAM.sumocfg",
-  "tripinfo_output_path": "VitalTri/VitalTriAM/tripinfo.xml",
+  "steps_per_episode": 1500,
+  "num_episodes": 16,
+  "num_trials": 100,
+  "test_steps": 3600,
+  "near_distance": 30,
+  "far_distance": 150,
+  "model_save_path": "VitalTri/VitalTriLongPhase/training_models",
+  "sumocfg_path": "VitalTri/VitalTriLongPhase/VitalTri.sumocfg",
   "controlled_lights": [
-    {"name": "tl_1", "curr_phase": 0, "num_phases": 12,
+    {"node_name": "node_1", "light_name": "tl_1", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+      "train": true,
       "connections":  [
-        { "edges": [ "edge_102_1#6", "edge_102_1#4", "edge_102_1#5", "ramp_1_SW", "edge_102_1#3", "edge_102_1#2"],
+        { "edges": [ "edge_102_1#6", "edge_102_1#5", "edge_102_1#4", "edge_102_1#3", "edge_102_1#2"],
           "capacity": 1525, "expected": 478, "label": "1. East Bound"},
         { "edges": ["edge_4_1#3", "edge_4_1#2", "edge_4_1#1", "edge_4_1#0"],
           "capacity": 997, "expected": 1206, "label": "1. West Bound" },
-        { "edges": ["edge_2_1#10", "ramp_1_SE", "edge_2_1#9"],
+        { "edges": ["edge_2_1#10", "edge_2_1#9", "edge_2_1#8", "edge_2_1#7"],
           "capacity": 1903, "expected": 1411, "label": "1. North Bound" },
-        { "edges": ["edge_101_1#5"],
-          "capacity": 1377, "expected": 886, "label": "1. South Bound" }
+        { "edges": ["edge_101_1#5", "edge_101_1#4", "edge_101_1#3", "edge_101_1#2"],
+          "capacity": 1377, "expected": 886, "label": "1. South Bound" },
+        {"edges": ["ramp_1_SW"],
+          "capacity": 0, "expected": 0, "label": "1. SW Ramp"},
+        {"edges": ["ramp_1_SE"],
+          "capacity": 0, "expected": 0, "label": "1. SE Ramp"},
+        {"edges": ["ramp_1_NW"],
+          "capacity": 0, "expected": 0, "label": "1. NW Ramp"},
+        {"edges": ["ramp_1_NE"],
+          "capacity": 0, "expected": 0, "label": "1. NE Ramp"}
+      ],
+      "states": [
+        "rrrrrGGggrrrrrrrrr", "rrrrrGGrrrrrrrGGgg", "rrggrrrrrrrggrrrrr" , "GGrrrrrrrGGrrrrrrr"
       ]
     },
-    {"name": "tl_2", "curr_phase": 0, "num_phases": 18,
+    {"node_name": "node_2", "light_name": "tl_2", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+      "train": true,
       "connections":  [
-        { "edges": ["edge_103_2#5", "ramp_2_SW", "edge_103_2#4", "edge_103_2#3", "edge_103_2#2", "edge_103_2#1"],
+        { "edges": ["edge_103_2#5", "edge_103_2#4", "edge_103_2#3", "edge_103_2#2", "edge_103_2#1"],
           "capacity": 2345, "expected": 1033, "label": "2. East Bound" },
-        { "edges": ["edge_3_2#5", "ramp_2_NE", "edge_3_2#4", "edge_3_2#3", "edge_3_2#2", "edge_3_2#1", "edge_3_2#0"],
+        { "edges": ["edge_3_2#5", "edge_3_2#4", "edge_3_2#3", "edge_3_2#2", "edge_3_2#1", "edge_3_2#0"],
           "capacity": 2060, "expected": 1441, "label": "2. West Bound" },
-        { "edges": ["edge_5_2#5", "ramp_2_SE", "edge_5_2#4", "edge_5_2#3"],
+        { "edges": ["edge_5_2#5", "edge_5_2#4", "edge_5_2#3", "edge_5_2#2", "edge_5_2#1", "edge_5_2#0"],
           "capacity": 2102, "expected": 1477, "label": "2. North Bound" },
-        { "edges": ["edge_1_2#12", "ramp_2_NW", "edge_1_2#11", "edge_1_2#10"],
-          "capacity": 1821, "expected": 1155, "label": "2. South Bound" }
+        { "edges": ["edge_1_2#12", "edge_1_2#11", "edge_1_2#10", "edge_1_2#9", "edge_1_2#8"],
+          "capacity": 1821, "expected": 1155, "label": "2. South Bound" },
+        {"edges": ["ramp_2_SW"],
+          "capacity": 0, "expected": 0, "label": "2. SW Ramp"},
+        {"edges": ["ramp_2_SE"],
+          "capacity": 0, "expected": 0, "label": "2. SE Ramp"},
+        {"edges": ["ramp_2_NW"],
+          "capacity": 0, "expected": 0, "label": "2. NW Ramp"},
+        {"edges": ["ramp_2_NE"],
+          "capacity": 0, "expected": 0, "label": "2. NE Ramp"}
+      ],
+      "states": [
+        "rrrrrrrrrrrGGgggrrrrr", "GGrrrrrrrrrGGrrrrrrrr", "GGgggrrrrrrrrrrrrrrrr" , "rrrrrrrrrrrrrrrrGGGgg",
+        "rrrrrGGGrrrrrrrrGGGrr", "rrrrrGGGgggrrrrrrrrrr"
       ]
     },
-    {"name": "tl_3", "curr_phase": 0, "num_phases": 15,
+    {"node_name": "node_3", "light_name": "tl_3", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+      "train": true,
       "connections":  [
-        { "edges": ["edge_2_3#5", "ramp_3_SW", "edge_2_3#4", "edge_2_3#3", "edge_2_3#2", "edge_2_3#1"],
+        { "edges": ["edge_2_3#5", "edge_2_3#4", "edge_2_3#3", "edge_2_3#2", "edge_2_3#1"],
           "capacity": 1864, "expected": 802, "label": "3. East Bound" },
-        { "edges": ["edge_107_3#3", "ramp_3_NE", "edge_107_3#2", "edge_107_3#1"],
+        { "edges": ["edge_107_3#3", "edge_107_3#2", "edge_107_3#1", "edge_107_3#0"],
           "capacity": 2450, "expected": 1521, "label": "3. West Bound" },
-        { "edges": ["edge_9_3#5", "ramp_3_SE", "edge_9_3#4", "edge_9_3#3", "edge_9_3#2", "edge_9_3#1", "edge_9_3#0"],
+        { "edges": ["edge_9_3#5", "edge_9_3#4", "edge_9_3#3", "edge_9_3#2", "edge_9_3#1", "edge_9_3#0"],
           "capacity": 1677, "expected": 1248, "label": "3. North Bound" },
-        { "edges": ["edge_4_3#2", "ramp_3_NW", "edge_4_3#1", "edge_4_3#0"],
-          "capacity": 1141, "expected": 493, "label": "3. South Bound" }
+        { "edges": ["edge_4_3#2", "edge_4_3#1", "edge_4_3#0"],
+          "capacity": 1141, "expected": 493, "label": "3. South Bound" },
+        {"edges": ["ramp_3_SW"],
+          "capacity": 0, "expected": 0, "label": "3. SW Ramp"},
+        {"edges": ["ramp_3_SE"],
+          "capacity": 0, "expected": 0, "label": "3. SE Ramp"},
+        {"edges": ["ramp_3_NW"],
+          "capacity": 0, "expected": 0, "label": "3. NW Ramp"},
+        {"edges": ["ramp_3_NE"],
+          "capacity": 0, "expected": 0, "label": "3. NE Ramp"}
+      ],
+      "states": [
+        "GGgggrrrrrrrrrrrr", "GGrrrrrrrGGrrrrrr", "rrrrrrrrrGGggrrrr" ,
+        "rrrrrrrggrrrrrrgg", "rrrrrrrrrrrrrGGgg", "rrrrrGGrrrrrrGGrr"
       ]
     },
-    {"name": "tl_4", "curr_phase": 0, "num_phases": 6,
+    {"node_name": "node_4", "light_name": "tl_4", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+      "train": true,
       "connections":  [
-        { "edges": ["32868409#2"],
+        { "edges": ["32868409#2", "32868409#2.1"],
           "capacity": 158, "expected": 71, "label": "4. East Bound" },
         { "edges": ["edge_108_4#6", "edge_108_4#5"],
           "capacity": 19, "expected": 196, "label": "4. West Bound" },
@@ -52,55 +93,83 @@
           "capacity": 2329, "expected": 1348, "label": "4. North Bound" },
         { "edges": ["edge_1_4#3", "edge_1_4#2", "edge_1_4#1", "edge_1_4#0"],
           "capacity": 2408, "expected": 352, "label": "4. South Bound" }
+      ],
+      "states": [
+        "srrgGGggsrrgGGgg", "gGgsrrrrgGgsrrrr"
       ]
     },
-    {"name": "tl_5", "curr_phase": 0, "num_phases": 6,
+    {"node_name": "node_5", "light_name": "tl_5", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+      "train": true,
       "connections":  [
         { "edges": ["edge_5_110#0"],
           "capacity": 276, "expected": 36, "label": "5. West Bound" },
-        { "edges": ["edge_6_5#9", "edge_6_5#8", "edge_6_5#6", "edge_6_5#5"],
+        { "edges": ["edge_6_5#9", "edge_6_5#8", "edge_6_5#6", "edge_6_5#5", "edge_6_5#4", "edge_6_5#3"],
           "capacity": 2670, "expected": 1481, "label": "5. North Bound" },
-        { "edges": ["edge_5_6#4", "edge_5_6#3", "edge_5_6#2", "edge_5_6#1", "edge_5_6#0"],
+        { "edges": ["edge_2_5#3", "edge_2_5#2", "edge_2_5#1"],
           "capacity": 2802, "expected": 645, "label": "5. South Bound" }
+      ],
+      "states": [
+        "rrgGGGGrrr", "ggrrrGGggr"
       ]
     },
-    {"name": "tl_6", "curr_phase": 0, "num_phases": 12,
+    {"node_name": "node_6", "light_name": "tl_6", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+      "train": true,
       "connections":  [
         { "edges": ["edge_109_6#3", "edge_109_6#2", "edge_109_6#1"],
           "capacity": 78, "expected": 128, "label": "6. East Bound" },
-        { "edges": ["edge_7_6#6", "ramp_6_NE", "edge_7_6#5", "edge_7_6#4", "edge_7_6#3", "edge_7_6#2", "edge_7_6#1"],
+        { "edges": ["edge_7_6#6", "edge_7_6#5", "edge_7_6#4", "edge_7_6#3", "edge_7_6#2", "edge_7_6#1"],
           "capacity": 710, "expected": 260, "label": "6. West Bound" },
         { "edges": ["edge_104_6#1", "edge_104_6#0"],
           "capacity": 1926, "expected": 1279, "label": "6. North Bound" },
         { "edges": ["edge_5_6#4", "edge_5_6#3", "edge_5_6#2", "edge_5_6#1", "edge_5_6#0"],
-          "capacity": 2159, "expected": 554, "label": "6. South Bound" }
+          "capacity": 2159, "expected": 554, "label": "6. South Bound" },
+        {"edges": ["ramp_6_SW"],
+          "capacity": 0, "expected": 0, "label": "6. SW Ramp"},
+        {"edges": ["ramp_6_NE"],
+          "capacity": 0, "expected": 0, "label": "6. NE Ramp"}
+      ],
+      "states": [
+        "rrrsrrrrrrrgGGggr", "rrrgGGggrrrgGGggr", "Gggsrrrrrrrsrrrrr" , "GrrsrrrrGGgsrrrrr"
       ]
     },
-    {"name": "tl_7", "curr_phase": 0, "num_phases": 6,
+    {"node_name": "node_7", "light_name": "tl_7", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+      "train": true,
       "connections": [
         { "edges": ["edge_6_7#4", "edge_6_7#3", "edge_6_7#2", "edge_6_7#1", "edge_6_7#0"],
-          "capacity": 78, "expected": 128, "label": "6. East Bound" },
-        { "edges": ["edge_8_7#3", "edge_8_7#2", "edge_8_7#1", "edge_8_7#0"],
-          "capacity": 710, "expected": 260, "label": "6. West Bound" }
+          "capacity": 0, "expected": 0, "label": "7. East Bound" },
+        { "edges": ["edge_8_7#3", "edge_8_7#2", "edge_8_7#1"],
+          "capacity": 0, "expected": 0, "label": "7. West Bound" },
+        { "edges": ["-289432766"],
+          "capacity": 0, "expected": 0, "label": "7. North Bound" },
+        { "edges": ["289432762"],
+          "capacity": 0, "expected": 0, "label": "7. South Bound" }
+      ],
+      "states": [
+        "srrrrgGgsrrrrgGg", "gGGggsrrgGGggsrr"
       ]
     },
-    {"name": "tl_8", "curr_phase": 0, "num_phases": 12,
-      "important_roads":  [
-        "edge_106_8#14", "edge_106_8#13", "edge_106_8#12", "edge_9_8#4", "edge_9_8#3" ,
-        "edge_7_8#6", "edge_7_8#5", "edge_105_8#9", "edge_105_8#8"
-      ],
+    {"node_name": "node_8", "light_name": "tl_8", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+      "train": true,
       "connections":  [
         { "edges": ["edge_7_8#6", "edge_7_8#5", "edge_7_8#4", "edge_7_8#3", "edge_7_8#2", "edge_7_8#1", "edge_7_8#0"],
           "capacity": 242, "expected": 141, "label": "8. East Bound" },
-        { "edges": ["edge_106_8#14", "edge_106_8#13", "edge_106_8#12", "edge_106_8#11", "edge_106_8#10"],
+        { "edges": ["edge_106_8#14", "edge_106_8#13", "edge_106_8#12", "edge_106_8#11", "edge_106_8#10", "edge_106_8#9"],
           "capacity": 320, "expected": 340, "label": "8. West Bound" },
-        { "edges": ["edge_105_8#9", "edge_105_8#8", "edge_105_8#7", "edge_105_8#6"],
+        { "edges": ["edge_105_8#9", "edge_105_8#8", "edge_105_8#7", "edge_105_8#6", "edge_105_8#5"],
           "capacity": 2980, "expected": 1192, "label": "8. North Bound" },
         { "edges": ["edge_9_8#4", "edge_9_8#3", "edge_9_8#2", "edge_9_8#1"],
-          "capacity": 1509, "expected": 431, "label": "8. South Bound" }
+          "capacity": 1509, "expected": 431, "label": "8. South Bound" },
+        {"edges": ["ramp_8_SW"],
+          "capacity": 0, "expected": 0, "label": "8. SW Ramp"},
+        {"edges": ["ramp_8_NW"],
+          "capacity": 0, "expected": 0, "label": "8. NW Ramp"}
+      ],
+      "states": [
+        "srrrrgGGGGrrrrrrr", "srrrrgGGggrrrGGgg", "srrrrsrrrrGggrrrr" , "gGGggsrrrrGggrrrr"
       ]
     },
-    {"name": "tl_9", "curr_phase": 0, "num_phases": 12,
+    {"node_name": "node_9", "light_name": "tl_9", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
+      "train": true,
       "connections":  [
         { "edges": ["gneE3", "gneE2"],
           "capacity": 167, "expected": 63, "label": "9. East Bound" },
@@ -109,10 +178,13 @@
         { "edges": ["edge_8_9#5", "edge_8_9#4", "edge_8_9#3", "edge_8_9#2", "edge_8_9#1", "edge_8_9#0"],
           "capacity": 2934, "expected": 1457, "label": "9. North Bound" },
         { "edges": ["edge_3_9#5", "edge_3_9#4", "edge_3_9#3", "edge_3_9#2", "edge_3_9#1"],
-          "capacity": 2949, "expected": 439, "label": "9. South Bound" }
+          "capacity": 2949, "expected": 439, "label": "9. South Bound" },
+        {"edges": ["ramp_9_NW"],
+          "capacity": 0, "expected": 0, "label": "9. NW Ramp"}
+      ],
+      "states": [
+        "srrrsrrrrsrrrgGGgg", "srrrgGGggsrrrgGGgg", "srrrsrrrrgGggsrrrr" , "gGggsrrrrgGggsrrrr"
       ]
     }
-  ],
-  "uncontrolled_lights": [
   ]
 }
