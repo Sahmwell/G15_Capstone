@@ -18,17 +18,25 @@ import numpy as np
 
 
 def main():
+
+
+    # Set subprocess start method for each light's training set
     if sys.platform == 'win32':
         thread_method = 'spawn'
     else:
         thread_method = 'spawn'  # fork was having issues with multi-agent for me so I switched to forkserver
     mp.set_start_method(thread_method)
+
     # Load configs
     with open('global_config.json') as global_json_file:
         global_config_params = json.load(global_json_file)
         local_config_path = global_config_params['config_path']
     with open(f'Scenarios/{local_config_path}') as json_file:
         config_params = json.load(json_file)
+
+    # Make sure that training_models, stats, and tensorboard folders exist for this scenario
+    os.makedirs(os.path.join('Scenarios', config_params['model_save_path'], 'stats'))
+    os.makedirs(os.path.join('Scenarios', config_params['model_save_path'], 'tensorboard'))
 
     # Load Config Parameters
     controlled_lights = config_params['controlled_lights']
@@ -39,7 +47,6 @@ def main():
     num_workers_per_light = global_config_params['num_proc'] // len(controlled_lights)
 
     # Statistics list (will be saved as a numpy object later)
-    # stats = [[node['node_name'] for node in controlled_lights]]
     stats = []
 
     # Run a learning session on each light
