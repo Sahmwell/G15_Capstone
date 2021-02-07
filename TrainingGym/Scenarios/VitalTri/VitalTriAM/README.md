@@ -3,13 +3,13 @@
 **Generate the initial route file as follows**
 
 ```
-python TrainingGym/tools/jtcrouter.py -n TrainingGym/Scenarios/VitalTri/VitalTriAM/VitalTriAM.net.xml -t TrainingGym/Scenarios/VitalTri/VitalTriAM/VitalTriAM.turn.xml -o TrainingGym/Scenarios/VitalTri/VitalTriAM/VitalTriAM.rou.xml --fringe-flows
+python TrainingGym/tools/jtcrouter.py -n TrainingGym/Scenarios/VitalTri/VitalTriAM/VitalTriTrimAM.net.xml -t TrainingGym/Scenarios/VitalTri/VitalTriAM/VitalTriAM.turn.xml -o TrainingGym/Scenarios/VitalTri/VitalTriAM/VitalTriAM.rou.xml --fringe-flows
 ```
 
 **Optimize it using route sampler as follows:**
 
 ```
-python TrainingGym/tools/routeSampler.py -r TrainingGym/Scenarios/VitalTri/VitalTriAM/VitalTriAM.rou.xml -t TrainingGym/Scenarios/VitalTri/VitalTriAM/VitalTriAM.turn.xml -o TrainingGym/Scenarios/VitalTri/VitalTriAM/VitalTriAM_Optimized.rou.xml --optimize full
+python TrainingGym/tools/routeSampler.py -r TrainingGym/Scenarios/VitalTri/VitalTriAM/VitalTriAM.rou.xml -t TrainingGym/Scenarios/VitalTri/VitalTriAM/VitalTriAM.turn.xml -o TrainingGym/Scenarios/VitalTri/VitalTriAM/VitalTriAM_Optimized.rou.xml --optimize full --write-flows probability
 ```
 
 **Load and run simulation in sumo from net edit as follows:**

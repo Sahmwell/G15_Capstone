@@ -29,6 +29,20 @@
       ],
       "states": [
         "rrrrrGGggrrrrrrrrr", "rrrrrGGrrrrrrrGGgg", "rrggrrrrrrrggrrrrr" , "GGrrrrrrrGGrrrrrrr"
+      ],
+      "capacities": [
+        { "label": "1. EBL", "capacity": 44, "expected":  20, "unique_lanes": ["edge_102_1#6_2"]},
+        { "label": "1. EBT", "capacity": 952, "expected":  257, "unique_lanes": ["edge_102_1#6_1", "edge_102_1#6_0"]},
+        { "label": "1. EBR", "capacity": 529, "expected":  201, "unique_lanes": ["ramp_1_SW_0"]},
+        { "label": "1. WBL", "capacity": 240, "expected":  48, "unique_lanes": ["edge_4_1#3_2"]},
+        { "label": "1. WBT", "capacity": 757, "expected":  742, "unique_lanes": ["edge_4_1#3_1", "edge_4_1#3_0"]},
+        { "label": "1. WBR", "capacity": 0, "expected":  410, "unique_lanes": ["ramp_1_NE_0"]},
+        { "label": "1. NBL", "capacity": 0, "expected":  377, "unique_lanes": ["edge_2_1#10_3"]},
+        { "label": "1. NBT", "capacity": 356, "expected":  1022, "unique_lanes": ["edge_2_1#10_2", "edge_2_1#10_1", "edge_2_1#10_0"]},
+        { "label": "1. NBR", "capacity": 1148, "expected":  12, "unique_lanes": ["ramp_1_SE_0"]},
+        { "label": "1. SBL", "capacity": 400, "expected":  151, "unique_lanes": ["edge_101_1#5_2"]},
+        { "label": "1. SBT", "capacity": 241, "expected":  727, "unique_lanes": ["edge_101_1#5_1", "edge_101_1#5_0"]},
+        { "label": "1. SBR", "capacity": 1136, "expected":  7, "unique_lanes": ["ramp_1_NW_0"]}
       ]
     },
     {"node_name": "node_2", "light_name": "tl_2", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
@@ -54,6 +68,20 @@
       "states": [
         "rrrrrrrrrrrGGgggrrrrr", "GGrrrrrrrrrGGrrrrrrrr", "GGgggrrrrrrrrrrrrrrrr" , "rrrrrrrrrrrrrrrrGGGgg",
         "rrrrrGGGrrrrrrrrGGGrr", "rrrrrGGGgggrrrrrrrrrr"
+      ],
+      "capacities": [
+        { "label": "2. EBL", "capacity": 229, "expected":  266, "unique_lanes": ["edge_103_2#5_3", "edge_103_2#5_2"]},
+        { "label": "2. EBT", "capacity": 1615, "expected":  662, "unique_lanes": ["edge_103_2#5_1", "edge_103_2#5_0"]},
+        { "label": "2. EBR", "capacity": 500, "expected":  105, "unique_lanes": ["ramp_2_SW_0"]},
+        { "label": "2. WBL", "capacity": 112, "expected":  47, "unique_lanes": ["edge_3_2#5_3", "edge_3_2#5_2"]},
+        { "label": "2. WBT", "capacity": 1548, "expected":  1378, "unique_lanes": ["edge_3_2#5_1", "edge_3_2#5_0"]},
+        { "label": "2. WBR", "capacity": 400, "expected":  16, "unique_lanes": ["ramp_2_NE_0"]},
+        { "label": "2. NBL", "capacity": 664, "expected":  491, "unique_lanes": ["edge_5_2#5_4", "edge_5_2#5_3"]},
+        { "label": "2. NBT", "capacity": 933, "expected":  905, "unique_lanes": ["edge_5_2#5_2", "edge_5_2#5_1", "edge_5_2#5_0"]},
+        { "label": "2. NBR", "capacity": 506, "expected":  81, "unique_lanes": ["ramp_2_SE_0"]},
+        { "label": "2. SBL", "capacity": 149, "expected":  61, "unique_lanes": ["edge_1_2#12_4"]},
+        { "label": "2. SBT", "capacity": 311, "expected":  454, "unique_lanes": ["edge_1_2#12_3", "edge_1_2#12_2", "edge_1_2#12_1", "edge_1_2#12_0"]},
+        { "label": "2. SBR", "capacity": 1362, "expected":  640, "unique_lanes": ["ramp_2_NW_0"]}
       ]
     },
     {"node_name": "node_3", "light_name": "tl_3", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
@@ -79,6 +107,20 @@
       "states": [
         "GGgggrrrrrrrrrrrr", "GGrrrrrrrGGrrrrrr", "rrrrrrrrrGGggrrrr" ,
         "rrrrrrrggrrrrrrgg", "rrrrrrrrrrrrrGGgg", "rrrrrGGrrrrrrGGrr"
+      ],
+      "capacities": [
+        { "label": "3. EBL", "capacity": 43, "expected":  67, "unique_lanes": ["edge_2_3#5_2"]},
+        { "label": "3. EBT", "capacity": 1184, "expected":  651, "unique_lanes": ["edge_2_3#5_1", "edge_2_3#5_0"]},
+        { "label": "3. EBR", "capacity": 639, "expected":  83, "unique_lanes": ["ramp_3_SW_0"]},
+        { "label": "3. WBL", "capacity": 286, "expected":  189, "unique_lanes": ["edge_107_3#3_3", "edge_107_3#3_2"]},
+        { "label": "3. WBT", "capacity": 1456, "expected":  1063, "unique_lanes": ["edge_107_3#3_1", "edge_107_3#3_0"]},
+        { "label": "3. WBR", "capacity": 708, "expected":  269, "unique_lanes": ["ramp_3_NE_0"]},
+        { "label": "3. NBL", "capacity": 307, "expected":  249, "unique_lanes": ["edge_9_3#5_3"]},
+        { "label": "3. NBT", "capacity": 925, "expected":  879, "unique_lanes": ["edge_9_3#5_2", "edge_9_3#5_1", "edge_9_3#5_0"]},
+        { "label": "3. NBR", "capacity": 444, "expected":  120, "unique_lanes": ["ramp_3_SE_0"]},
+        { "label": "3. SBL", "capacity": 117, "expected":  89, "unique_lanes": ["edge_4_3#2_3"]},
+        { "label": "3. SBT", "capacity": 589, "expected":  330, "unique_lanes": ["edge_4_3#2_2", "edge_4_3#2_1", "edge_4_3#2_0"]},
+        { "label": "3. SBR", "capacity": 435, "expected":  74, "unique_lanes": ["ramp_3_NW_0"]}
       ]
     },
     {"node_name": "node_4", "light_name": "tl_4", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
@@ -95,6 +137,14 @@
       ],
       "states": [
         "srrgGGggsrrgGGgg", "gGgsrrrrgGgsrrrr"
+      ],
+      "capacities": [
+        { "label": "4. EBLTR", "capacity": 158, "expected": 71, "unique_lanes": ["32868409#2_0"]},
+        { "label": "4. WBLTR", "capacity": 319, "expected":  196, "unique_lanes": ["edge_108_4#6_0"]},
+        { "label": "4. NBL", "capacity": 400, "expected":  8, "unique_lanes": ["edge_3_4#4_2"]},
+        { "label": "4. NBTR", "capacity": 1929, "expected":  1336, "unique_lanes": ["edge_3_4#4_1", "edge_3_4#4_0"]},
+        { "label": "4. SBL", "capacity": 132, "expected":  54, "unique_lanes": ["edge_1_4#3_2"]},
+        { "label": "4. SBTR", "capacity": 2277, "expected":  298, "unique_lanes": ["edge_1_4#3_1", "edge_1_4#3_0"]}
       ]
     },
     {"node_name": "node_5", "light_name": "tl_5", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
@@ -109,6 +159,12 @@
       ],
       "states": [
         "rrgGGGGrrr", "ggrrrGGggr"
+      ],
+      "capacities": [
+        { "label": "5. WBR", "capacity": 277, "expected": 36, "unique_lanes": ["edge_5_110#0_1", "edge_5_110#0_0"]},
+        { "label": "5. NBTR", "capacity": 2671, "expected": 1481, "unique_lanes": ["edge_6_5#9_1", "edge_6_5#9_0"]},
+        { "label": "5. SBL", "capacity": 269, "expected": 113, "unique_lanes": ["edge_2_5#3_3", "edge_2_5#3_2"]},
+        { "label": "5. SBT", "capacity": 2533, "expected": 532, "unique_lanes": ["edge_2_5#3_1", "edge_2_5#3_0"]}
       ]
     },
     {"node_name": "node_6", "light_name": "tl_6", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
@@ -129,6 +185,17 @@
       ],
       "states": [
         "rrrsrrrrrrrgGGggr", "rrrsGGggrrrsGGggr", "Gggsrrrrrrrsrrrrr" , "GrrsrrrrGGgsrrrrr"
+      ],
+      "capacities": [
+        { "label": "6. EBLT", "capacity": 210, "expected":  128, "unique_lanes": ["edge_109_6#3_1", "edge_109_6#3_0"]},
+        { "label": "6. EBR", "capacity": 50, "expected":  11, "unique_lanes": ["ramp_6_SW_0"]},
+        { "label": "6. WBL", "capacity": 174, "expected":  83, "unique_lanes": ["edge_7_6#6_1"]},
+        { "label": "6. WBT", "capacity": 214, "expected":  47, "unique_lanes": ["edge_7_6#6_0"]},
+        { "label": "6. WBR", "capacity": 323, "expected":  126, "unique_lanes": ["ramp_6_NE_0"]},
+        { "label": "6. NBL", "capacity": 289, "expected":  26, "unique_lanes": ["edge_104_6#1_2"]},
+        { "label": "6. NBTR", "capacity": 1888, "expected":  1279, "unique_lanes": ["edge_104_6#1_1", "edge_104_6#1_0"]},
+        { "label": "6. SBL", "capacity": 155, "expected":  101, "unique_lanes": ["edge_5_6#4_2"]},
+        { "label": "6. SBT", "capacity": 2004, "expected":  453, "unique_lanes": ["edge_5_6#4_1", "edge_5_6#4_0"]}
       ]
     },
     {"node_name": "node_7", "light_name": "tl_7", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
@@ -145,6 +212,8 @@
       ],
       "states": [
         "srrrrgGgsrrrrgGg", "gGGggsrrgGGggsrr"
+      ],
+      "capacities": [
       ]
     },
     {"node_name": "node_8", "light_name": "tl_8", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
@@ -165,6 +234,18 @@
       ],
       "states": [
         "srrrrgGGGGrrrrrrr", "srrrrsGGggrrrGGgg", "srrrrsrrrrGggrrrr" , "gGGggsrrrrGggrrrr"
+      ],
+      "capacities": [
+        { "label": "8. EBL", "capacity": 94, "expected": 49, "unique_lanes": ["edge_7_8#6_1"]},
+        { "label": "8. EBT", "capacity": 149, "expected":  52, "unique_lanes": ["edge_7_8#6_0"]},
+        { "label": "8. EBR", "capacity": 0, "expected":  40, "unique_lanes": ["ramp_8_SW_0"]},
+        { "label": "8. WBL", "capacity": 98, "expected":  52, "unique_lanes": ["edge_106_8#14_2"]},
+        { "label": "8. WBTR", "capacity": 362, "expected":  288, "unique_lanes": ["edge_106_8#14_1", "edge_106_8#14_0"]},
+        { "label": "8. NBL", "capacity": 544, "expected":  174, "unique_lanes": ["edge_105_8#9_2"]},
+        { "label": "8. NBTR", "capacity": 2437, "expected":  1011, "unique_lanes": ["edge_105_8#9_1", "edge_105_8#9_0"]},
+        { "label": "8. SBL", "capacity": 242, "expected":  40, "unique_lanes": ["edge_9_8#4_2"]},
+        { "label": "8. SBT", "capacity": 1268, "expected":  317, "unique_lanes": ["edge_9_8#4_1", "edge_9_8#4_0"]},
+        { "label": "8. SBR", "capacity": 0, "expected":  73, "unique_lanes": ["ramp_8_NW_0"]}
       ]
     },
     {"node_name": "node_9", "light_name": "tl_9", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
@@ -183,6 +264,14 @@
       ],
       "states": [
         "srrrsrrrrsrrrgGGgg", "srrrgGGggsrrrgGGgg", "srrrsrrrrgGggsrrrr" , "gGggsrrrrgGggsrrrr"
+      ],
+      "capacities": [
+        { "label": "9. EBLTR", "capacity": 184, "expected":  63, "unique_lanes": ["gneE3_0"]},
+        { "label": "9. WBLTR", "capacity": 180, "expected":  45, "unique_lanes": ["gneE10_0"]},
+        { "label": "9. NBL", "capacity": 550, "expected":  54, "unique_lanes": ["edge_8_9#5_2"]},
+        { "label": "9. NBTR", "capacity": 2384, "expected":  1402, "unique_lanes": ["edge_8_9#5_1", "edge_8_9#5_0"]},
+        { "label": "9. SBL", "capacity": 146, "expected":  38, "unique_lanes": ["edge_3_9#5_2"]},
+        { "label": "9. SBTR", "capacity": 2793, "expected":  401, "unique_lanes": ["edge_3_9#5_1", "edge_3_9#5_0"]}
       ]
     }
   ]
