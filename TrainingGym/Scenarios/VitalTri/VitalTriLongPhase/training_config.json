@@ -1,9 +1,9 @@
 {
-  "steps_per_episode": 2000,
-  "num_episodes": 3,
-  "num_trials": 300,
+  "steps_per_episode": 1500,
+  "num_episodes": 16,
+  "num_trials": 100,
   "test_steps": 3600,
-  "wait_accumulation_time": 3,
+  "wait_accumulation_time": 10,
   "model_save_path": "VitalTri/VitalTriLongPhase/training_models",
   "sumocfg_path": "VitalTri/VitalTriLongPhase/VitalTri.sumocfg",
   "controlled_lights": [
@@ -82,7 +82,7 @@
       ]
     },
     {"node_name": "node_4", "light_name": "tl_4", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": false, "near_distance": 30,  "far_distance": 150,
+      "train": true, "near_distance": 30,  "far_distance": 150,
       "connections":  [
         { "edges": ["32868409#2", "32868409#2.1"],
           "capacity": 158, "expected": 71, "label": "4. East Bound" },
@@ -98,7 +98,7 @@
       ]
     },
     {"node_name": "node_5", "light_name": "tl_5", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": false, "near_distance": 30,  "far_distance": 150,
+      "train": true, "near_distance": 30,  "far_distance": 150,
       "connections":  [
         { "edges": ["edge_5_110#0"],
           "capacity": 276, "expected": 36, "label": "5. West Bound" },
@@ -132,7 +132,7 @@
       ]
     },
     {"node_name": "node_7", "light_name": "tl_7", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": false, "near_distance": 30,  "far_distance": 150,
+      "train": true, "near_distance": 30,  "far_distance": 150,
       "connections": [
         { "edges": ["edge_6_7#4", "edge_6_7#3", "edge_6_7#2", "edge_6_7#1", "edge_6_7#0"],
           "capacity": 0, "expected": 0, "label": "7. East Bound" },
@@ -148,7 +148,7 @@
       ]
     },
     {"node_name": "node_8", "light_name": "tl_8", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": false, "near_distance": 30,  "far_distance": 150,
+      "train": true, "near_distance": 30,  "far_distance": 150,
       "connections":  [
         { "edges": ["edge_7_8#6", "edge_7_8#5", "edge_7_8#4", "edge_7_8#3", "edge_7_8#2", "edge_7_8#1", "edge_7_8#0"],
           "capacity": 242, "expected": 141, "label": "8. East Bound" },
@@ -168,7 +168,7 @@
       ]
     },
     {"node_name": "node_9", "light_name": "tl_9", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": false, "near_distance": 30,  "far_distance": 150,
+      "train": true, "near_distance": 30,  "far_distance": 150,
       "connections":  [
         { "edges": ["gneE3", "gneE2"],
           "capacity": 167, "expected": 63, "label": "9. East Bound" },
