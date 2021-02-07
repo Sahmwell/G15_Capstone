@@ -128,7 +128,7 @@
           "capacity": 0, "expected": 0, "label": "6. NE Ramp"}
       ],
       "states": [
-        "rrrsrrrrrrrgGGggr", "rrrgGGggrrrgGGggr", "Gggsrrrrrrrsrrrrr" , "GrrsrrrrGGgsrrrrr"
+        "rrrsrrrrrrrgGGggr", "rrrsGGggrrrsGGggr", "Gggsrrrrrrrsrrrrr" , "GrrsrrrrGGgsrrrrr"
       ]
     },
     {"node_name": "node_7", "light_name": "tl_7", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
@@ -164,7 +164,7 @@
           "capacity": 0, "expected": 0, "label": "8. NW Ramp"}
       ],
       "states": [
-        "srrrrgGGGGrrrrrrr", "srrrrgGGggrrrGGgg", "srrrrsrrrrGggrrrr" , "gGGggsrrrrGggrrrr"
+        "srrrrgGGGGrrrrrrr", "srrrrsGGggrrrGGgg", "srrrrsrrrrGggrrrr" , "gGGggsrrrrGggrrrr"
       ]
     },
     {"node_name": "node_9", "light_name": "tl_9", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
