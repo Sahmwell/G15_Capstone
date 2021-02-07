@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on Wed 03 Feb 2021 12:15:53 PM by Eclipse SUMO netedit Version 1.7.0
+<!-- generated on Sun 07 Feb 2021 12:07:33 PM by Eclipse SUMO netedit Version 1.7.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
@@ -8061,11 +8061,11 @@
         <phase duration="2"  state="rrrrrrrrrr"/>
     </tlLogic>
     <tlLogic id="tl_6" type="static" programID="0" offset="10">
-        <phase duration="10" state="rrrsrrrrrrrggGGgr"/>
+        <phase duration="10" state="rrrsrrrrrrrgGGggr"/>
         <phase duration="4"  state="rrrsrrrrrrrgGGyyr"/>
         <phase duration="2"  state="rrrsrrrrrrrgGGrrr"/>
-        <phase duration="77" state="rrrgGGggrrrgGGggr"/>
-        <phase duration="4"  state="rrryYYyyrrryYYyyr"/>
+        <phase duration="77" state="rrrsGGggrrrsGGggr"/>
+        <phase duration="4"  state="rrrsYYyyrrrsYYyyr"/>
         <phase duration="1"  state="rrrsrrrrrrrsrrrrr"/>
         <phase duration="8"  state="Gggsrrrrrrrsrrrrr"/>
         <phase duration="4"  state="Gyysrrrrrrrsrrrrr"/>
@@ -8086,8 +8086,8 @@
         <phase duration="16.10" state="srrrrgGGGGrrrrrrr"/>
         <phase duration="4"  state="srrrrgGGYYrrrrrrr"/>
         <phase duration="2"  state="srrrrgGGrrrrrrrrr"/>
-        <phase duration="74" state="srrrrgGGggrrrGGgg"/>
-        <phase duration="4"  state="srrrryYYyyrrrYYyy"/>
+        <phase duration="74" state="srrrrsGGggrrrGGgg"/>
+        <phase duration="4"  state="srrrrsYYyyrrrYYyy"/>
         <phase duration="1.30"  state="srrrrsrrrrrrrrrrr"/>
         <phase duration="6.70"  state="srrrrsrrrrGggrrrr"/>
         <phase duration="4"  state="srrrrsrrrrGyyrrrr"/>
@@ -9869,7 +9869,7 @@
         <request index="0"  response="0000000000110000" foes="0000000000110000" cont="0"/>
         <request index="1"  response="0111100001110000" foes="0111110001110000" cont="0"/>
         <request index="2"  response="0111001001110000" foes="0111001011110000" cont="1"/>
-        <request index="3"  response="0000000000000000" foes="0100001000000000" cont="0"/>
+        <request index="3"  response="0000001000000000" foes="0100001000000000" cont="0"/>
         <request index="4"  response="0000010000000100" foes="1100011000000111" cont="0"/>
         <request index="5"  response="0000010000000100" foes="1100011000000111" cont="0"/>
         <request index="6"  response="0011110000000100" foes="0011111000000110" cont="1"/>
@@ -9877,7 +9877,7 @@
         <request index="8"  response="0011000000000000" foes="0011000000000000" cont="0"/>
         <request index="9"  response="0111000001111000" foes="0111000001111100" cont="0"/>
         <request index="10" response="0111000001110010" foes="1111000001110010" cont="1"/>
-        <request index="11" response="0000000000000000" foes="0000000001000010" cont="0"/>
+        <request index="11" response="0000000000000010" foes="0000000001000010" cont="0"/>
         <request index="12" response="0000010000000100" foes="0000011111000110" cont="0"/>
         <request index="13" response="0000010000000100" foes="0000011111000110" cont="0"/>
         <request index="14" response="0000010000111100" foes="0000011000111110" cont="1"/>
@@ -9906,7 +9906,7 @@
         <request index="8"  response="0111000001111000" foes="0111000001111110" cont="0"/>
         <request index="9"  response="0111000001111000" foes="0111000001111110" cont="0"/>
         <request index="10" response="0111000001110001" foes="1111000001110001" cont="1"/>
-        <request index="11" response="0000000000000001" foes="0000000001000001" cont="0"/>
+        <request index="11" response="0000000001000001" foes="0000000001000001" cont="0"/>
         <request index="12" response="0000010000000000" foes="0000011111000011" cont="0"/>
         <request index="13" response="0000010000000000" foes="0000011111000011" cont="0"/>
         <request index="14" response="0000010000110000" foes="0000011100110111" cont="1"/>
@@ -9936,7 +9936,7 @@
         <request index="2"  response="01110000111000000" foes="01111100111000000" cont="0"/>
         <request index="3"  response="01110010111000000" foes="01110011111000000" cont="1"/>
         <request index="4"  response="01000010000100000" foes="01000010000100000" cont="1"/>
-        <request index="5"  response="00000010000000000" foes="01000010000010000" cont="0"/>
+        <request index="5"  response="01000010000000000" foes="01000010000010000" cont="0"/>
         <request index="6"  response="00000100000001000" foes="11000110000001111" cont="0"/>
         <request index="7"  response="00000100000001000" foes="11000110000001111" cont="0"/>
         <request index="8"  response="00110100000001000" foes="00111110000001110" cont="1"/>
@@ -9950,7 +9950,7 @@
         <request index="16" response="00000100011000000" foes="00000100011000000" cont="1"/>
     </junction>
     <junction id="node_9" type="traffic_light" x="2363.06" y="2689.22" incLanes="gneE10_0 edge_8_9#5_0 edge_8_9#5_1 edge_8_9#5_2 gneE3_0 edge_3_9#5_0 edge_3_9#5_1 edge_3_9#5_2" intLanes=":node_9_0_0 :node_9_1_0 :node_9_18_0 :node_9_19_0 :node_9_4_0 :node_9_5_0 :node_9_5_1 :node_9_20_0 :node_9_21_0 :node_9_9_0 :node_9_10_0 :node_9_22_0 :node_9_23_0 :node_9_13_0 :node_9_14_0 :node_9_14_1 :node_9_24_0 :node_9_25_0" shape="2371.91,2699.15 2375.52,2693.86 2373.71,2691.98 2373.31,2690.91 2373.25,2689.75 2373.53,2688.50 2374.14,2687.16 2357.91,2678.21 2356.45,2679.95 2355.59,2680.36 2354.64,2680.48 2353.60,2680.29 2352.47,2679.80 2349.41,2685.42 2351.28,2687.04 2351.70,2688.02 2351.76,2689.11 2351.48,2690.31 2350.86,2691.62 2366.67,2700.39 2368.11,2698.69 2368.95,2698.33 2369.86,2698.28 2370.84,2698.55">
-        <request index="0"  response="000000000001100000" foes="000000000001100000" cont="0"/>
+        <request index="0"  response="000000100001100000" foes="000000000001100000" cont="0"/>
         <request index="1"  response="010000000010000000" foes="011111100011100000" cont="0"/>
         <request index="2"  response="010000010010000000" foes="011100010111100000" cont="1"/>
         <request index="3"  response="010000010000010000" foes="010000010000010000" cont="1"/>
@@ -9959,11 +9959,11 @@
         <request index="6"  response="000000110000000111" foes="110000110000000111" cont="0"/>
         <request index="7"  response="001110110000000110" foes="001111110000000110" cont="1"/>
         <request index="8"  response="001100000000000100" foes="001100000000000100" cont="1"/>
-        <request index="9"  response="001100000000000100" foes="001100000000000000" cont="0"/>
+        <request index="9"  response="001100000000000000" foes="001100000000000000" cont="0"/>
         <request index="10" response="010000000010000000" foes="011100000011111100" cont="0"/>
         <request index="11" response="010000000010000010" foes="111100000011100010" cont="1"/>
         <request index="12" response="000010000010000010" foes="000010000010000010" cont="1"/>
-        <request index="13" response="000000000010000010" foes="000001000010000010" cont="0"/>
+        <request index="13" response="000000000000000010" foes="000001000010000010" cont="0"/>
         <request index="14" response="000000111000000110" foes="000000111110000110" cont="0"/>
         <request index="15" response="000000111000000110" foes="000000111110000110" cont="0"/>
         <request index="16" response="000000110001110110" foes="000000110001111110" cont="1"/>
