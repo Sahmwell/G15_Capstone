@@ -8062,16 +8062,16 @@
         <phase duration="9999"  state="rrrrrrrrrr"/>
     </tlLogic>
     <tlLogic id="tl_6" type="static" programID="0" offset="0">
-        <phase duration="9999" state="rrrsrrrrrrrgGGggr"/>
+        <phase duration="9999"  state="rrrsrrrrrrrgGGggr"/>
         <phase duration="9999"  state="rrrsrrrrrrrgGGyyr"/>
         <phase duration="9999"  state="rrrsrrrrrrrgGGrrr"/>
-        <phase duration="9999" state="rrrgGGggrrrgGGggr"/>
-        <phase duration="9999"  state="rrryYYyyrrryYYyyr"/>
+        <phase duration="9999"  state="rrrsGGggrrrsGGggr"/>
+        <phase duration="9999"  state="rrrsYYyyrrrsYYyyr"/>
         <phase duration="9999"  state="rrrsrrrrrrrsrrrrr"/>
-        <phase duration="9999" state="Gggsrrrrrrrsrrrrr"/>
+        <phase duration="9999"  state="Gggsrrrrrrrsrrrrr"/>
         <phase duration="9999"  state="Gyysrrrrrrrsrrrrr"/>
         <phase duration="9999"  state="Grrsrrrrrrrsrrrrr"/>
-        <phase duration="9999" state="GrrsrrrrGGgsrrrrr"/>
+        <phase duration="9999"  state="GrrsrrrrGGgsrrrrr"/>
         <phase duration="9999"  state="YrrsrrrrYYysrrrrr"/>
         <phase duration="9999"  state="rrrsrrrrrrrsrrrrr"/>
     </tlLogic>
@@ -8084,16 +8084,16 @@
         <phase duration="9999"  state="srrrrsrrsrrrrsrr"/>
     </tlLogic>
     <tlLogic id="tl_8" type="static" programID="0" offset="0">
-        <phase duration="9999" state="srrrrgGGGGrrrrrrr"/>
+        <phase duration="9999"  state="srrrrgGGGGrrrrrrr"/>
         <phase duration="9999"  state="srrrrgGGYYrrrrrrr"/>
         <phase duration="9999"  state="srrrrgGGrrrrrrrrr"/>
-        <phase duration="9999" state="srrrrgGGggrrrGGgg"/>
-        <phase duration="9999"  state="srrrryYYyyrrrYYyy"/>
+        <phase duration="9999"  state="srrrrsGGggrrrGGgg"/>
+        <phase duration="9999"  state="srrrrsYYyyrrrYYyy"/>
         <phase duration="9999"  state="srrrrsrrrrrrrrrrr"/>
-        <phase duration="9999" state="srrrrsrrrrGggrrrr"/>
+        <phase duration="9999"  state="srrrrsrrrrGggrrrr"/>
         <phase duration="9999"  state="srrrrsrrrrGyyrrrr"/>
         <phase duration="9999"  state="srrrrsrrrrGrrrrrr"/>
-        <phase duration="9999" state="gGGggsrrrrGggrrrr"/>
+        <phase duration="9999"  state="gGGggsrrrrGggrrrr"/>
         <phase duration="9999"  state="yYYyysrrrrYyyrrrr"/>
         <phase duration="9999"  state="srrrrsrrrrrrrrrrr"/>
     </tlLogic>
