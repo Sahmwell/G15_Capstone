@@ -184,7 +184,7 @@
           "capacity": 0, "expected": 0, "label": "6. NE Ramp"}
       ],
       "states": [
-        "rrrsrrrrrrrgGGggr", "rrrgGGggrrrgGGggr", "Gggsrrrrrrrsrrrrr" , "GrrsrrrrGGgsrrrrr"
+        "rrrsrrrrrrrgGGggr", "rrrGGGggrrrGGGggr", "Gggsrrrrrrrsrrrrr" , "GrrsrrrrGGgsrrrrr"
       ],
       "capacities": [
         { "label": "6. EBLT", "capacity": 210, "expected":  128, "unique_lanes": ["edge_109_6#3_1", "edge_109_6#3_0"]},
@@ -233,7 +233,7 @@
           "capacity": 0, "expected": 0, "label": "8. NW Ramp"}
       ],
       "states": [
-        "srrrrgGGGGrrrrrrr", "srrrrgGGggrrrGGgg", "srrrrsrrrrGggrrrr" , "gGGggsrrrrGggrrrr"
+        "srrrrgGGGGrrrrrrr", "srrrrGGGggrrrGGgg", "srrrrsrrrrGggrrrr" , "gGGggsrrrrGggrrrr"
       ],
       "capacities": [
         { "label": "8. EBL", "capacity": 94, "expected": 49, "unique_lanes": ["edge_7_8#6_1"]},
@@ -263,7 +263,7 @@
           "capacity": 0, "expected": 0, "label": "9. NW Ramp"}
       ],
       "states": [
-        "srrrsrrrrsrrrgGGgg", "srrrgGGggsrrrgGGgg", "srrrsrrrrgGggsrrrr" , "gGggsrrrrgGggsrrrr"
+        "srrrsrrrrsrrrgGGgg", "srrrGGGggsrrrGGGgg", "srrrsrrrrgGggsrrrr" , "gGggsrrrrgGggsrrrr"
       ],
       "capacities": [
         { "label": "9. EBLTR", "capacity": 184, "expected":  63, "unique_lanes": ["gneE3_0"]},

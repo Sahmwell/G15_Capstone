@@ -8061,11 +8061,11 @@
         <phase duration="2"  state="rrrrrrrrrr"/>
     </tlLogic>
     <tlLogic id="tl_6" type="static" programID="0" offset="10">
-        <phase duration="10" state="rrrsrrrrrrrggGGgr"/>
+        <phase duration="10" state="rrrsrrrrrrrgGGggr"/>
         <phase duration="4"  state="rrrsrrrrrrrgGGyyr"/>
         <phase duration="2"  state="rrrsrrrrrrrgGGrrr"/>
-        <phase duration="77" state="rrrgGGggrrrgGGggr"/>
-        <phase duration="4"  state="rrryYYyyrrryYYyyr"/>
+        <phase duration="77" state="rrrGGGggrrrGGGggr"/>
+        <phase duration="4"  state="rrrYYYyyrrrsYYyyr"/>
         <phase duration="1"  state="rrrsrrrrrrrsrrrrr"/>
         <phase duration="8"  state="Gggsrrrrrrrsrrrrr"/>
         <phase duration="4"  state="Gyysrrrrrrrsrrrrr"/>
@@ -8086,8 +8086,8 @@
         <phase duration="16.10" state="srrrrgGGGGrrrrrrr"/>
         <phase duration="4"  state="srrrrgGGYYrrrrrrr"/>
         <phase duration="2"  state="srrrrgGGrrrrrrrrr"/>
-        <phase duration="74" state="srrrrgGGggrrrGGgg"/>
-        <phase duration="4"  state="srrrryYYyyrrrYYyy"/>
+        <phase duration="74" state="srrrrGGGggrrrGGgg"/>
+        <phase duration="4"  state="srrrrYYYyyrrrYYyy"/>
         <phase duration="1.30"  state="srrrrsrrrrrrrrrrr"/>
         <phase duration="6.70"  state="srrrrsrrrrGggrrrr"/>
         <phase duration="4"  state="srrrrsrrrrGyyrrrr"/>
@@ -8100,8 +8100,8 @@
         <phase duration="6.90"  state="srrrsrrrrsrrrgGGgg"/>
         <phase duration="4"  state="srrrsrrrrsrrrgGGyy"/>
         <phase duration="2"  state="srrrsrrrrsrrrgGGrr"/>
-        <phase duration="90" state="srrrgGGggsrrrgGGgg"/>
-        <phase duration="4"  state="srrryYYyysrrryYYyy"/>
+        <phase duration="90" state="srrrGGGggsrrrGGGgg"/>
+        <phase duration="4"  state="srrrYYYyysrrrYYYyy"/>
         <phase duration="1.50"  state="srrrsrrrrsrrrsrrrr"/>
         <phase duration="7.50" state="srrrsrrrrgGggsrrrr"/>
         <phase duration="4"  state="srrrsrrrrgGyysrrrr"/>

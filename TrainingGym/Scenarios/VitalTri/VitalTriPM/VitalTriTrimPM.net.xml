@@ -8065,8 +8065,8 @@
         <phase duration="21" state="rrrsrrrrrrrgGGggr"/>
         <phase duration="4"  state="rrrsrrrrrrrgGGyyr"/>
         <phase duration="2"  state="rrrsrrrrrrrgGGrrr"/>
-        <phase duration="51" state="rrrgGGggrrrgGGggr"/>
-        <phase duration="4"  state="rrryYYyyrrryYYyyr"/>
+        <phase duration="51" state="rrrGGGggrrrGGGggr"/>
+        <phase duration="4"  state="rrrYYYyyrrrsYYyyr"/>
         <phase duration="1"  state="rrrsrrrrrrrsrrrrr"/>
         <phase duration="23" state="Gggsrrrrrrrsrrrrr"/>
         <phase duration="4"  state="Gyysrrrrrrrsrrrrr"/>
@@ -8087,8 +8087,8 @@
         <phase duration="17.10" state="srrrrgGGGGrrrrrrr"/>
         <phase duration="4"  state="srrrrgGGYYrrrrrrr"/>
         <phase duration="2"  state="srrrrgGGrrrrrrrrr"/>
-        <phase duration="60" state="srrrrgGGggrrrGGgg"/>
-        <phase duration="4"  state="srrrryYYyyrrrYYyy"/>
+        <phase duration="60" state="srrrrGGGggrrrGGgg"/>
+        <phase duration="4"  state="srrrrYYYyyrrrYYyy"/>
         <phase duration="1.30"  state="srrrrsrrrrrrrrrrr"/>
         <phase duration="13.70" state="srrrrsrrrrGggrrrr"/>
         <phase duration="4"  state="srrrrsrrrrGyyrrrr"/>
@@ -8101,8 +8101,8 @@
         <phase duration="6.90"  state="srrrsrrrrsrrrgGGgg"/>
         <phase duration="4"  state="srrrsrrrrsrrrgGGyy"/>
         <phase duration="2"  state="srrrsrrrrsrrrgGGrr"/>
-        <phase duration="64" state="srrrgGGggsrrrgGGgg"/>
-        <phase duration="4"  state="srrryYYyysrrryYYyy"/>
+        <phase duration="64" state="srrrGGGggsrrrGGGgg"/>
+        <phase duration="4"  state="srrrYYYyysrrrYYYyy"/>
         <phase duration="1.50"  state="srrrsrrrrsrrrsrrrr"/>
         <phase duration="23.50" state="srrrsrrrrgGggsrrrr"/>
         <phase duration="4"  state="srrrsrrrrgGyysrrrr"/>
