@@ -157,7 +157,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         # Get obs and reward
         total_wait_times, far_vehicle_count, near_vehicle_count = self._get_direction_vehicle_counts(self.controlled_node)
         obs = self._next_observation(self.controlled_node, total_wait_times, far_vehicle_count, near_vehicle_count)
-        reward = self._get_reward(self.controlled_node, total_wait_times)
+        reward = self._get_reward(self.controlled_node, total_wait_times, obs[-3])
         self.total_reward += reward
 
         # If the next step of the simulation is the last step of the episode, indicate the episode is done
@@ -169,12 +169,12 @@ class SumoEnvParallel(gym.Env, BaseCallback):
             for model in self.model_list:
                 total_wait_times, _, _ = self._get_direction_vehicle_counts(
                     model['node'])
-                statistics.append({'node_name': model['node']['node_name'], 'step_reward': self._get_reward(model['node'], total_wait_times)})
+                statistics.append({'node_name': model['node']['node_name'], 'step_reward': self._get_reward(model['node'], total_wait_times, self.get_time_in_green(model['node']))})
             info['statistics'] = statistics
 
         junc_pos = np.array(self.sumo.junction.getPosition(self.controlled_node['node_name']))
         self.sumo.poi.setPosition('poi_0', junc_pos[0], junc_pos[1])
-        self.sumo.poi.setType('poi_0', str(action) + ", " + str(reward) + ", " + str(self.total_reward))
+        self.sumo.poi.setType('poi_0', str(action) + ", " + str(reward) + ", " + str(self.total_reward) + ", " + str(self.get_time_in_green(self.controlled_node)))
         return obs, reward, self.is_done, info
 
     # Retrieve values from sumo for the current time step
@@ -198,20 +198,25 @@ class SumoEnvParallel(gym.Env, BaseCallback):
             obs.append(far_vehicle_count[direction['label']])
             obs.append(near_vehicle_count[direction['label']])
         # obs.append(self.action_time)
-        if self.controlled_node['steps_since_last_change'] <= (YELLOW_LENGTH * RED_LENGTH) / STEP_LENGTH:
-            obs.append(0)
-        else:
-            obs.append(self.controlled_node['steps_since_last_change'] - (YELLOW_LENGTH * RED_LENGTH) / STEP_LENGTH)
+        obs.append(self.get_time_in_green(self.controlled_node))
         obs.append(self.controlled_node['last_phase'])
         obs.append(self.controlled_node['curr_phase'])
         # obs.append(self.previous_action)
         return np.array(obs)
 
-    def _get_reward(self, node, total_wait_times):
+    def get_time_in_green(self, node):
+        if node['steps_since_last_change'] <= (YELLOW_LENGTH + RED_LENGTH) / STEP_LENGTH:
+            return 0
+        else:
+            return node['steps_since_last_change'] - (YELLOW_LENGTH + RED_LENGTH) / STEP_LENGTH
+
+    def _get_reward(self, node, total_wait_times, steps_since_last_change):
 
         reward = 0.0
         if self.current_action != self.previous_action:
             reward -= 5
+            if steps_since_last_change < 5:
+                reward -= 9999
 
         for direction in node['connections']:
             reward -= pow(total_wait_times[direction['label']], 2)
