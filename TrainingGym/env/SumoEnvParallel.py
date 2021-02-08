@@ -71,7 +71,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         # Setup action, reward, and observation spaces
         self.action_space = spaces.Discrete(len(self.controlled_node['states']))
         self.observation_space = spaces.Box(low=0, high=float('inf'),
-                                            shape=np.array([len(self.controlled_node['connections']) * 3 + 2]),
+                                            shape=np.array([len(self.controlled_node['connections']) * 3 + 3]),
                                             dtype=np.float32)
 
         # Start connection with sumo
@@ -122,7 +122,9 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         self.current_action = 0
         self.previous_action = 0
         self.action_time = 0
-        return self._next_observation(self.controlled_node)
+        total_wait_times, far_vehicle_count, near_vehicle_count = self._get_direction_vehicle_counts(
+            self.controlled_node)
+        return self._next_observation(self.controlled_node, total_wait_times, far_vehicle_count, near_vehicle_count)
 
     def step(self, action):
         info = {}
@@ -131,7 +133,8 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         # Determine next phase for controlled lights not learning
         for model in self.model_list:
             if model['model']:
-                other_obs = self._next_observation(model['node'])
+                total_wait_times, far_vehicle_count, near_vehicle_count = self._get_direction_vehicle_counts(model['node'])
+                other_obs = self._next_observation(model['node'], total_wait_times, far_vehicle_count, near_vehicle_count)
                 model['next_phase'] = model['model'].predict(other_obs)[0]
             # If no model exists yet just keep it on current phase (This will only be the case for the
             #  first time training a set of lights)
@@ -152,8 +155,9 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         # the step function as well as the observation for each agent at the start of the next call to step
 
         # Get obs and reward
-        obs = self._next_observation(self.controlled_node)
-        reward = self._get_reward(self.controlled_node)
+        total_wait_times, far_vehicle_count, near_vehicle_count = self._get_direction_vehicle_counts(self.controlled_node)
+        obs = self._next_observation(self.controlled_node, total_wait_times, far_vehicle_count, near_vehicle_count)
+        reward = self._get_reward(self.controlled_node, total_wait_times, obs[-3])
         self.total_reward += reward
 
         # If the next step of the simulation is the last step of the episode, indicate the episode is done
@@ -163,10 +167,14 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         if self.collect_statistics:
             statistics = [{'node_name': self.controlled_node['node_name'], 'step_reward':reward}]
             for model in self.model_list:
-                statistics.append({'node_name': model['node']['node_name'], 'step_reward': self._get_reward(model['node'])})
+                total_wait_times, _, _ = self._get_direction_vehicle_counts(
+                    model['node'])
+                statistics.append({'node_name': model['node']['node_name'], 'step_reward': self._get_reward(model['node'], total_wait_times, self.get_time_in_green(model['node']))})
             info['statistics'] = statistics
 
-        self.sumo.poi.setType('poi_0', str(action) + ", " + str(reward) + ", " + str(self.total_reward))
+        junc_pos = np.array(self.sumo.junction.getPosition(self.controlled_node['node_name']))
+        self.sumo.poi.setPosition('poi_0', junc_pos[0], junc_pos[1])
+        self.sumo.poi.setType('poi_0', str(action) + ", " + str(reward) + ", " + str(self.total_reward) + ", " + str(self.get_time_in_green(self.controlled_node)))
         return obs, reward, self.is_done, info
 
     # Retrieve values from sumo for the current time step
@@ -181,28 +189,37 @@ class SumoEnvParallel(gym.Env, BaseCallback):
                 )
         return vehicles_on_edge
 
-    def _next_observation(self, node):
+    def _next_observation(self, node, total_wait_times, far_vehicle_count, near_vehicle_count):
         obs = []
-        total_wait_times, far_vehicle_count, near_vehicle_count = self._get_direction_vehicle_counts(node)
+
         # For all incoming directions to this junction add their metrics to the observation
         for direction in node['connections']:
             obs.append(total_wait_times[direction['label']])
             obs.append(far_vehicle_count[direction['label']])
             obs.append(near_vehicle_count[direction['label']])
         # obs.append(self.action_time)
-        obs.append(self.controlled_node['steps_since_last_change'])
+        obs.append(self.get_time_in_green(self.controlled_node))
         obs.append(self.controlled_node['last_phase'])
+        obs.append(self.controlled_node['curr_phase'])
         # obs.append(self.previous_action)
         return np.array(obs)
 
-    def _get_reward(self, node):
-        road_waiting_vehicles_dict, _, _ = self._get_direction_vehicle_counts(node)
+    def get_time_in_green(self, node):
+        if node['steps_since_last_change'] <= (YELLOW_LENGTH + RED_LENGTH) / STEP_LENGTH:
+            return 0
+        else:
+            return node['steps_since_last_change'] - (YELLOW_LENGTH + RED_LENGTH) / STEP_LENGTH
+
+    def _get_reward(self, node, total_wait_times, steps_since_last_change):
+
         reward = 0.0
         if self.current_action != self.previous_action:
             reward -= 5
+            if steps_since_last_change < 5:
+                reward -= 9999
 
         for direction in node['connections']:
-            reward -= road_waiting_vehicles_dict[direction['label']]
+            reward -= pow(total_wait_times[direction['label']], 2)
 
         return reward
 
