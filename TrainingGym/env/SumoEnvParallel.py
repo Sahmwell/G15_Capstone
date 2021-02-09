@@ -86,9 +86,9 @@ class SumoEnvParallel(gym.Env, BaseCallback):
             if node['light_name'] != controlled_light_name:
                 model_path = f'Scenarios/{config_params["model_save_path"]}/PPO2_{node["light_name"]}'
                 if os.path.isfile(model_path + '.zip'):
-                    self.model_list.append({'node': node, 'model': PPO2.load(model_path), 'next_phase': 0})
+                    self.model_list.append({'node': node, 'model': PPO2.load(model_path), 'next_action': 0})
                 else:
-                    self.model_list.append({'node': node, 'model': None, 'next_phase': 0})
+                    self.model_list.append({'node': node, 'model': None, 'next_action': 0})
 
         # Variables to hold sumo state values
         self.vehicles_on_edge = defaultdict(lambda: [])  # dict where key is the road name, and value is a list of
@@ -127,24 +127,27 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         return self._next_observation(self.controlled_node, total_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count)
 
     def step(self, action):
-        info = {}
-        self.previous_action = self.current_action
-        self.current_action = action
-        # Determine next phase for controlled lights not learning
+        # Determine next phase for controlled lights not learning\
+        # NOTE: This NEEDS to come before the sumo step is taken, as these should be observations of the same
+        # timestep as the observation returned from the last call to step()
         for model in self.model_list:
             if model['model']:
                 total_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count = self._get_direction_vehicle_counts(model['node'])
                 other_obs = self._next_observation(model['node'], total_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count)
-                model['next_phase'] = model['model'].predict(other_obs)[0]
+                model['next_action'] = model['model'].predict(other_obs)[0]
             # If no model exists yet just keep it on current phase (This will only be the case for the
             #  first time training a set of lights)
 
-        # Set all controlled light phases
-        self._take_action(action)
+        info = {}  # extra info passed out of the step function
+        self.previous_action = self.current_action
+        self.current_action = action
 
-        # Update phase step counts
+        # Update phase step counts. Will be set to 0 in _take_action if the light is going to a new phase
         for node in controlled_lights:
             node['steps_since_last_change'] += 1
+
+        # Set all controlled light phases
+        self._take_action(action)
 
         # Advance simulation
         self.sumo.simulationStep()
@@ -202,8 +205,8 @@ class SumoEnvParallel(gym.Env, BaseCallback):
             obs.append(near_left_count[direction['label']])
         # obs.append(self.action_time)
         obs.append(self._get_time_in_green(node))
-        obs.append(self.controlled_node['last_phase'])
-        obs.append(self.controlled_node['curr_phase'] + self._get_phase_type(node))
+        obs.append(node['last_phase'])
+        obs.append(3*node['curr_phase'] + self._get_phase_type(node))
         # obs.append(self.previous_action)
         return np.array(obs)
 
@@ -227,7 +230,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         reward = 0.0
         if self.current_action != self.previous_action:
             reward -= 1
-            if self._get_time_in_green(node) < 5:
+            if self._get_time_in_green(node) < node['min_green']:
                 reward -= 100
 
         for direction in node['connections']:
@@ -241,11 +244,11 @@ class SumoEnvParallel(gym.Env, BaseCallback):
 
         # Change phase for controlled lights not currently learning
         for model in self.model_list:
-            self._update_tl(model['node'], model['next_phase'])
+            self._update_tl(model['node'], model['next_action'])
 
     def _update_tl(self, node, next_phase):
         # Make sure the light isn't in a a yellow or red phase
-        if node['steps_since_last_change'] * STEP_LENGTH > (RED_LENGTH + YELLOW_LENGTH):
+        if node['steps_since_last_change'] * STEP_LENGTH > (RED_LENGTH + YELLOW_LENGTH + node['min_green']):
 
             # New phase, create a new Logic for it and reset counter
             if next_phase != node['curr_phase']:
@@ -268,13 +271,14 @@ class SumoEnvParallel(gym.Env, BaseCallback):
                 red_string = ''.join(red_string)
 
                 # Create Phase and Logic objects to send to SUMO
-                phases = [Phase(YELLOW_LENGTH, yellow_string), Phase(RED_LENGTH, red_string), Phase(9999, green_string)]
-                logic = Logic("1", 0, 0, phases=phases)
+                phases = [Phase(YELLOW_LENGTH, yellow_string), Phase(RED_LENGTH, red_string), Phase(999999, green_string)]
+                logic = Logic(node['light_name'] + "intermediate", 0, 0, phases=phases)
                 self._set_tl_logic(node['light_name'], logic)
-                self.sumo.trafficlight.setProgram(node['light_name'], "1")
+                self.sumo.trafficlight.setProgram(node['light_name'], node['light_name'] + "intermediate")
+                self.sumo.trafficlight.setPhase(node['light_name'], 0)
             # Set light duration again, counter continues
-            else:
-                self._set_tl_ryg(node['light_name'], node['states'][node['curr_phase']])
+            # else:
+            #     self._set_tl_ryg(node['light_name'], node['states'][node['curr_phase']])
 
     def _get_direction_vehicle_counts(self, node):
         # This function assumes that self._get_sumo_values() has been called for the current timestep
