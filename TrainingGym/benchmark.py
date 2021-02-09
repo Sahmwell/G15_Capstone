@@ -33,9 +33,10 @@ def get_metrics(connections: List[Dict], capacities: List[Dict]):
         [direction['vehicles'].add(v_id) for e in direction['edges'] for v_id in traci.edge.getLastStepVehicleIDs(e)]
         direction['delays'].append(sum([traci.edge.getWaitingTime(e) for e in direction['edges']]))
         direction['queues'].append(sum([traci.edge.getLastStepHaltingNumber(e) for e in direction['edges']]))
-    for capacity in capacities:
-        for lane in capacity['unique_lanes']:
-            [capacity['vehicles'].add(v_id) for v_id in traci.lane.getLastStepVehicleIDs(lane)]
+    if OUTPUT_TURN_COUNTS:
+        for capacity in capacities:
+            for lane in capacity['unique_lanes']:
+                [capacity['vehicles'].add(v_id) for v_id in traci.lane.getLastStepVehicleIDs(lane)]
 
 
 def step(connections: List[Dict], capacities: List[Dict], total_steps: int):
