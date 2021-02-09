@@ -201,11 +201,20 @@ class SumoEnvParallel(gym.Env, BaseCallback):
             obs.append(far_left_count[direction['label']])
             obs.append(near_left_count[direction['label']])
         # obs.append(self.action_time)
-        obs.append(self._get_time_in_green(self.controlled_node))
+        obs.append(self._get_time_in_green(node))
         obs.append(self.controlled_node['last_phase'])
-        obs.append(self.controlled_node['curr_phase'])
+        obs.append(self.controlled_node['curr_phase'] + self._get_phase_type(node))
         # obs.append(self.previous_action)
         return np.array(obs)
+
+    # 0 when green, 1 when yellow, 2 when red
+    @staticmethod
+    def _get_phase_type(node):
+        if node['steps_since_last_change'] <= YELLOW_LENGTH / STEP_LENGTH:
+            return 1
+        elif node['steps_since_last_change'] <= (YELLOW_LENGTH + RED_LENGTH) / STEP_LENGTH:
+            return 2
+        return 0
 
     @staticmethod
     def _get_time_in_green(node):
