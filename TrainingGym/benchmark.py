@@ -2,6 +2,7 @@ import traci
 import json
 import sumolib
 from typing import List, Dict
+import time
 
 OUTPUT_TURN_COUNTS = False  # Set to True to Enable Turn Count Output
 
@@ -28,27 +29,39 @@ def printProgressBar(iteration, total, prefix='Progress:', suffix='', decimals=1
         print()
 
 
-def get_metrics(connections: List[Dict], capacities: List[Dict]):
+def get_metrics(connections: List[Dict], capacities: List[Dict], vehicles: Dict[str, float], vehicle_cache: Dict[str, float]={}):
+    for v_id in set(traci.vehicle.getIDList()).difference(set(traci.simulation.getDepartedIDList()).union(
+            *traci.simulation.getStopStartingVehiclesIDList()).union(*traci.simulation.getStopEndingVehiclesIDList())):
+            vehicle_cache[v_id] = traci.vehicle.getAccumulatedWaitingTime(v_id)
+    for v_id in traci.simulation.getArrivedIDList():
+        if v_id not in vehicles:
+            vehicles[v_id] = vehicle_cache[v_id]
+        else:
+            wait = vehicle_cache[v_id]
+            print(f"Error overwriting vehicle ID {v_id} old val {vehicles[v_id]} new val {wait}")
+            vehicles[v_id] = wait
+
     for direction in connections:
         [direction['vehicles'].add(v_id) for e in direction['edges'] for v_id in traci.edge.getLastStepVehicleIDs(e)]
-        direction['delays'].append(sum([traci.edge.getWaitingTime(e) for e in direction['edges']]))
         direction['queues'].append(sum([traci.edge.getLastStepHaltingNumber(e) for e in direction['edges']]))
+
     if OUTPUT_TURN_COUNTS:
         for capacity in capacities:
             for lane in capacity['unique_lanes']:
                 [capacity['vehicles'].add(v_id) for v_id in traci.lane.getLastStepVehicleIDs(lane)]
 
 
-def step(connections: List[Dict], capacities: List[Dict], total_steps: int):
+def step(connections: List[Dict], capacities: List[Dict], total_steps: int,  vehicles: Dict[str, float]):
     # Advance simulation
     traci.simulationStep()
-    get_metrics(connections, capacities)
+    get_metrics(connections, capacities, vehicles)
 
     t = traci.simulation.getTime()
     printProgressBar(t, total_steps, suffix=f'Complete. Finished {t} of {total_steps} ')
 
 
 def benchmark():
+    t1 = time.time()
     # init
     with open('global_config.json') as global_json_file:
         global_config_params = json.load(global_json_file)
@@ -64,6 +77,7 @@ def benchmark():
     controlled_lights = config_params['controlled_lights']
     connections = [direction for intersection in controlled_lights for direction in intersection['connections']]
     capacities = [capacity for intersection in controlled_lights for capacity in intersection['capacities']]
+    vehicles = {}
     for capacity in capacities:
         capacity['vehicles'] = set()
     for direction in connections:
@@ -71,17 +85,13 @@ def benchmark():
 
     traci.start([sumolib.checkBinary('sumo')] + load_options)
     for i in range(total_steps):
-        step(connections, capacities, total_steps)
+        step(connections, capacities, total_steps, vehicles)
         if not traci.simulation.getMinExpectedNumber():
             print(f"Simulation ended at {traci.simulation.getTime()}.")
             break
-
     avg_queue_length = sum([q_len for direction in connections for q_len in direction['queues']]) / sum(
         [len(direction['queues']) for direction in connections])
-    avg_delay_on_important_edges = sum([delay for direction in connections for delay in direction['delays']]) / sum(
-        [len(direction['delays']) for direction in connections])
-    count = traci.simulation.getArrivedNumber() if traci.simulation.getArrivedNumber() else 1
-    avg_v_delay = sum([traci.vehicle.getWaitingTime(v) for v in traci.vehicle.getIDList()]) / count
+    avg_delay = sum([wait_time for wait_time in vehicles.values()]) / len(vehicles)
 
     traci.close()
 
@@ -89,16 +99,16 @@ def benchmark():
         norm_arrive_rate = 3600 * (arrive_rate / total_steps)
         return (norm_arrive_rate - road_cap) / max(road_cap, 1) if norm_arrive_rate > road_cap else 0
 
-    avg_overflow = sum([condition(len(edge['vehicles']), edge['capacity']) for edge in connections if edge['capacity']]) / len(connections)
+    edges = [edge for edge in connections if edge['capacity']]
+    avg_overflow = sum([condition(len(edge['vehicles']), edge['capacity']) for edge in edges])/len(edges)
 
-    print(f'Average Overflow (%): {avg_overflow}\n'
+    print(f'Average Overflow (%): {avg_overflow * 100}\n'
           f'Average Queue Length (Num Cars): {avg_queue_length}\n'
-          f'Average Delay On Edge (seconds): {avg_delay_on_important_edges}\n'
-          f'Average Vehicle Wait (seconds): {avg_v_delay}')
+          f'Average Delay: {avg_delay}')
+    print(f"Benchmark finished in {time.time() - t1} seconds")
 
     if OUTPUT_TURN_COUNTS:
         [print(f'Total Vehicles on {r["label"]}: {len(r["vehicles"])} Expected: {r["expected"]}') for r in connections]
         [print(f'Total Vehicles on {l["label"]}: {len(l["vehicles"])} Expected: {l["expected"]}') for l in capacities]
-
 
 benchmark()
