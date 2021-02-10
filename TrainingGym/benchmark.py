@@ -1,10 +1,14 @@
 import traci
 import json
 import sumolib
-from typing import List, Dict
 import time
 
+from typing import List, Dict
+from stable_baselines import PPO2
+from env.SumoEnvParallel import SumoEnvParallel
+
 OUTPUT_TURN_COUNTS = False  # Set to True to Enable Turn Count Output
+USE_LEARNED_MODEL = False  # Set to True to Benchmark PPO2 Model
 
 def printProgressBar(iteration, total, prefix='Progress:', suffix='', decimals=1, length=50, fill='█'):
     """
@@ -29,11 +33,11 @@ def printProgressBar(iteration, total, prefix='Progress:', suffix='', decimals=1
         print()
 
 
-def get_metrics(connections: List[Dict], capacities: List[Dict], vehicles: Dict[str, float], vehicle_cache: Dict[str, float]={}):
-    for v_id in set(traci.vehicle.getIDList()).difference(set(traci.simulation.getDepartedIDList()).union(
-            *traci.simulation.getStopStartingVehiclesIDList()).union(*traci.simulation.getStopEndingVehiclesIDList())):
-            vehicle_cache[v_id] = traci.vehicle.getAccumulatedWaitingTime(v_id)
-    for v_id in traci.simulation.getArrivedIDList():
+def get_metrics(connections: List[Dict], capacities: List[Dict], vehicles: Dict[str, float], t=traci, vehicle_cache={}):
+    for v_id in set(t.vehicle.getIDList()).difference(set(t.simulation.getDepartedIDList()).union(
+            *t.simulation.getStopStartingVehiclesIDList()).union(*t.simulation.getStopEndingVehiclesIDList())):
+        vehicle_cache[v_id] = t.vehicle.getAccumulatedWaitingTime(v_id)
+    for v_id in t.simulation.getArrivedIDList():
         if v_id not in vehicles:
             vehicles[v_id] = vehicle_cache[v_id]
         else:
@@ -42,19 +46,22 @@ def get_metrics(connections: List[Dict], capacities: List[Dict], vehicles: Dict[
             vehicles[v_id] = wait
 
     for direction in connections:
-        [direction['vehicles'].add(v_id) for e in direction['edges'] for v_id in traci.edge.getLastStepVehicleIDs(e)]
-        direction['queues'].append(sum([traci.edge.getLastStepHaltingNumber(e) for e in direction['edges']]))
+        [direction['vehicles'].add(v_id) for e in direction['edges'] for v_id in t.edge.getLastStepVehicleIDs(e)]
+        direction['queues'].append(sum([t.edge.getLastStepHaltingNumber(e) for e in direction['edges']]))
 
     if OUTPUT_TURN_COUNTS:
         for capacity in capacities:
             for lane in capacity['unique_lanes']:
-                [capacity['vehicles'].add(v_id) for v_id in traci.lane.getLastStepVehicleIDs(lane)]
+                [capacity['vehicles'].add(v_id) for v_id in t.lane.getLastStepVehicleIDs(lane)]
 
 
-def step(connections: List[Dict], capacities: List[Dict], total_steps: int,  vehicles: Dict[str, float]):
-    # Advance simulation
-    traci.simulationStep()
-    get_metrics(connections, capacities, vehicles)
+def step(connections: List[Dict], capacities: List[Dict], total_steps: int, vehicles: Dict[str, float], env, model, obs):
+    if USE_LEARNED_MODEL:
+        action, state = model.predict(obs)
+        env.step(action)
+    else:
+        traci.simulationStep()
+    get_metrics(connections, capacities, vehicles, env.sumo if USE_LEARNED_MODEL else traci)
 
     t = traci.simulation.getTime()
     printProgressBar(t, total_steps, suffix=f'Complete. Finished {t} of {total_steps} ')
@@ -83,24 +90,37 @@ def benchmark():
     for direction in connections:
         direction['vehicles'], direction['queues'], direction['delays'] = set(), [], []
 
-    traci.start([sumolib.checkBinary('sumo')] + load_options)
+    env, model, obs = None, None, None
+    if USE_LEARNED_MODEL:
+        controlled_lights = config_params['controlled_lights']
+        for i in range(len(controlled_lights) - 1, -1, -1):
+            if not controlled_lights[i]['train']:
+                del controlled_lights[i]
+        env = SumoEnvParallel(config_params['test_steps'], True, controlled_lights[0]['light_name'],
+                              collect_statistics=False)
+        model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}/PPO2_{controlled_lights[0]["light_name"]}')
+        obs = env.reset()
+
+    if not USE_LEARNED_MODEL:
+        traci.start([sumolib.checkBinary('sumo')] + load_options)
+    t = traci if not USE_LEARNED_MODEL else env.sumo
     for i in range(total_steps):
-        step(connections, capacities, total_steps, vehicles)
-        if not traci.simulation.getMinExpectedNumber():
-            print(f"Simulation ended at {traci.simulation.getTime()}.")
+        step(connections, capacities, total_steps, vehicles, env, model, obs)
+        if not t.simulation.getMinExpectedNumber():
+            print(f"Simulation ended at {t.simulation.getTime()}.")
             break
     avg_queue_length = sum([q_len for direction in connections for q_len in direction['queues']]) / sum(
         [len(direction['queues']) for direction in connections])
     avg_delay = sum([wait_time for wait_time in vehicles.values()]) / len(vehicles)
 
-    traci.close()
+    t.close()
 
     def condition(arrive_rate, road_cap):
         norm_arrive_rate = 3600 * (arrive_rate / total_steps)
         return (norm_arrive_rate - road_cap) / max(road_cap, 1) if norm_arrive_rate > road_cap else 0
 
     edges = [edge for edge in connections if edge['capacity']]
-    avg_overflow = sum([condition(len(edge['vehicles']), edge['capacity']) for edge in edges])/len(edges)
+    avg_overflow = sum([condition(len(edge['vehicles']), edge['capacity']) for edge in edges]) / len(edges)
 
     print(f'Average Overflow (%): {avg_overflow * 100}\n'
           f'Average Queue Length (Num Cars): {avg_queue_length}\n'
@@ -110,5 +130,6 @@ def benchmark():
     if OUTPUT_TURN_COUNTS:
         [print(f'Total Vehicles on {r["label"]}: {len(r["vehicles"])} Expected: {r["expected"]}') for r in connections]
         [print(f'Total Vehicles on {l["label"]}: {len(l["vehicles"])} Expected: {l["expected"]}') for l in capacities]
+
 
 benchmark()
