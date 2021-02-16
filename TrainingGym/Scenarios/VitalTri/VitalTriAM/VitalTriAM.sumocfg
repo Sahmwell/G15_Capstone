@@ -4,7 +4,7 @@
 
     <input>
         <net-file value="VitalTriTrimAM.net.xml"/>
-        <route-files value="VitalTriSynth.rou.xml"/>
+        <route-files value="VitalTriAM_Optimized.rou.xml"/>
     </input>
 
     <time>
@@ -12,7 +12,7 @@
     </time>
 
     <report>
-        <verbose value="true"/>
+        <verbose value="false"/>
         <no-step-log value="true"/>
     </report>
 

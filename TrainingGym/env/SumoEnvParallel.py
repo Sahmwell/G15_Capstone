@@ -44,8 +44,11 @@ for i_node in controlled_lights:
         for i_edge in i_direction['edges']:
             all_important_roads.add(i_edge)
 load_options = ["-c", f'Scenarios/{config_params["sumocfg_path"]}', "--start", "--quit-on-end",
-                "--step-length", str(STEP_LENGTH), "--seed",str(int(time.time()) + mp.current_process().pid), 
-                "--no-warnings", "true", "--waiting-time-memory", str(config_params['wait_accumulation_time'])]
+                "--step-length", str(STEP_LENGTH),
+                "--seed", str(int(time.time()) + mp.current_process().pid),
+                "--no-warnings", "true",
+                "--waiting-time-memory", str(config_params['wait_accumulation_time'])
+                ]
 
 
 # Find an object with a given value for an attribute in a list
@@ -229,9 +232,9 @@ class SumoEnvParallel(gym.Env, BaseCallback):
     def _get_reward(self, node, total_wait_times):
         reward = 0.0
         if self.current_action != self.previous_action:
-            reward -= 1
+            reward -= 100
             if self._get_time_in_green(node) < node['min_green']:
-                reward -= 100
+                reward -= 1000
 
         for direction in node['connections']:
             reward -= pow(total_wait_times[direction['label']], 2)

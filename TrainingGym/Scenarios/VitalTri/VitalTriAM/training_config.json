@@ -3,7 +3,7 @@
   "num_episodes": 12,
   "num_trials": 100,
   "test_steps": 3600,
-  "wait_accumulation_time": 10,
+  "wait_accumulation_time": 5,
   "model_save_path": "VitalTri/VitalTriAM/training_models",
   "sumocfg_path": "VitalTri/VitalTriAM/VitalTriAM.sumocfg",
   "controlled_lights": [
