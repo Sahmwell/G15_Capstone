@@ -15,6 +15,7 @@ import multiprocessing as mp
 from datetime import datetime
 from collections import defaultdict
 import numpy as np
+import hashlib
 
 
 def main():
@@ -63,7 +64,7 @@ def main():
             light_procs.append(p)
         for proc in light_procs:
             proc.join()
-        log_to_file(f'    Done trial {i_trial} in {time.time() - trial_start_time} s')
+        log_to_file(f'    Done trial {i_trial} in {time.time() - trial_start_time} s (Elapsed time {datetime.now() - start_datetime})')
 
         # Collect statistics
         if i_trial % global_config_params['trials_per_statistic_gather'] == 0:
@@ -71,7 +72,7 @@ def main():
             start_stats = time.time()
             next_stats = collect_statistics(controlled_lights, global_config_params["statistic_episodes"], config_params)
             stats.append([next_stats[node['node_name']] for node in controlled_lights])
-            stats_path = os.path.join('.', 'Scenarios', config_params["model_save_path"], 'stats', str(start_datetime) + '.npy')
+            stats_path = os.path.join('.', 'Scenarios', config_params["model_save_path"], 'stats', hashlib.sha1(str(loop_start_time).encode()).hexdigest() + '.npy')
             np.save(stats_path, np.array(stats))
             log_to_file(f'    Collected statistics after trial {i_trial} saved in {stats_path} (Took {time.time() - start_stats} s)')
 
