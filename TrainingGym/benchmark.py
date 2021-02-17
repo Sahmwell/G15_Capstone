@@ -2,13 +2,16 @@ import traci
 import json
 import sumolib
 import time
+import random
 
 from typing import List, Dict
 from stable_baselines import PPO2
 from env.SumoEnvParallel import SumoEnvParallel
+from collections import defaultdict
 
 OUTPUT_TURN_COUNTS = False  # Set to True to Enable Turn Count Output
 USE_LEARNED_MODEL = False  # Set to True to Benchmark PPO2 Model
+SEED = 100 # Set to -1 for random seed
 
 def printProgressBar(iteration, total, prefix='Progress:', suffix='', decimals=1, length=50, fill='█'):
     """
@@ -33,15 +36,21 @@ def printProgressBar(iteration, total, prefix='Progress:', suffix='', decimals=1
         print()
 
 
-def get_metrics(connections: List[Dict], capacities: List[Dict], vehicles: Dict[str, float], t=traci, vehicle_cache={}):
+def get_metrics(
+        connections: List[Dict], capacities: List[Dict], vehicles: Dict[str, float], t=traci,
+        wait_cache=defaultdict(int), total_wait_cache=defaultdict(int)
+):
     for v_id in set(t.vehicle.getIDList()).difference(set(t.simulation.getDepartedIDList()).union(
             *t.simulation.getStopStartingVehiclesIDList()).union(*t.simulation.getStopEndingVehiclesIDList())):
-        vehicle_cache[v_id] = t.vehicle.getAccumulatedWaitingTime(v_id)
+        curr_wait = t.vehicle.getWaitingTime(v_id)
+        if not curr_wait and wait_cache[v_id]:
+            total_wait_cache[v_id] += wait_cache[v_id]
+        wait_cache[v_id] = curr_wait
     for v_id in t.simulation.getArrivedIDList():
         if v_id not in vehicles:
-            vehicles[v_id] = vehicle_cache[v_id]
+            vehicles[v_id] = total_wait_cache[v_id]
         else:
-            wait = vehicle_cache[v_id]
+            wait = total_wait_cache[v_id]
             print(f"Error overwriting vehicle ID {v_id} old val {vehicles[v_id]} new val {wait}")
             vehicles[v_id] = wait
 
@@ -76,8 +85,10 @@ def benchmark():
     with open(f'Scenarios/{local_config_path}') as json_file:
         config_params = json.load(json_file)
 
+    seed = random.randint(0, 2**32 - 1) if SEED == -1 else SEED
+
     load_options = ["-c", f'Scenarios/{config_params["sumocfg_path"]}', "--start", "--quit-on-end",
-                    "--random", "--no-warnings", "true"]
+                    "--seed", str(seed), "--no-warnings", "true"]
 
     # Get config parameters
     total_steps = config_params["test_steps"]
