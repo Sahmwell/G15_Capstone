@@ -60,9 +60,10 @@ def find_attr_in_list(lst, attr, value):
 
 
 class SumoEnvParallel(gym.Env, BaseCallback):
-    def __init__(self, steps_per_episode, use_sumo_gui, controlled_light_name, collect_statistics):
+    def __init__(self, steps_per_episode, use_sumo_gui, controlled_light_name, collect_statistics, seed=-1):
         super(SumoEnvParallel, self).__init__()
-
+        if seed != -1:
+            load_options[load_options.index("--seed") + 1] = str(seed)
         # Environment parameters
         self.steps_per_episode = steps_per_episode
         self.is_done = False
