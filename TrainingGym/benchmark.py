@@ -108,7 +108,7 @@ def benchmark():
             if not controlled_lights[i]['train']:
                 del controlled_lights[i]
         env = SumoEnvParallel(config_params['test_steps'], True, controlled_lights[0]['light_name'],
-                              collect_statistics=False)
+                              collect_statistics=False, seed=SEED)
         model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}/PPO2_{controlled_lights[0]["light_name"]}')
         obs = env.reset()
 
