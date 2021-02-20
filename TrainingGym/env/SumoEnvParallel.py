@@ -75,7 +75,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         # Setup action, reward, and observation spaces
         self.action_space = spaces.Discrete(len(self.controlled_node['states']))
         self.observation_space = spaces.Box(low=0, high=float('inf'),
-                                            shape=np.array([len(self.controlled_node['connections']) * 5 + 3]),
+                                            shape=np.array([len(self.controlled_node['connections']) * 6 + 4]),
                                             dtype=np.float32)
 
         # Start connection with sumo
@@ -126,9 +126,9 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         self.current_action = 0
         self.previous_action = 0
         self.action_time = 0
-        total_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count = \
+        straight_wait_times, left_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count = \
             self._get_direction_vehicle_counts(self.controlled_node)
-        return self._next_observation(self.controlled_node, total_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count)
+        return self._next_observation(self.controlled_node, straight_wait_times, left_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count)
 
     def step(self, action):
         # Determine next phase for controlled lights not learning\
@@ -136,8 +136,8 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         # timestep as the observation returned from the last call to step()
         for model in self.model_list:
             if model['model']:
-                total_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count = self._get_direction_vehicle_counts(model['node'])
-                other_obs = self._next_observation(model['node'], total_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count)
+                straight_wait_times, left_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count = self._get_direction_vehicle_counts(model['node'])
+                other_obs = self._next_observation(model['node'], straight_wait_times, left_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count)
                 model['next_action'] = model['model'].predict(other_obs)[0]
             # If no model exists yet just keep it on current phase (This will only be the case for the
             #  first time training a set of lights)
@@ -162,9 +162,9 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         # the step function as well as the observation for each agent at the start of the next call to step
 
         # Get obs and reward
-        total_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count = self._get_direction_vehicle_counts(self.controlled_node)
-        obs = self._next_observation(self.controlled_node, total_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count)
-        reward = self._get_reward(self.controlled_node, total_wait_times)
+        straight_wait_times, left_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count = self._get_direction_vehicle_counts(self.controlled_node)
+        obs = self._next_observation(self.controlled_node, straight_wait_times, left_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count)
+        reward = self._get_reward(self.controlled_node, straight_wait_times, left_wait_times)
         self.total_reward += reward
 
         # If the next step of the simulation is the last step of the episode, indicate the episode is done
@@ -174,9 +174,9 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         if self.collect_statistics:
             statistics = [{'node_name': self.controlled_node['node_name'], 'step_reward':reward}]
             for model in self.model_list:
-                total_wait_times, _, _, _, _ = self._get_direction_vehicle_counts(
+                straight_wait_times, left_wait_times, _, _, _, _ = self._get_direction_vehicle_counts(
                     model['node'])
-                statistics.append({'node_name': model['node']['node_name'], 'step_reward': self._get_reward(model['node'], total_wait_times)})
+                statistics.append({'node_name': model['node']['node_name'], 'step_reward': self._get_reward(model['node'], straight_wait_times, left_wait_times,)})
             info['statistics'] = statistics
 
         junc_pos = np.array(self.sumo.junction.getPosition(self.controlled_node['node_name']))
@@ -197,12 +197,13 @@ class SumoEnvParallel(gym.Env, BaseCallback):
                 )
         return vehicles_on_edge
 
-    def _next_observation(self, node, total_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count):
+    def _next_observation(self, node, straight_wait_times, left_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count):
         obs = []
 
         # For all incoming directions to this junction add their metrics to the observation
         for direction in node['connections']:
-            obs.append(total_wait_times[direction['label']])
+            obs.append(straight_wait_times[direction['label']])
+            obs.append(left_wait_times[direction['label']])
             obs.append(far_vehicle_count[direction['label']])
             obs.append(near_vehicle_count[direction['label']])
             obs.append(far_left_count[direction['label']])
@@ -211,7 +212,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         obs.append(self._get_time_in_green(node))
         obs.append(node['last_phase'])
         obs.append(3*node['curr_phase'] + self._get_phase_type(node))
-        # obs.append(self.previous_action)
+        obs.append(self.previous_action)
         return np.array(obs)
 
     # 0 when green, 1 when yellow, 2 when red
@@ -230,7 +231,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         else:
             return node['steps_since_last_change'] - (YELLOW_LENGTH + RED_LENGTH) / STEP_LENGTH
 
-    def _get_reward(self, node, total_wait_times):
+    def _get_reward(self, node, straight_wait_times, left_wait_times):
         reward = 0.0
         if self.current_action != self.previous_action:
             reward -= 100
@@ -238,7 +239,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
                 reward -= 1000
 
         for direction in node['connections']:
-            reward -= pow(total_wait_times[direction['label']], 2)
+            reward -= pow(straight_wait_times[direction['label']] + left_wait_times[direction['label']], 2)
 
         return reward
 
@@ -286,7 +287,8 @@ class SumoEnvParallel(gym.Env, BaseCallback):
 
     def _get_direction_vehicle_counts(self, node):
         # This function assumes that self._get_sumo_values() has been called for the current timestep
-        total_wait_times = defaultdict(lambda: 0)
+        straight_wait_times = defaultdict(lambda: 0)
+        left_wait_times = defaultdict(lambda: 0)
         far_vehicle_count = defaultdict(lambda: 0)
         near_vehicle_count = defaultdict(lambda: 0)
         far_left_count = defaultdict(lambda: 0)
@@ -298,20 +300,21 @@ class SumoEnvParallel(gym.Env, BaseCallback):
                 left_turn_info = find_attr_in_list(direction['left_turns'], 'edge', edge)
 
                 for vehicle in self.vehicles_on_edge[edge]:
-                    total_wait_times[direction['label']] += vehicle['wait_time']
                     dist_to_junc = np.linalg.norm(vehicle['pos'] - junc_pos)
                     if left_turn_info and (vehicle['lane_index'] >= left_turn_info['num_lanes'] - left_turn_info['num_left']):
+                        left_wait_times[direction['label']] += vehicle['wait_time']
                         if dist_to_junc <= node['near_distance']:
                             near_left_count[direction['label']] += 1
                         elif dist_to_junc <= node['far_distance']:
                             far_left_count[direction['label']] += 1
                     else:
+                        straight_wait_times[direction['label']] += vehicle['wait_time']
                         if dist_to_junc <= node['near_distance']:
                             near_vehicle_count[direction['label']] += 1
                         elif dist_to_junc <= node['far_distance']:
                             far_vehicle_count[direction['label']] += 1
 
-        return total_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count
+        return straight_wait_times, left_wait_times, far_vehicle_count, near_vehicle_count, far_left_count, near_left_count
 
     def _set_tl_logic(self, light_id, logic):
         self.sumo.trafficlight.setProgramLogic(light_id, logic)
