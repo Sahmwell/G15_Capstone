@@ -122,6 +122,13 @@ class SumoEnvParallel(gym.Env, BaseCallback):
 
         # Michael's new stuff TODO: review these
         self.sumo.poi.add('poi_0', -100, 200, (255, 0, 0), poiType='test')
+
+        # More debugging...
+        i = 1
+        for road in self.controlled_node['connections']:
+            self.sumo.poi.add(road['label'], -100, 200 - 10 * i, (255, 0, 0), poiType=road['label'])
+            i += 1
+
         self.total_reward = 0
         self.current_action = 0
         self.previous_action = 0
@@ -132,7 +139,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
 
     def step(self, action):
         # Determine next phase for controlled lights not learning\
-        # NOTE: This NEEDS to come before the sumo step is taken, as these should be observations of the same
+        # NOTE: This NEEDS to come before the sumo step is taken, as these should be observations.txt of the same
         # timestep as the observation returned from the last call to step()
         for model in self.model_list:
             if model['model']:
@@ -180,16 +187,28 @@ class SumoEnvParallel(gym.Env, BaseCallback):
             info['statistics'] = statistics
 
         junc_pos = np.array(self.sumo.junction.getPosition(self.controlled_node['node_name']))
-        self.sumo.poi.setPosition('poi_0', junc_pos[0], junc_pos[1])
-        self.sumo.poi.setType('poi_0', str(action) + ", " + str(reward) + ", " + str(self.total_reward) + ", " + str(self._get_time_in_green(self.controlled_node)))
+        self.sumo.poi.setPosition('poi_0', junc_pos[0] - 50, junc_pos[1])
+        self.sumo.poi.setType('poi_0', str(action) + ", " + str(reward) + ", " + str(self.total_reward) + ", " + str(
+            self._get_time_in_green(self.controlled_node)))
+
+        i = 0
+        for road in self.controlled_node['connections']:
+            self.sumo.poi.setPosition(road['label'], junc_pos[0] - 50, junc_pos[1] - 10 * (i + 1))
+            self.sumo.poi.setType(road['label'], road['label'] + " Far: " + str(obs[(i * 6) + 2]) + ", Near: " + str(
+                obs[(i * 6) + 3]) +
+                                  ", Far(L): " + str(obs[i * 6 + 4]) + ", Near(L): " + str(
+                obs[i * 6 + 5]) + "Wait: " + str(obs[(i * 6)]))
+            i += 1
         return obs, reward, self.is_done, info
 
     # Retrieve values from sumo for the current time step
     def _get_sumo_values(self):
         vehicles_on_edge = defaultdict(lambda: [])
-        for edge in all_important_roads:
-            vehicles = self.sumo.edge.getLastStepVehicleIDs(edge)
-            for v in vehicles:
+        vehicles = self.sumo.vehicle.getIDList()
+        for v in vehicles:
+            route_index = self.sumo.vehicle.getRouteIndex(v)
+            edge = self.sumo.vehicle.getRoute(v)[route_index]
+            if edge in all_important_roads:
                 v_pos = np.array(self.sumo.vehicle.getPosition(v))
                 vehicles_on_edge[edge].append(
                     {"name": v, "wait_time": self.sumo.vehicle.getAccumulatedWaitingTime(v),
