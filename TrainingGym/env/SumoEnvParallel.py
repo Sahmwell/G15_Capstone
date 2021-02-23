@@ -71,6 +71,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
 
         # Get the node which this agent is controlling
         self.controlled_node = find_attr_in_list(controlled_lights, 'light_name', controlled_light_name)
+        self.controlled_node['programs'] = {}
 
         # Setup action, reward, and observation spaces
         self.action_space = spaces.Discrete(len(self.controlled_node['states']))
@@ -89,6 +90,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         for node in controlled_lights:
             if node['light_name'] != controlled_light_name:
                 model_path = f'Scenarios/{config_params["model_save_path"]}/PPO2_{node["light_name"]}'
+                node['programs'] = {}
                 if os.path.isfile(model_path + '.zip'):
                     self.model_list.append({'node': node, 'model': PPO2.load(model_path), 'next_action': 0})
                 else:
@@ -105,6 +107,8 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         self.action_time = 0
 
         self.collect_statistics = collect_statistics
+
+        self.routes = {}
 
     def reset(self):
         # Sumo is started on the first call to reset
@@ -206,8 +210,10 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         vehicles_on_edge = defaultdict(lambda: [])
         vehicles = self.sumo.vehicle.getIDList()
         for v in vehicles:
+            if v not in self.routes:
+                self.routes[v] = self.sumo.vehicle.getRoute(v)
             route_index = self.sumo.vehicle.getRouteIndex(v)
-            edge = self.sumo.vehicle.getRoute(v)[route_index]
+            edge = self.routes[v][route_index]
             if edge in all_important_roads:
                 v_pos = np.array(self.sumo.vehicle.getPosition(v))
                 vehicles_on_edge[edge].append(
@@ -252,10 +258,10 @@ class SumoEnvParallel(gym.Env, BaseCallback):
 
     def _get_reward(self, node, straight_wait_times, left_wait_times):
         reward = 0.0
-        if self.current_action != self.previous_action:
-            reward -= 100
-            if self._get_time_in_green(node) < node['min_green']:
-                reward -= 1000
+        # if self.current_action != self.previous_action:
+        #     reward -= 100
+        #     if self._get_time_in_green(node) < node['min_green']:
+        #         reward -= 1000
 
         for direction in node['connections']:
             reward -= pow(straight_wait_times[direction['label']] + left_wait_times[direction['label']], 2)
@@ -279,24 +285,28 @@ class SumoEnvParallel(gym.Env, BaseCallback):
                 node['steps_since_last_change'] = 0  # reset counter
                 node['last_phase'] = node['curr_phase']
                 node['curr_phase'] = next_phase
+                program_Id = node['light_name'] + ":" + str(node['last_phase']) + "->" + str(next_phase)
 
                 # Create state strings for yellow, red, and green phases
-                # TODO: We could speed this up with a dynamic programming approach (use a dict to hold these intermediates)
-                yellow_string = list(node['states'][node['last_phase']])
-                red_string = list(node['states'][node['last_phase']])
-                green_string = node['states'][node['curr_phase']]
-                for i_char in range(len(green_string)):
-                    # If any green becomes red, or a green major becomes minor we need yellow and red phases for
-                    # those connections
-                    if (yellow_string[i_char].lower() == 'g' and (green_string[i_char].lower() in ['r', 's'])) or yellow_string[i_char] == 'G' and green_string[i_char] == 'g':
-                        yellow_string[i_char] = 'y'
-                        red_string[i_char] = 'r'
-                yellow_string = ''.join(yellow_string)
-                red_string = ''.join(red_string)
+                if program_Id not in node['programs']:
+                    yellow_string = list(node['states'][node['last_phase']])
+                    red_string = list(node['states'][node['last_phase']])
+                    green_string = node['states'][node['curr_phase']]
+                    for i_char in range(len(green_string)):
+                        # If any green becomes red, or a green major becomes minor we need yellow and red phases for
+                        # those connections
+                        if (yellow_string[i_char].lower() == 'g' and (green_string[i_char].lower() in ['r', 's'])) or yellow_string[i_char] == 'G' and green_string[i_char] == 'g':
+                            yellow_string[i_char] = 'y'
+                            red_string[i_char] = 'r'
+                    yellow_string = ''.join(yellow_string)
+                    red_string = ''.join(red_string)
 
-                # Create Phase and Logic objects to send to SUMO
-                phases = [Phase(YELLOW_LENGTH, yellow_string), Phase(RED_LENGTH, red_string), Phase(999999, green_string)]
-                logic = Logic(node['light_name'] + "intermediate", 0, 0, phases=phases)
+                    # Create Phase and Logic objects to send to SUMO
+                    phases = [Phase(YELLOW_LENGTH, yellow_string), Phase(RED_LENGTH, red_string), Phase(999999, green_string)]
+                    node['programs'][program_Id] = Logic(node['light_name'] + "intermediate", 0, 0, phases=phases)
+
+                logic = node['programs'][program_Id]
+
                 self._set_tl_logic(node['light_name'], logic)
                 self.sumo.trafficlight.setProgram(node['light_name'], node['light_name'] + "intermediate")
                 self.sumo.trafficlight.setPhase(node['light_name'], 0)
