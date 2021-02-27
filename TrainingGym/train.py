@@ -20,7 +20,6 @@ import hashlib
 
 def main():
 
-
     # Set subprocess start method for each light's training set
     if sys.platform == 'win32':
         thread_method = 'spawn'
@@ -59,7 +58,7 @@ def main():
         trial_start_time = time.time()
         light_procs = []
         for learning_light in controlled_lights:
-            p = mp.Process(target=learn_light, args=(learning_light, num_workers_per_light, global_config_params, config_params))
+            p = mp.Process(target=learn_light, args=(learning_light, num_workers_per_light, global_config_params, config_params, i_trial))
             p.start()
             light_procs.append(p)
         for proc in light_procs:
@@ -79,7 +78,7 @@ def main():
     log_to_file(f'FINISHED TRAINING LOOP in {time.time() - loop_start_time} s')
 
 
-def learn_light(learning_light, num_workers, global_config_params, config_params):
+def learn_light(learning_light, num_workers, global_config_params, config_params, i_trial):
 
     # Create an environment where the ith light in controlled_lights is being trained
     sumo_gym = create_env(learning_light['light_name'], num_workers, config_params['steps_per_episode'],
@@ -104,6 +103,8 @@ def learn_light(learning_light, num_workers, global_config_params, config_params
     model.learn(total_timesteps=config_params['steps_per_episode'] * config_params['num_episodes'])
     print(f'LIGHT LEARNING TIME: {time.time() - train_start_time}')
     model.save(f'Scenarios/{config_params["model_save_path"]}/PPO2_{learning_light["light_name"]}')
+    if i_trial % global_config_params['trials_per_checkpoint'] == 0:
+        model.save(f'Scenarios/{config_params["model_save_path"]}/PPO2_{learning_light["light_name"]}_{i_trial}')
     print(f'DONE LEARNING LIGHT: {learning_light["light_name"]}')
     sumo_gym.close()
 

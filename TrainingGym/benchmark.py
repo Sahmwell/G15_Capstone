@@ -69,6 +69,7 @@ def step(connections: List[Dict], capacities: List[Dict], total_steps: int, vehi
         action, state = model.predict(obs)
         new_obs, _, _, _ = env.step(action)
     else:
+        new_obs = None
         traci.simulationStep()
     get_metrics(connections, capacities, vehicles, env.sumo if USE_LEARNED_MODEL else traci)
 

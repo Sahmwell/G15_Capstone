@@ -8,6 +8,7 @@ from stable_baselines import PPO2
 from env.SumoEnvParallel import SumoEnvParallel
 import json
 
+TEST_IND = 1
 
 def main():
     with open('global_config.json') as global_json_file:
@@ -25,10 +26,10 @@ def main():
             del controlled_lights[i]
 
     # Create sumo environment
-    env = SumoEnvParallel(config_params['test_steps'], True, controlled_lights[0]['light_name'], collect_statistics=False)
+    env = SumoEnvParallel(config_params['test_steps'], True, controlled_lights[TEST_IND]['light_name'], collect_statistics=False)
 
     # Load each light's model
-    model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}/PPO2_{controlled_lights[0]["light_name"]}')
+    model = PPO2.load(f'Scenarios/{config_params["model_save_path"]}/PPO2_{controlled_lights[TEST_IND]["light_name"]}')
 
     # Reset and run the environment
     obs = env.reset()
