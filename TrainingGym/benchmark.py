@@ -10,8 +10,8 @@ from env.SumoEnvParallel import SumoEnvParallel
 from collections import defaultdict
 
 OUTPUT_TURN_COUNTS = False  # Set to True to Enable Turn Count Output
-USE_LEARNED_MODEL = False  # Set to True to Benchmark PPO2 Model
-SEED = 100 # Set to -1 for random seed
+USE_LEARNED_MODEL = True  # Set to True to Benchmark PPO2 Model
+SEED = 500 # Set to -1 for random seed
 
 def printProgressBar(iteration, total, prefix='Progress:', suffix='', decimals=1, length=50, fill='█'):
     """
@@ -67,14 +67,14 @@ def get_metrics(
 def step(connections: List[Dict], capacities: List[Dict], total_steps: int, vehicles: Dict[str, float], env, model, obs):
     if USE_LEARNED_MODEL:
         action, state = model.predict(obs)
-        env.step(action)
+        new_obs, _, _, _ = env.step(action)
     else:
         traci.simulationStep()
     get_metrics(connections, capacities, vehicles, env.sumo if USE_LEARNED_MODEL else traci)
 
     t = traci.simulation.getTime()
     printProgressBar(t, total_steps, suffix=f'Complete. Finished {t} of {total_steps} ')
-
+    return new_obs
 
 def benchmark():
     t1 = time.time()
@@ -116,7 +116,7 @@ def benchmark():
         traci.start([sumolib.checkBinary('sumo')] + load_options)
     t = traci if not USE_LEARNED_MODEL else env.sumo
     for i in range(total_steps):
-        step(connections, capacities, total_steps, vehicles, env, model, obs)
+        obs = step(connections, capacities, total_steps, vehicles, env, model, obs)
         if not t.simulation.getMinExpectedNumber():
             print(f"Simulation ended at {t.simulation.getTime()}.")
             break
