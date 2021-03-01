@@ -4,7 +4,7 @@ import os
 import sys
 import gym
 from gym import spaces, logger
-from stable_baselines import PPO2
+from stable_baselines import PPO2, ACER
 from stable_baselines.common.callbacks import BaseCallback
 import numpy as np
 import json
@@ -36,7 +36,7 @@ STEP_LENGTH = 1.0  # seconds
 # Load config
 controlled_lights = config_params['controlled_lights']
 for i in range(len(controlled_lights) - 1, -1, -1):
-    if not controlled_lights[i]['train']:
+    if not controlled_lights[i]['agent']:
         del controlled_lights[i]
 all_important_roads = set()
 for i_node in controlled_lights:
@@ -47,7 +47,8 @@ load_options = ["-c", f'Scenarios/{config_params["sumocfg_path"]}', "--start", "
                 "--step-length", str(STEP_LENGTH),
                 "--seed", str(int(time.time()) + mp.current_process().pid),
                 "--no-warnings", "true",
-                "--waiting-time-memory", str(config_params['wait_accumulation_time'])
+                "--waiting-time-memory", str(config_params['wait_accumulation_time']),
+                "--scale", str(config_params["scale"])
                 ]
 
 
@@ -198,10 +199,9 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         i = 0
         for road in self.controlled_node['connections']:
             self.sumo.poi.setPosition(road['label'], junc_pos[0] - 50, junc_pos[1] - 10 * (i + 1))
-            self.sumo.poi.setType(road['label'], road['label'] + " Far: " + str(obs[(i * 6) + 2]) + ", Near: " + str(
-                obs[(i * 6) + 3]) +
-                                  ", Far(L): " + str(obs[i * 6 + 4]) + ", Near(L): " + str(
-                obs[i * 6 + 5]) + "Wait: " + str(obs[(i * 6)]))
+            self.sumo.poi.setType(road['label'], road['label'] + " Far: " + str(obs[(i * 6) + 2]) + ", Near: " +
+                                  str(obs[(i * 6) + 3]) + "Wait: " + str(obs[(i * 6)]) +", Far(L): " + str(obs[i * 6 + 4]) +
+                                 ", Near(L): " + str(obs[i * 6 + 5]) + "Wait(L): " + str(obs[(i * 6) + 1]))
             i += 1
         return obs, reward, self.is_done, info
 
@@ -259,9 +259,9 @@ class SumoEnvParallel(gym.Env, BaseCallback):
     def _get_reward(self, node, straight_wait_times, left_wait_times):
         reward = 0.0
         # if self.current_action != self.previous_action:
-        #     reward -= 100
+        #     reward -= 10
         #     if self._get_time_in_green(node) < node['min_green']:
-        #         reward -= 1000
+        #         reward -= 500
 
         for direction in node['connections']:
             reward -= pow(straight_wait_times[direction['label']] + left_wait_times[direction['label']], 2)

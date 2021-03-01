@@ -4,7 +4,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 import tensorflow as tf
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 from stable_baselines.common.vec_env import DummyVecEnv
-from stable_baselines import PPO2
+from stable_baselines import PPO2, ACER
 from env.SumoEnvParallel import SumoEnvParallel
 import json
 
@@ -22,7 +22,7 @@ def main():
     num_episodes = config_params["num_episodes"]
     controlled_lights = config_params['controlled_lights']
     for i in range(len(controlled_lights) - 1, -1, -1):
-        if not controlled_lights[i]['train']:
+        if not controlled_lights[i]['agent']:
             del controlled_lights[i]
 
     # Create sumo environment

@@ -1,3 +1,8 @@
+# Remove TF warnings in Stable baselines (may not be safe)
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+import tensorflow as tf
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 import traci
 import json
 import sumolib
@@ -5,7 +10,7 @@ import time
 import random
 
 from typing import List, Dict
-from stable_baselines import PPO2
+from stable_baselines import PPO2, ACER
 from env.SumoEnvParallel import SumoEnvParallel
 from collections import defaultdict
 
@@ -89,7 +94,7 @@ def benchmark():
     seed = random.randint(0, 2**32 - 1) if SEED == -1 else SEED
 
     load_options = ["-c", f'Scenarios/{config_params["sumocfg_path"]}', "--start", "--quit-on-end",
-                    "--seed", str(seed), "--no-warnings", "true"]
+                    "--seed", str(seed), "--no-warnings", "true", "--scale", str(config_params["scale"])]
 
     # Get config parameters
     total_steps = config_params["test_steps"]

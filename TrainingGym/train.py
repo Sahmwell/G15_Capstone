@@ -5,7 +5,7 @@ import tensorflow as tf
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 from stable_baselines.common.policies import MlpPolicy
 from stable_baselines.common.vec_env import DummyVecEnv, SubprocVecEnv
-from stable_baselines import PPO2
+from stable_baselines import PPO2, ACER
 from env.SumoEnvParallel import SumoEnvParallel
 import time
 import sys
