@@ -142,7 +142,7 @@
           "capacity": 1677, "expected": 1248, "label": "3. North Bound" },
         { "edges": ["edge_4_3#2", "edge_4_3#1", "edge_4_3#0"],
           "left_turns": [
-            {"edge": "edge_5_2#5", "num_lanes":4, "num_left": 1}
+            {"edge": "edge_4_3#2", "num_lanes":4, "num_left": 1}
           ],
           "capacity": 1141, "expected": 493, "label": "3. South Bound" },
         {"edges": ["ramp_3_SW"], "left_turns": [],
