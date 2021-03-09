@@ -67,7 +67,7 @@ def main():
 
         # Collect statistics
         if i_trial % global_config_params['trials_per_statistic_gather'] == 0:
-            print(f'Collecting statistics in {global_config_params["trials_per_statistic_gather"]} episodes ...')
+            print(f'Collecting statistics in {global_config_params["statistic_episodes"]} episodes ...')
             start_stats = time.time()
             next_stats = collect_statistics(controlled_lights, global_config_params["statistic_episodes"], config_params)
             stats.append([next_stats[node['node_name']] for node in controlled_lights])
