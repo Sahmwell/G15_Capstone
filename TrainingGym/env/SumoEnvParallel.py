@@ -295,7 +295,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
                     for i_char in range(len(green_string)):
                         # If any green becomes red, or a green major becomes minor we need yellow and red phases for
                         # those connections
-                        if (yellow_string[i_char].lower() == 'g' and (green_string[i_char].lower() in ['r', 's'])) or yellow_string[i_char] == 'G' and green_string[i_char] == 'g':
+                        if (yellow_string[i_char].lower() == 'g' and (green_string[i_char].lower() in ['r', 's'])) or (yellow_string[i_char] == 'G' and green_string[i_char] == 'g'):
                             yellow_string[i_char] = 'y'
                             red_string[i_char] = 'r'
                     yellow_string = ''.join(yellow_string)
@@ -331,14 +331,14 @@ class SumoEnvParallel(gym.Env, BaseCallback):
                 for vehicle in self.vehicles_on_edge[edge]:
                     dist_to_junc = np.linalg.norm(vehicle['pos'] - junc_pos)
                     if left_turn_info and (vehicle['lane_index'] >= left_turn_info['num_lanes'] - left_turn_info['num_left']):
-                        left_wait_times[direction['label']] += vehicle['wait_time']
                         if dist_to_junc <= node['near_distance']:
+                            left_wait_times[direction['label']] += vehicle['wait_time']
                             near_left_count[direction['label']] += 1
                         elif dist_to_junc <= node['far_distance']:
                             far_left_count[direction['label']] += 1
                     else:
-                        straight_wait_times[direction['label']] += vehicle['wait_time']
                         if dist_to_junc <= node['near_distance']:
+                            straight_wait_times[direction['label']] += vehicle['wait_time']
                             near_vehicle_count[direction['label']] += 1
                         elif dist_to_junc <= node['far_distance']:
                             far_vehicle_count[direction['label']] += 1
