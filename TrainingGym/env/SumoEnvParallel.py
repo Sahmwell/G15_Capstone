@@ -3,17 +3,16 @@ from __future__ import print_function
 import os
 import sys
 import gym
-from gym import spaces, logger
-from stable_baselines import PPO2, ACER
+from gym import spaces
+from stable_baselines import PPO2
 from stable_baselines.common.callbacks import BaseCallback
 import numpy as np
+import multiprocessing as mp
 import json
 import time
 from collections import defaultdict
-import multiprocessing as mp
 
 # we need to import python modules from the $SUMO_HOME/tools directory
-# TODO: This line isn't necessary if everyone directly installs the sumo python libraries in their python dist
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
     sys.path.append(tools)
@@ -29,9 +28,9 @@ with open(f'Scenarios/{local_config_path}') as json_file:
     config_params = json.load(json_file)
 
 # Constants
-YELLOW_LENGTH = 4.2  # seconds
-RED_LENGTH = 1.8  # seconds
-STEP_LENGTH = 1.0  # seconds
+YELLOW_LENGTH = config_params['yellow_length']  # seconds
+RED_LENGTH = config_params['red_length']  # seconds
+STEP_LENGTH = config_params['step_length']  # seconds TODO: Changing this is currently untested
 
 # Load config
 controlled_lights = config_params['controlled_lights']
@@ -45,8 +44,7 @@ for i_node in controlled_lights:
             all_important_roads.add(i_edge)
 load_options = ["-c", f'Scenarios/{config_params["sumocfg_path"]}', "--start", "--quit-on-end",
                 "--step-length", str(STEP_LENGTH),
-                # "--seed", str(int(time.time()) + mp.current_process().pid),
-                "--seed", str(500),
+                "--seed", str(int(time.time()) + 4289 * mp.current_process().pid),
                 "--no-warnings", "true",
                 "--waiting-time-memory", str(config_params['wait_accumulation_time']),
                 "--scale", str(config_params["scale"])
@@ -66,6 +64,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         super(SumoEnvParallel, self).__init__()
         if seed != -1:
             load_options[load_options.index("--seed") + 1] = str(seed)
+
         # Environment parameters
         self.steps_per_episode = steps_per_episode
         self.is_done = False
@@ -234,7 +233,6 @@ class SumoEnvParallel(gym.Env, BaseCallback):
             obs.append(near_vehicle_count[direction['label']])
             obs.append(far_left_count[direction['label']])
             obs.append(near_left_count[direction['label']])
-        # obs.append(self.action_time)
         obs.append(self._get_time_in_green(node))
         obs.append(node['last_phase'])
         obs.append(3*node['curr_phase'] + self._get_phase_type(node))
@@ -259,6 +257,8 @@ class SumoEnvParallel(gym.Env, BaseCallback):
 
     def _get_reward(self, node, straight_wait_times, left_wait_times):
         reward = 0.0
+
+        # Old punishment for changing during intermediate phases, and for changing action
         # if self.current_action != self.previous_action:
         #     reward -= 10
         #     if self._get_time_in_green(node) < node['min_green']:
@@ -311,9 +311,6 @@ class SumoEnvParallel(gym.Env, BaseCallback):
                 self._set_tl_logic(node['light_name'], logic)
                 self.sumo.trafficlight.setProgram(node['light_name'], node['light_name'] + "intermediate")
                 self.sumo.trafficlight.setPhase(node['light_name'], 0)
-            # Set light duration again, counter continues
-            # else:
-            #     self._set_tl_ryg(node['light_name'], node['states'][node['curr_phase']])
 
     def _get_direction_vehicle_counts(self, node):
         # This function assumes that self._get_sumo_values() has been called for the current timestep
@@ -363,5 +360,5 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         self.model_list = []
 
     def render(self, **kwargs):
-        # Rendering is set when the environment is initialized with the validation_env flag
+        # Rendering is set when the environment is initialized with the validation_env flag, so this method is redundant
         pass

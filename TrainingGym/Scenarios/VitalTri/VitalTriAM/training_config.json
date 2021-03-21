@@ -1,10 +1,14 @@
 {
-  "steps_per_episode": 1500,
-  "num_episodes": 24,
+  "steps_per_episode": 3600,
+  "num_episodes": 6,
   "num_trials": 1000,
   "test_steps": 3600,
   "wait_accumulation_time": 2,
   "scale": 0.5,
+  "training_seed": 500,
+  "yellow_length": 4.2,
+  "red_length": 1.8,
+  "step_length": 1,
   "model_save_path": "VitalTri/VitalTriAM/training_models",
   "sumocfg_path": "VitalTri/VitalTriAM/VitalTriAM.sumocfg",
   "controlled_lights": [
@@ -118,7 +122,7 @@
       ]
     },
     {"node_name": "node_3", "light_name": "tl_3", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": true, "agent": true, "near_distance": 65,  "far_distance": 220, "min_green": 5,
+      "train": false, "agent": false, "near_distance": 65,  "far_distance": 220, "min_green": 5,
       "connections":  [
         { "edges": ["edge_2_3#5", "edge_2_3#4", "edge_2_3#3", "edge_2_3#2", "edge_2_3#1"],
           "left_turns": [
@@ -229,7 +233,7 @@
       ]
     },
     {"node_name": "node_6", "light_name": "tl_6", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": false, "agent": false, "near_distance": 65,  "far_distance": 220, "min_green": 5,
+      "train": true, "agent": true, "near_distance": 65,  "far_distance": 220, "min_green": 5,
       "connections":  [
         { "edges": ["edge_109_6#3", "edge_109_6#2", "edge_109_6#1"],
           "left_turns": [

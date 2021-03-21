@@ -5,10 +5,11 @@
     "../Scenarios/VitalTri/VitalTriLongPhase/training_config.json",
     "../Scenarios/VitalTri/VitalTriAM/training_config.json"
   ],
-  "visualize_training": false,
+  "visualize_training": true,
   "use_tensorboard": false,
-  "num_proc": 12,
+  "num_proc": 8,
   "statistic_episodes": 3,
-  "trials_per_statistic_gather": 3,
-  "trials_per_checkpoint": 3
+  "trials_per_statistic_gather": 6,
+  "trials_per_checkpoint": 6,
+  "POI_light_index": 0
 }

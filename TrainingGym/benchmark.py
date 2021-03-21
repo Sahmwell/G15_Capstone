@@ -9,15 +9,15 @@ import sumolib
 import time
 import random
 
-from typing import List, Dict, Set
-from stable_baselines import PPO2, ACER
+from typing import List, Dict
+from stable_baselines import PPO2
 from env.SumoEnvParallel import SumoEnvParallel
 from collections import defaultdict
 
 OUTPUT_TURN_COUNTS = False  # Set to True to Enable Turn Count Output
 USE_LEARNED_MODEL = False  # Set to True to Benchmark PPO2 Model
 OUTPUT_INTERSECTION_STATS = True  # Output Per Intersection Statistics
-SEED = 500 # Set to -1 for random seed
+SEED = 789456123 # Set to -1 for random seed
 
 def printProgressBar(iteration, total, prefix='Progress:', suffix='', decimals=1, length=50, fill='█'):
     """
@@ -201,6 +201,6 @@ def benchmark():
                   f'Average Queue Length (Num Cars): {avg_node_queue_length}\n'
                   f'Average Delay: {avg_node_delay}\n{"-"*20}')
 
-
-benchmark()
-print(f'Learned Model? {USE_LEARNED_MODEL}, Seed: {SEED}')
+if __name__ == '__main__':
+    benchmark()
+    print(f'Learned Model? {USE_LEARNED_MODEL}, Seed: {SEED}')
