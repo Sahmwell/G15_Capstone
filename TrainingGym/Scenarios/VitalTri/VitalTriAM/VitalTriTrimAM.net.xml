@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on Sun 07 Feb 2021 06:06:12 PM by Eclipse SUMO netedit Version 1.7.0
+<!-- generated on Mon 01 Mar 2021 08:05:41 PM by Eclipse SUMO netedit Version 1.7.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
@@ -1449,12 +1449,12 @@
         <lane id=":370229172_1_2" index="2" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="25.53" shape="2156.07,2946.93 2133.59,2934.74"/>
     </edge>
     <edge id=":370229173_0" function="internal">
-        <lane id=":370229173_0_0" index="0" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="19.45" length="13.92" shape="2167.07,2926.96 2170.92,2929.11 2173.81,2930.67 2176.45,2931.92 2179.53,2933.12"/>
+        <lane id=":370229173_0_0" index="0" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="19.45" length="8.14" shape="2164.15,2925.33 2166.26,2926.50 2167.73,2927.27 2169.22,2927.98 2171.42,2928.97"/>
     </edge>
     <edge id=":370229173_1" function="internal">
-        <lane id=":370229173_1_0" index="0" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="13.50" shape="2165.52,2929.75 2177.29,2936.41"/>
-        <lane id=":370229173_1_1" index="1" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="13.50" shape="2163.96,2932.55 2175.71,2939.20"/>
-        <lane id=":370229173_1_2" index="2" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="13.50" shape="2162.41,2935.34 2174.13,2941.98"/>
+        <lane id=":370229173_1_0" index="0" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="8.08" shape="2162.59,2928.12 2169.66,2932.10"/>
+        <lane id=":370229173_1_1" index="1" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="8.08" shape="2161.04,2930.92 2168.09,2934.88"/>
+        <lane id=":370229173_1_2" index="2" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="8.08" shape="2159.48,2933.72 2166.51,2937.66"/>
     </edge>
     <edge id=":370229180_0" function="internal">
         <lane id=":370229180_0_0" index="0" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="8.43" shape="2257.44,2976.88 2259.19,2978.66 2260.47,2979.80 2261.90,2980.76 2264.06,2982.01"/>
@@ -6577,28 +6577,28 @@
         <param key="ref" value="Route 165"/>
     </edge>
     <edge id="edge_2_3#4" from="473578215#2-AddedOffRampNode" to="370229173" name="Boulevard Bishop Grandin Boulevard" priority="12" type="highway.primary" spreadType="center" shape="2081.35,2884.74 2164.74,2931.15">
-        <lane id="edge_2_3#4_0" index="0" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="95.43" shape="2083.68,2880.55 2167.07,2926.96">
+        <lane id="edge_2_3#4_0" index="0" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="92.09" shape="2083.68,2880.55 2164.15,2925.33">
             <param key="origId" value="473578215"/>
         </lane>
-        <lane id="edge_2_3#4_1" index="1" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="95.43" shape="2082.13,2883.34 2165.52,2929.75">
+        <lane id="edge_2_3#4_1" index="1" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="92.09" shape="2082.13,2883.34 2162.59,2928.12">
             <param key="origId" value="473578215"/>
         </lane>
-        <lane id="edge_2_3#4_2" index="2" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="95.43" shape="2080.57,2886.14 2163.96,2932.55">
+        <lane id="edge_2_3#4_2" index="2" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="92.09" shape="2080.57,2886.14 2161.04,2930.92">
             <param key="origId" value="473578215"/>
         </lane>
-        <lane id="edge_2_3#4_3" index="3" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="95.43" shape="2079.02,2888.93 2162.41,2935.34">
+        <lane id="edge_2_3#4_3" index="3" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="92.09" shape="2079.02,2888.93 2159.48,2933.72">
             <param key="origId" value="473578215"/>
         </lane>
         <param key="ref" value="Route 165"/>
     </edge>
     <edge id="edge_2_3#5" from="370229173" to="node_3" name="Boulevard Bishop Grandin Boulevard" priority="12" type="highway.primary" spreadType="center" shape="2163.92,2932.52 2204.82,2955.68">
-        <lane id="edge_2_3#5_0" index="0" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="23.22" shape="2177.29,2936.41 2197.51,2947.86">
+        <lane id="edge_2_3#5_0" index="0" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="31.98" shape="2169.66,2932.10 2197.51,2947.86">
             <param key="origId" value="473578208"/>
         </lane>
-        <lane id="edge_2_3#5_1" index="1" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="23.22" shape="2175.71,2939.20 2195.92,2950.64">
+        <lane id="edge_2_3#5_1" index="1" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="31.98" shape="2168.09,2934.88 2195.92,2950.64">
             <param key="origId" value="473578208"/>
         </lane>
-        <lane id="edge_2_3#5_2" index="2" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="23.22" shape="2174.13,2941.98 2194.32,2953.41">
+        <lane id="edge_2_3#5_2" index="2" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="22.22" length="31.98" shape="2166.51,2937.66 2194.32,2953.41">
             <param key="origId" value="473578208"/>
         </lane>
         <param key="origTo" value="1526948898"/>
@@ -7951,8 +7951,8 @@
             <param key="origId" value="32868400"/>
         </lane>
     </edge>
-    <edge id="ramp_3_SW" from="370229173" to="gneJ19" priority="7" type="highway.primary_link" spreadType="center" shape="2166.37,2928.40 2185.56,2935.28 2196.14,2936.41 2203.48,2933.77 2211.75,2929.78 2226.80,2917.80">
-        <lane id="ramp_3_SW_0" index="0" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="16.67" length="36.38" shape="2179.53,2933.12 2185.56,2935.28 2196.14,2936.41 2203.48,2933.77 2211.75,2929.78 2213.59,2928.31">
+    <edge id="ramp_3_SW" from="370229173" to="gneJ19" priority="7" type="highway.primary_link" spreadType="center" shape="2167.51,2927.22 2185.56,2935.28 2196.14,2936.41 2203.48,2933.77 2211.75,2929.78 2226.80,2917.80">
+        <lane id="ramp_3_SW_0" index="0" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="16.67" length="45.46" shape="2171.42,2928.97 2185.56,2935.28 2196.14,2936.41 2203.48,2933.77 2211.75,2929.78 2213.59,2928.31">
             <param key="origId" value="32868399"/>
         </lane>
     </edge>
@@ -8800,7 +8800,7 @@
         <request index="2" response="0000" foes="0001" cont="0"/>
         <request index="3" response="0000" foes="0001" cont="0"/>
     </junction>
-    <junction id="370229173" type="priority" x="2163.92" y="2932.52" incLanes="edge_2_3#4_0 edge_2_3#4_1 edge_2_3#4_2 edge_2_3#4_3" intLanes=":370229173_0_0 :370229173_1_0 :370229173_1_1 :370229173_1_2" shape="2173.34,2943.37 2178.08,2935.02 2178.99,2934.62 2180.07,2931.61 2177.35,2930.60 2175.37,2929.76 2173.79,2928.97 2172.24,2928.09 2170.38,2927.00 2167.85,2925.56 2161.63,2936.74">
+    <junction id="370229173" type="priority" x="2163.92" y="2932.52" incLanes="edge_2_3#4_0 edge_2_3#4_1 edge_2_3#4_2 edge_2_3#4_3" intLanes=":370229173_0_0 :370229173_1_0 :370229173_1_1 :370229173_1_2" shape="2165.72,2939.06 2170.45,2930.70 2170.77,2930.43 2172.08,2927.51 2169.38,2926.29 2168.44,2925.84 2167.52,2925.36 2166.42,2924.76 2164.93,2923.93 2158.70,2935.12">
         <request index="0" response="0000" foes="0000" cont="0"/>
         <request index="1" response="0000" foes="0000" cont="0"/>
         <request index="2" response="0000" foes="0000" cont="0"/>

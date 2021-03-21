@@ -1,14 +1,19 @@
 {
-  "steps_per_episode": 1500,
-  "num_episodes": 12,
-  "num_trials": 100,
+  "steps_per_episode": 3600,
+  "num_episodes": 6,
+  "num_trials": 1000,
   "test_steps": 3600,
-  "wait_accumulation_time": 5,
+  "wait_accumulation_time": 2,
+  "scale": 0.5,
+  "training_seed": 500,
+  "yellow_length": 4.2,
+  "red_length": 1.8,
+  "step_length": 1,
   "model_save_path": "VitalTri/VitalTriAM/training_models",
   "sumocfg_path": "VitalTri/VitalTriAM/VitalTriAM.sumocfg",
   "controlled_lights": [
     {"node_name": "node_1", "light_name": "tl_1", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": true, "near_distance": 65,  "far_distance": 220, "min_green": 5,
+      "train": true, "agent": true, "near_distance": 65,  "far_distance": 220, "min_green": 5,
       "connections":  [
         { "edges": [ "edge_102_1#6", "edge_102_1#5", "edge_102_1#4", "edge_102_1#3", "edge_102_1#2"],
           "left_turns": [{"edge": "edge_102_1#6", "num_lanes":3, "num_left": 1}],
@@ -57,7 +62,7 @@
       ]
     },
     {"node_name": "node_2", "light_name": "tl_2", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": true, "near_distance": 65,  "far_distance": 220, "min_green": 5,
+      "train": true, "agent": true, "near_distance": 65,  "far_distance": 220, "min_green": 5,
       "connections":  [
         { "edges": ["edge_103_2#5", "edge_103_2#4", "edge_103_2#3", "edge_103_2#2", "edge_103_2#1"],
           "left_turns": [
@@ -117,7 +122,7 @@
       ]
     },
     {"node_name": "node_3", "light_name": "tl_3", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": true, "near_distance": 65,  "far_distance": 220, "min_green": 5,
+      "train": false, "agent": false, "near_distance": 65,  "far_distance": 220, "min_green": 5,
       "connections":  [
         { "edges": ["edge_2_3#5", "edge_2_3#4", "edge_2_3#3", "edge_2_3#2", "edge_2_3#1"],
           "left_turns": [
@@ -141,7 +146,7 @@
           "capacity": 1677, "expected": 1248, "label": "3. North Bound" },
         { "edges": ["edge_4_3#2", "edge_4_3#1", "edge_4_3#0"],
           "left_turns": [
-            {"edge": "edge_5_2#5", "num_lanes":4, "num_left": 1}
+            {"edge": "edge_4_3#2", "num_lanes":4, "num_left": 1}
           ],
           "capacity": 1141, "expected": 493, "label": "3. South Bound" },
         {"edges": ["ramp_3_SW"], "left_turns": [],
@@ -173,7 +178,7 @@
       ]
     },
     {"node_name": "node_4", "light_name": "tl_4", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": false, "near_distance": 65,  "far_distance": 220, "min_green": 5,
+      "train": false, "agent": false, "near_distance": 65,  "far_distance": 220, "min_green": 5,
       "connections":  [
         { "edges": ["32868409#2", "32868409#2.1"], "left_turns": [],
           "capacity": 158, "expected": 71, "label": "4. East Bound" },
@@ -204,7 +209,7 @@
       ]
     },
     {"node_name": "node_5", "light_name": "tl_5", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": false, "near_distance": 65,  "far_distance": 220, "min_green": 5,
+      "train": false, "agent": false, "near_distance": 65,  "far_distance": 220, "min_green": 5,
       "connections":  [
         { "edges": ["edge_5_110#0"], "left_turns": [],
           "capacity": 276, "expected": 36, "label": "5. West Bound" },
@@ -228,7 +233,7 @@
       ]
     },
     {"node_name": "node_6", "light_name": "tl_6", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": true, "near_distance": 65,  "far_distance": 220, "min_green": 5,
+      "train": true, "agent": true, "near_distance": 65,  "far_distance": 220, "min_green": 5,
       "connections":  [
         { "edges": ["edge_109_6#3", "edge_109_6#2", "edge_109_6#1"],
           "left_turns": [
@@ -273,7 +278,7 @@
       ]
     },
     {"node_name": "node_7", "light_name": "tl_7", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": false, "near_distance": 65,  "far_distance": 220, "min_green": 5,
+      "train": false, "agent": false, "near_distance": 65,  "far_distance": 220, "min_green": 5,
       "connections": [
         { "edges": ["edge_6_7#4", "edge_6_7#3", "edge_6_7#2", "edge_6_7#1", "edge_6_7#0"],
           "left_turns": [
@@ -300,7 +305,7 @@
       ]
     },
     {"node_name": "node_8", "light_name": "tl_8", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": false, "near_distance": 65,  "far_distance": 220, "min_green": 5,
+      "train": true, "agent": true, "near_distance": 65,  "far_distance": 220, "min_green": 5,
       "connections":  [
         { "edges": ["edge_7_8#6", "edge_7_8#5", "edge_7_8#4", "edge_7_8#3", "edge_7_8#2", "edge_7_8#1", "edge_7_8#0"],
           "left_turns": [
@@ -348,7 +353,7 @@
       ]
     },
     {"node_name": "node_9", "light_name": "tl_9", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": false, "near_distance": 65,  "far_distance": 220, "min_green": 5,
+      "train": false, "agent": false, "near_distance": 65,  "far_distance": 220, "min_green": 5,
       "connections":  [
         { "edges": ["gneE3", "gneE2"], "left_turns": [],
           "capacity": 167, "expected": 63, "label": "9. East Bound" },
@@ -370,7 +375,7 @@
           "capacity": 0, "expected": 0, "label": "9. NW Ramp"}
       ],
       "states": [
-        "srrrsrrrrsrrrgGGgg", "srrrGGGggsrrrGGGgg", "srrrsrrrrgGggsrrrr" , "gGggsrrrrgGggsrrrr"
+        "rrrrrrrrrrrrrgGGgg", "rrrrGGGggrrrrGGGgg", "rrrrrrrrrgGggrrrrr" , "gGggrrrrrgGggrrrrr"
       ],
       "capacities": [
         { "label": "9. EBLTR", "capacity": 184, "expected":  63, "unique_lanes": ["gneE3_0"]},

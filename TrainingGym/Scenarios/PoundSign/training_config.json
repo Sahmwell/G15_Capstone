@@ -1,22 +1,27 @@
 {
-  "steps_per_episode": 500,
-  "num_episodes": 16,
+  "steps_per_episode": 600,
+  "num_episodes": 60,
   "num_trials": 100,
   "test_steps": 500,
-  "wait_accumulation_time": 10,
+  "wait_accumulation_time": 2,
+  "scale": 1,
+  "training_seed": -1,
+  "yellow_length": 4.2,
+  "red_length": 1.8,
+  "step_length": 1.0,
   "model_save_path": "PoundSign/training_models",
   "sumocfg_path": "PoundSign/PoundSign.sumocfg",
   "controlled_lights": [
     {"node_name": "ne", "light_name": "ne", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": true, "near_distance": 30,  "far_distance": 150,
+      "train": true, "agent": true, "near_distance": 30,  "far_distance": 150, "min_green": 5,
       "connections":  [
-        { "edges": ["gneE16"],
+        { "edges": ["gneE16"], "left_turns": [],
           "capacity": 0, "expected": 0, "label": "ne. East Bound"},
-        { "edges": ["gneE59"],
+        { "edges": ["gneE59"], "left_turns": [],
           "capacity": 0, "expected": 0, "label": "ne. West Bound" },
-        { "edges": ["gneE20"],
+        { "edges": ["gneE20"], "left_turns": [],
           "capacity": 0, "expected": 0, "label": "ne. North Bound" },
-        { "edges": ["gneE56"],
+        { "edges": ["gneE56"], "left_turns": [],
           "capacity": 0, "expected": 0, "label": "ne. South Bound" }
       ],
       "states": [
@@ -24,15 +29,15 @@
       ]
     },
     {"node_name": "nw", "light_name": "nw", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": true, "near_distance": 30,  "far_distance": 150,
+      "train": false, "agent": false, "near_distance": 30,  "far_distance": 150, "min_green": 5,
       "connections":  [
-        { "edges": ["gneE67"],
+        { "edges": ["gneE67"], "left_turns": [],
           "capacity": 0, "expected": 0, "label": "nw. East Bound"},
-        { "edges": ["gneE13"],
+        { "edges": ["gneE13"], "left_turns": [],
           "capacity": 0, "expected": 0, "label": "nw. West Bound" },
-        { "edges": ["gneE19"],
+        { "edges": ["gneE19"], "left_turns": [],
           "capacity": 0, "expected": 0, "label": "nw. North Bound" },
-        { "edges": ["gneE54"],
+        { "edges": ["gneE54"], "left_turns": [],
           "capacity": 0, "expected": 0, "label": "nw. South Bound" }
       ],
       "states": [
@@ -40,15 +45,15 @@
       ]
     },
     {"node_name": "se", "light_name": "se", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": true, "near_distance": 30,  "far_distance": 150,
+      "train": false, "agent": false, "near_distance": 30,  "far_distance": 150, "min_green": 5,
       "connections":  [
-        { "edges": ["gneE22"],
+        { "edges": ["gneE22"], "left_turns": [],
           "capacity": 0, "expected": 0, "label": "se. East Bound"},
-        { "edges": ["gneE60"],
+        { "edges": ["gneE60"], "left_turns": [],
           "capacity": 0, "expected": 0, "label": "se. West Bound" },
-        { "edges": ["gneE63"],
+        { "edges": ["gneE63"], "left_turns": [],
           "capacity": 0, "expected": 0, "label": "se. North Bound" },
-        { "edges": ["gneE23"],
+        { "edges": ["gneE23"], "left_turns": [],
           "capacity": 0, "expected": 0, "label": "se. South Bound" }
       ],
       "states": [
@@ -56,15 +61,15 @@
       ]
     },
     {"node_name": "sw", "light_name": "sw", "curr_phase": 0, "last_phase":1, "steps_since_last_change": 999,
-      "train": true, "near_distance": 30,  "far_distance": 150,
+      "train": false, "agent": false, "near_distance": 30,  "far_distance": 150, "min_green": 5,
       "connections":  [
-        { "edges": ["gneE53"],
+        { "edges": ["gneE53"], "left_turns": [],
           "capacity": 0, "expected": 0, "label": "se. East Bound"},
-        { "edges": ["gneE21"],
+        { "edges": ["gneE21"], "left_turns": [],
           "capacity": 0, "expected": 0, "label": "se. West Bound" },
-        { "edges": ["gneE65"],
+        { "edges": ["gneE65"], "left_turns": [],
           "capacity": 0, "expected": 0, "label": "se. North Bound" },
-        { "edges": ["gneE12"],
+        { "edges": ["gneE12"], "left_turns": [],
           "capacity": 0, "expected": 0, "label": "se. South Bound" }
       ],
       "states": [
