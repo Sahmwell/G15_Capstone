@@ -30,7 +30,7 @@ with open(f'Scenarios/{local_config_path}') as json_file:
 # Constants
 YELLOW_LENGTH = config_params['yellow_length']  # seconds
 RED_LENGTH = config_params['red_length']  # seconds
-STEP_LENGTH = config_params['step_length']  # seconds TODO: Changing this is currently untested
+STEP_LENGTH = config_params['step_length']  # seconds
 
 # Load config
 controlled_lights = config_params['controlled_lights']
@@ -101,7 +101,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         self.vehicles_on_edge = defaultdict(lambda: [])  # dict where key is the road name, and value is a list of
         # cars with the members: name, wait_time, pos
 
-        # Michael's added stuff TODO: Review if needed
+        # Michael's added stuff
         self.total_reward = 0
         self.current_action = 0
         self.previous_action = 0
@@ -125,7 +125,7 @@ class SumoEnvParallel(gym.Env, BaseCallback):
         # No vehicles in the simulation yet
         self.vehicles_on_edge = defaultdict(lambda: [])
 
-        # Michael's new stuff TODO: review these
+        # Michael's new stuff
         self.sumo.poi.add('poi_0', -100, 200, (255, 0, 0), poiType='test')
 
         # More debugging...
