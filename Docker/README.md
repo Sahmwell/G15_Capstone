@@ -36,3 +36,15 @@ Clean up old containers and images (note this will remove any unused containers 
 ```shell script
 docker system prune
 ```
+
+The docker image can be pulled from docker hub at the following URL
+
+```
+https://hub.docker.com/r/sahmwell/g15_capstone/tags?page=1&ordering=last_updated
+```
+
+The docker image can be pulled with the following command
+
+```
+docker pull sahmwell/g15_capstone:latest
+```
