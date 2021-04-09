@@ -1,4 +1,4 @@
-# How to build, run, and start training agents in a container
+## How to build, run, and start training agents in a container
 1. Open a bash shell
 2. Run build_docker.sh
 3. Run run_docker.sh
@@ -6,8 +6,26 @@
     ```shell script
     python3.7 train.py
     ```
+    
+## How to pull, run and start trianing agents in a container with Docker Hub
+1. Pull the repository in either windows or linux: 
+    ```shell script
+    docker pull sahmwell/g15_capstone:latest
+    ```
+2. If you are on windows or linux without CUDA support run the following command: (Note that there is no CUDA support for running docker on windows)
+    ```shell script
+    docker run -it --rm --network host --ipc=host -w /root/G15_Capstone/TrainingGym sahmwell/g15_capstone
+    ```
+    If you are on linux with CUDA support run the following command (For CUDA support in docker see https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)
+    ```shell script
+    docker run -it --runtime=nvidia --rm --network host --ipc=host -w /root/G15_Capstone/TrainingGym g15_capstone
+    ```
+3. In the bash shell within the container run the following command to start training an agent. 
+    ```shell script
+    python3.7 train.py
+    ```
 
-### Related workflow commands
+## Related workflow commands
 Get the CONTAINER_NAME of the container in a bash shell on the host machine run the following command. There should be a 
 container with the image name "*g15capstone/containerized-gpu*" running. Take note of the corresponding NAME. 
 
